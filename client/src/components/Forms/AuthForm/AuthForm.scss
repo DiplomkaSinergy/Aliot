@@ -1,0 +1,199 @@
+@import '../../../app/Styles/Mixins.scss';
+
+.AuthForm {
+    &__form {
+
+    }
+
+    &__wrapper {
+        
+    }
+
+    &__closed {
+        display: block;
+        margin: 10px 10px 0px auto;
+        text-align: right;
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+    }
+
+    &__tabs {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    &__label {
+    }
+
+    &__tab {
+        display: none;
+    }
+    
+    &__title {
+        padding: 10px 16px;
+        cursor: pointer;
+        color: $light-blue;
+        font-size: 20px;
+        font-weight: 600;
+        line-height: 24px; 
+        border-bottom: 2px solid white;
+    }
+
+    &__email {
+        margin-top: 12px;
+    }
+
+    &__input {
+        margin-top: 8px;
+        width: 100%;
+        padding: 8px 16px;
+        border-radius: 8px;
+        border: 1px solid $light-blue-border;
+        background: #FFF;
+        color: $light-blue;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 24px; /* 171.429% */
+
+        &-title {
+            color: $light-blue;
+            font-size: 12px;
+            font-weight: 400;
+            line-height: 16px; /* 133.333% */
+        }
+    }
+
+    &__password {
+        position: relative;
+        margin-top: 12px;
+    }
+
+    &__repeatPassword {
+        position: relative;
+        margin-top: 12px;
+    }
+
+    &__vision {
+        position: absolute;
+        top: 45%;
+        right: 10px;
+        border-radius: 5px;
+        width: 30px;
+        height: 30px;
+        transition: background 0.3s;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        svg {
+            width: 90%;
+            height: 90%;
+        }
+        &:hover {
+            background: #dfdfdf;
+        }
+
+    }
+
+    &__copyrate {
+        margin-top: 10px;
+        text-align: left;
+        color: $light-blue;
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 16px; /* 133.333% */
+    }
+
+    &__remember {
+        margin-top: 12px;
+        display: flex;
+        justify-content: start;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+    }
+
+    &__remember-input {
+        width: 18px;
+        height: 18px;
+        border: 1px solid $light-blue-border;
+
+    }
+
+    &__remember-title {
+        color: $light-blue;
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 16px; /* 133.333% */
+    }
+
+    &__submitbtn {
+        width: 100%;
+        margin-top: 22px;
+        padding: 12px 20px;
+        border-radius: 8px;
+        background: $blue;   
+        color:  #FFF;
+        font-size: 16px;
+        font-weight: 700;
+        line-height: 24px; /* 150% */ 
+        border: none;
+        cursor: pointer;
+
+        &:disabled {
+            background-color: #355b873e;
+        }
+    }
+
+    &__or {
+        margin-top: 10px;
+        text-align: center;
+        color: $light-blue;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 20px; /* 142.857% */
+    }
+
+    &__icons {
+        margin-top: 10px;
+        display: flex;
+        gap: 12px;
+        justify-content: center;
+        align-items: center;
+    }
+    &__icon {
+        cursor: pointer;
+    }
+
+    &__forgot {
+        margin-top: 20px;
+        text-align: center;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 20px; /* 142.857% */
+        color: $blue;
+        cursor: pointer;
+    }
+}
+
+.active-tab {
+    color: $blue;
+    border-bottom: 2px solid $blue;
+}
+
+
+.trans-05 {
+    transition: opacity 0.5s ease-in-out;
+    opacity: 0; 
+}
+
+
+.trans-05.signin-active,
+.trans-05.signup-active {
+  opacity: 1; /* Opacity after transition */
+}
+
+
+

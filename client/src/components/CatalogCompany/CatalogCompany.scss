@@ -1,0 +1,51 @@
+.CatalogCompany {
+    margin-top: 50px;
+    &__wrapper {
+
+    }
+
+    &__title {
+    }
+
+    &__flex {
+        display: flex;
+        justify-content: space-between;
+        gap: 50px;
+        &-list {
+            display: flex; 
+            flex-wrap: wrap;
+            
+            gap: 30px;
+        }
+    }
+}
+
+
+@media screen and (max-width: 992px) {
+    .CatalogCompany {
+
+        &__flex {
+            flex-direction: column;
+            gap: 50px;
+            &-list {
+                display: flex; 
+                flex-wrap: wrap;
+                
+                gap: 30px;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .CatalogCompany {
+
+        &__flex {
+            flex-direction: column;
+            gap: 50px;
+            &-list {
+                justify-content: center;
+            }
+        }
+    }
+  }

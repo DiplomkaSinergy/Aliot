@@ -1,0 +1,36 @@
+.Modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100dvh;
+    background-color: rgba(0, 0, 0, 0.5); /* полупрозрачный цвет */
+    backdrop-filter: blur(5px); 
+    z-index: 12;
+    visibility: hidden;
+    opacity: 0;
+    transition: all 0.3s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &__content {
+        padding: 0px 20px 20px 20px;
+        background-color: white;
+        border-radius: 8px;
+        transition: all 0.3s;
+        width: 400px;
+        opacity: 0;
+        transform: translate(0px, -100%);
+    }
+}
+
+
+.Modal-active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.Modal-active .Modal__content {
+    transform: translate( 0px, 0px);
+    opacity: 1;
+}

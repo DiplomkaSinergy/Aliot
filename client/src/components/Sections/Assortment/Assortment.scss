@@ -1,0 +1,208 @@
+
+.Assortment {
+    margin-top: 150px;
+    &__hr {
+        margin: 0 auto;
+        width: 200px;
+        height: 5px;
+        background-color: #DF3B3B;
+        border: none;
+    }
+	&__title {
+        margin-top: 10px;
+        text-align: center;
+        color: var(--BLACK-TEXT, #202020);
+        font-size: 45px;
+        font-weight: 700;
+	}
+	&__subtitle {
+        margin: 0 auto;
+        max-width: 1200px;
+        margin-top: 20px;
+        color: var(--BLACK-TEXT, #202020);
+        text-align: center;
+        font-size: 20px;
+        font-weight: 400;
+	}
+
+	&__list {
+        margin-top: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        flex-wrap: wrap;
+        gap: 10px;
+	}
+
+    &__item {
+        padding: 20px;
+        // position: relative;
+        width: max-content;
+        border-radius: 25px;
+        background: linear-gradient(124deg, #4182E3 0%, #063479 134.92%);
+        &-wrap {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+        &-title {
+            width: min-content;
+            text-align: center;
+            font-size: 25px;
+            font-weight: 500;
+            color: white;
+        }
+
+
+    }
+
+    &__description {
+        text-align: left;
+        color: var(--BG, #F5F5F5);
+        font-size: 15px;
+        font-weight: 500;
+    }
+
+    
+
+    &__img {
+        // margin-bottom: 100px;
+    }
+    &__back {
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        align-items: end;
+        top: 60px;
+        left: 30px;
+        height: 440px;
+        width: 280px;
+        border-radius: 20px;
+        border: 3px solid #252525;
+        background: #4182E3;
+        z-index: -1;
+    }
+    &__name {
+        color: var(--BG, #F5F5F5);
+        font-size: 25px;
+        font-weight: 500;
+        margin-bottom: 30px;
+        text-align: center;
+    }
+
+	&__btn {
+        margin: 30px auto;
+        width: 150px;
+        height: 50px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        border: none;
+        border-radius: 5px;
+        box-shadow: 1px 1px 3px rgba(0,0,0,0.15);
+        background: #4182E3;
+        span {
+            transition: 200ms;
+        }
+        &-text {
+            transform: translateX(35px);
+            color: white;
+            font-weight: bold;
+        }
+        &-icon {
+            position: absolute;
+            border-left: 1px solid #366cbd;
+            transform: translateX(110px);
+            height: 40px;
+            width: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        svg {
+            width: 20px;
+            fill: #eee;
+        }
+        &:hover {
+            background: rgb(98, 161, 255);
+            .Assortment__btn-text {
+                color: transparent;
+            }
+            .Assortment__btn-icon {
+                width: 150px;
+                border-left: none;
+                transform: translateX(0);
+            }
+        }
+        &:focus {
+            outline: none;
+           }
+
+        &:active .Assortment__btn-icon svg {
+            transform: scale(0.8);
+        }
+        
+	}
+
+}
+
+@media screen and (max-width: 1921px) {
+    .Assortment { 
+        &__list {
+            justify-content: center;
+            gap: 100px;
+        }
+        
+    }
+  }
+
+
+@media screen and (max-width: 1450px) {
+    .Assortment { 
+        &__list {
+            justify-content: center;
+            gap: 30px;
+        }
+        
+    }
+  }
+
+
+@media screen and (max-width: 768px) {
+        .Assortment {
+            &__title {
+                font-size: 35px;
+            }
+            &__subtitle {
+                font-size: 18px;
+            }
+        }
+}
+
+
+@media screen and (max-width: 420px) {
+    .Assortment {
+       &__item {
+        padding: 10px;
+            &-wrap {
+                flex-direction: column-reverse;
+                gap: 15px;
+                margin-bottom: 10px;
+            }
+
+       }
+    }
+}
+
+
+@media screen and (max-width: 350px) { 
+
+    .Assortment {
+        &__title {
+            font-size: 25px;
+        }
+        &__subtitle {
+            font-size: 15px;
+        }
+    }
+}

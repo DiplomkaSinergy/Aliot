@@ -1,0 +1,36 @@
+.ProdactPage {
+
+    &__wrapper {
+    }
+
+    &__title {
+    }
+
+    &__wrapper-flex {
+        display: flex;
+        justify-content: space-around;
+
+    }
+
+    &__wrapper-information {
+        width: 400px;
+        height: 600px;
+        background-color: #4444;
+    }
+
+    &__wrapper-price {
+        width: 400px;
+        height: 300px;
+        background-color: #4444;
+    }
+
+    &__wrapper-specifications {
+        margin-top: 50px;
+        width: 100%;
+        height: 400px;
+        background-color: #4444;
+
+    }
+}
+.container {
+}

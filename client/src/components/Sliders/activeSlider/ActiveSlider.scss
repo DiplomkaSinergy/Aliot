@@ -1,0 +1,89 @@
+
+
+.slider {
+
+    margin-top: 100px;
+
+    &__item {
+      position: relative;
+        // width: 100%;
+        img {
+            width: 100%;
+        }
+
+        &-description {
+          position: absolute;
+          width: 97.2%;
+          padding: 10px 0px 20px 0px;
+          background: rgba(0, 0, 0, 0.60);
+          left: 20px;
+          bottom: 150px;
+          &-title {
+            margin-left: 45px;
+            color: var(--RED, #DF3B3B);
+            font-size: 50px;
+            font-weight: 700;
+          }
+          &-subtitle {
+            margin-left: 45px;
+              color: #FFF;
+              font-size: 25px;
+              font-weight: 400;
+          }
+        }
+    }
+
+    
+
+}
+
+.slick-active div {
+    background-color: red;
+}
+
+.swiper-pagination-bullet {
+    // width: 80px;
+    // height: 20px;
+    // text-align: center;
+    // line-height: 20px;
+    // font-size: 12px;
+    color: #000;
+    opacity: 1;
+    background: rgba(0, 0, 0, 0.619);
+    border-radius: 0px;
+  }
+  
+  .swiper-pagination-bullet-active {
+    color: #fff;
+    background: #007aff;
+    // background-color: violet;
+  }
+  
+
+  .mySwiper > .swiper-pagination {
+    bottom: 10%;
+    text-align: right;
+    padding-right: 100px;
+  }
+
+  .sw-act {
+    // background-color: black;
+    // border-radius: 50%;
+    border-radius: 0;
+    width: 80px;
+    height: 20px;
+  }
+
+  @media screen and (max-width: 992px) {
+    .swiper-pagination-bullet {
+      width: 40px;
+      height: 10px;
+    }
+
+    .mySwiper > .swiper-pagination {
+      bottom: 10%;
+      padding-right: 5%;
+    }
+  
+
+  }

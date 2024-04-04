@@ -1,0 +1,10 @@
+
+
+    .sample-slider .swiper-wrapper{
+        transition-timing-function: linear;
+    }
+
+    .slider__item {
+        pointer-events: none;
+        user-select: none;
+    }
