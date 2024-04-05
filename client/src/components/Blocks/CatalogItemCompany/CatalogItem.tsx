@@ -1,13 +1,12 @@
 import React from 'react'
 
-import './CatalogItemCompany.scss'
+import './CatalogItem.scss'
 import { IItemDataCompanies } from '@/components/Catalog/data/data'
 import { Link } from 'react-router-dom'
-import {IDevice, fullDevice} from '@/stores/deviceStore'
 
 
 
-const CatalogItemCompany = ({id, img, name, price}: IDevice) => {
+const CatalogItem = ({id, img, name, price}: IDevice) => {
   return (
       <Link to={`${id}`}>
         <div className='CatalogItemCompany'>
@@ -21,4 +20,4 @@ const CatalogItemCompany = ({id, img, name, price}: IDevice) => {
   )
 }
 
-export {CatalogItemCompany}
+export {CatalogItem}

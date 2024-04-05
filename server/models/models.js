@@ -179,5 +179,5 @@ NumberPolesChar,
 ShutdownCruveChar,
 DisplayChar,
 BrandsChar,
-
+СharacteristicТame
 }

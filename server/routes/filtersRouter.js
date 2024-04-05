@@ -4,7 +4,7 @@ const filtersController = require('../controllers/filtersController')
 const router = new Router()
 
 
-router.get('/', filtersController.getShutdownCurveAvto)
+router.get('/', filtersController.getAllFilters)
 
 
 module.exports = router

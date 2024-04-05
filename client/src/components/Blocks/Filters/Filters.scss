@@ -1,6 +1,7 @@
 
 .Filters {
-    width: 300px;
+    max-width: 300px;
+    flex: 1;
     flex-basis: 300px;
     background-color: #ffffff;
     border-radius: 12px;
@@ -9,26 +10,39 @@
         padding: 10px;
     }
 
+    &__title { 
+        margin-top: 8px;
+        font-size: 22px;
+    }
+
     &__che {
     }
 
         // .Filters__title
         &__label {
+            
+            padding: 5px;
+            border-radius: 8px;
             display: flex;
             gap: 10px;
             align-items: center;
             cursor: pointer;
+            transition: background-color .2s;
+
+            &:hover {
+                // color: white;
+                background-color: #337cf964;
+            }
         }
-        &__title {
-            font-size: 20px;
-        }
+        
     
         // .Filters__charName
     
         &__charName {
         }
         &__input {
-
+            width: 18px;
+            height: 18px;
         }
     
 }
