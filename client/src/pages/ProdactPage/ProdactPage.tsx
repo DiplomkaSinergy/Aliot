@@ -5,30 +5,28 @@ import {data} from '@/components/Sliders/ProductSlider/data'
 
 import './ProdactPage.scss'
 import { useLocation, useParams } from 'react-router-dom'
-import { useDeviceStore } from '@/stores/deviceStore'
+import { useDeviceStore } from '@/stores/productStore'
 
 const ProdactPage = () => {
-  const getOneDevice = useDeviceStore(state => state.getOneDevice)
-  const oneProduct = useDeviceStore(state => state.oneProduct)
-  const loading = useDeviceStore(state => state.loading)
+
     const {id} = useParams()
     
-    useEffect(() => {
-      getOneDevice(id)
-    }, [])
+    // useEffect(() => {
+    //   getOneDevice(id)
+    // }, [])
 
 
 
   return (
     <div className='ProdactPage'>
         <div className="container">
-          {loading ? 
+        {/* {loading ? 
             <Loading/>
           :
-            <div className="ProdactPage__wrapper">
+          }  */}
+            {/* <div className="ProdactPage__wrapper">
                 
                 <div className="ProdactPage__wrapper-flex">
-                    {/* <ProductSlider data={data} /> */}
                     <div className="ProdactPage__wrapper-img"><img src={import.meta.env.VITE_APP_API_URL + oneProduct.img} alt="img" /></div>
                     <div className="ProdactPage__wrapper-information">{oneProduct.name}</div>
                     <div className="ProdactPage__wrapper-price">{oneProduct.price}</div>
@@ -41,8 +39,8 @@ const ProdactPage = () => {
                     </div>
                   ))}
                 </div>
-            </div>
-          }
+            </div> */}
+        
         </div>
     </div>
   )

@@ -45,10 +45,6 @@ const Routes = () => {
                     element: <CatalogPage />,
                 },
                 {
-                    path: Paths.CatalogComp,
-                    element: <CatalogCompanyPage />
-                },
-                {
                     path: Paths.Product,
                     element: <ProdactPage />
                 },

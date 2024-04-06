@@ -1,77 +1,75 @@
-import React, { useEffect } from 'react';
-import './Filters.scss';
-import { IFilter, fullFilters, useDeviceStore } from '@/stores/deviceStore';
+import React, { ChangeEvent, useEffect } from 'react';
 import { List } from '../List/List';
-import { FiltersResponse, useFilterStore } from '@/stores/filtersStore';
+import { IFilter, stringNameProp, useFilterStore } from '@/stores/filtersStore';
+import { Loading } from '../Loading/Loading';
+import './Filters.scss';
 
 const Filters = () => {
   const getFilters = useFilterStore((state) => state.getFilters);
   const filters = useFilterStore((state) => state.filters);
+  const loading = useFilterStore((state) => state.loading);
 
   useEffect(() => {
     getFilters();
   }, [getFilters]);
 
+
+
   return (
     <div className='Filters'>
       <div className='Filters__wrapper'>
+        {loading ? <Loading/> : 
+        <>
         <div className='Filters__title'>
-          {filters?.brands &&
-            filters.brands.length > 0 &&
+          {filters?.brands && 
             filters.brands[0]?.characteristic_name?.name}
         </div>
-        <FiltersBlock items={filters.brands} />
+        <FiltersBlock filterName='brands' items={filters.brands} />
 
         <div className='Filters__title'>
-          {filters?.breakingCapacities &&
-            filters.breakingCapacities.length > 0 &&
-            filters.breakingCapacities[0]?.characteristic_name?.name}
+          {filters?.breakingCapacity &&
+            filters.breakingCapacity[0]?.characteristic_name?.name}
         </div>
-        <FiltersBlock items={filters.breakingCapacities} />
+        <FiltersBlock filterName='breakingCapacity' items={filters.breakingCapacity} />
 
         <div className='Filters__title'>
-          {filters?.degreesOfProtection &&
-            filters.degreesOfProtection.length > 0 &&
-            filters.degreesOfProtection[0]?.characteristic_name?.name}
+          {filters?.degreeProtection &&
+            filters.degreeProtection[0]?.characteristic_name?.name}
         </div>
-        <FiltersBlock items={filters.degreesOfProtection} />
+        <FiltersBlock filterName='degreeProtection' items={filters.degreeProtection} />
 
         <div className='Filters__title'>
-          {filters?.displays &&
-            filters.displays.length > 0 &&
-            filters.displays[0]?.characteristic_name?.name}
+          {filters?.display &&
+            filters.display[0]?.characteristic_name?.name}
         </div>
-        <FiltersBlock items={filters.displays} />
+        <FiltersBlock filterName='display' items={filters.display} />
         <div className='Filters__title'>
           {filters?.numberPoles &&
-            filters.numberPoles.length > 0 &&
             filters.numberPoles[0]?.characteristic_name?.name}
         </div>
-        <FiltersBlock items={filters.numberPoles} />
+        <FiltersBlock filterName='numberPoles' items={filters.numberPoles} />
         <div className='Filters__title'>
-          {filters?.ratedCurrents &&
-            filters.ratedCurrents.length > 0 &&
-            filters.ratedCurrents[0]?.characteristic_name?.name}
+          {filters?.ratedCurrent &&
+            filters.ratedCurrent[0]?.characteristic_name?.name}
         </div>
-        <FiltersBlock items={filters.ratedCurrents} />
+        <FiltersBlock filterName='ratedCurrent' items={filters.ratedCurrent} />
         <div className='Filters__title'>
-          {filters?.ratedVoltages &&
-            filters.ratedVoltages.length > 0 &&
-            filters.ratedVoltages[0]?.characteristic_name?.name}
+          {filters?.ratedVoltage &&
+            filters.ratedVoltage[0]?.characteristic_name?.name}
         </div>
-        <FiltersBlock items={filters.ratedVoltages} />
+        <FiltersBlock filterName='ratedVoltage' items={filters.ratedVoltage} />
         <div className='Filters__title'>
-          {filters?.shutdownCurves &&
-            filters.shutdownCurves.length > 0 &&
-            filters.shutdownCurves[0]?.characteristic_name?.name}
+          {filters?.shutdownCruve &&
+            filters.shutdownCruve[0]?.characteristic_name?.name}
         </div>
-        <FiltersBlock items={filters.shutdownCurves} />
+        <FiltersBlock filterName='shutdownCruve' items={filters.shutdownCruve} />
         <div className='Filters__title'>
-          {filters?.typesOfMechanism &&
-            filters.typesOfMechanism.length > 0 &&
-            filters.typesOfMechanism[0]?.characteristic_name?.name}
+          {filters?.typeOfMechanism &&
+            filters.typeOfMechanism[0]?.characteristic_name?.name}
         </div>
-        <FiltersBlock items={filters.typesOfMechanism} />
+        <FiltersBlock filterName='typeOfMechanism' items={filters.typeOfMechanism} />
+        </>
+        }
       </div>
     </div>
   );
@@ -79,19 +77,33 @@ const Filters = () => {
 
 interface FiltersBlockProps {
   items: IFilter[] | undefined;
+  filterName: stringNameProp;
 }
 
-export const FiltersBlock = ({ items }: FiltersBlockProps) => {
+export const FiltersBlock = ({ items, filterName }: FiltersBlockProps) => {
+  const updateActiveFilters = useFilterStore((state) => state.updateActiveFilters);
+  
+  const handleCheckboxChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const { checked, value } = event.target;
+    const filterId = parseInt(value);
+    const filterName = event.target.name as stringNameProp
+
+    updateActiveFilters(filterName, filterId, checked);
+    
+  };
+
   return (
     <List
       items={items}
       rebderItems={(item) => (
         <label htmlFor={`${item.name}`} className='Filters__label'>
           <input
-            name='value'
+            value={item.id}
+            name={filterName}
             type='checkbox'
             className='Filters__input'
             id={`${item.name}`}
+            onChange={handleCheckboxChange}
           />
           <div className='Filters__charName'>{item.name}</div>
         </label>

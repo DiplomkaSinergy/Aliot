@@ -4,8 +4,7 @@ export enum Paths {
     AdminPanel = "/panel",
     Feedback = "/feedback",
     Catalog = "/catalog",
-    CatalogComp = `/catalog/:type`,
-    Product = `/catalog/:type/:id`,
+    Product = `/catalog/:id`,
 }
 
 export enum PathsAccount {

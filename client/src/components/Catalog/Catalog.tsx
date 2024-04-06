@@ -8,62 +8,61 @@ import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import Filters from '../Blocks/Filters/Filters';
 import { CatalogItem } from '../Blocks/CatalogItemCompany/CatalogItem';
 import { useFilterStore } from '@/stores/filtersStore';
+import { IProduct, useProductStore } from '@/stores/productStore';
 
 
 const Catalog = () => {
-  // const [brand, setBrand] = useState('Все');
+  const [brand, setBrand] = useState('Все');
+
+  const getProducts = useProductStore(state => state.getProducts) 
+  const products = useProductStore(state => state.products) 
+  const activeFilters = useFilterStore((state) => state.activeFilters);
+
+  useEffect(() => {
+    getProducts()
+    console.log(products);
+    
+  }, [getProducts]);
+  
+  const changeTab = (tab: string) => () => {
+    setBrand(tab);
+    console.log(tab);
+  };
 
   
-  // const changeTab = (tab: string) => () => {
-  //   setBrand(tab);
-  //   console.log(tab);
-  // };
 
-  // const filtersData = dataCompanies.filter(item => {
-  //   if (brand === 'Все') {
-  //     return dataCompanies
-  //   }
-  //   return item.tag.toLowerCase() === brand.toLowerCase()
-  // })
+  const filtered = products.filter((product) => {
+    // Проверяем, соответствует ли каждый продукт выбранным фильтрам
+    return Object.entries(activeFilters).every(([key, value]) => {
+      // Если фильтр пустой, то продукт проходит проверку
+      if (value.length === 0) return true;
+      // Проверяем, соответствует ли значение продукта выбранному фильтру
+      return value.includes(product[key + 'CharId']);
+    });
+  });
+
 
   return (
     <section className='Catalog'>
       <div className='container'>
         <div className='Catalog__wrapper'>
-          <div className='Catalog__flex'>
-            {/* <div className='Catalog__title'>Производители:</div> */}
-            {/* <div className='Catalog__tabs'>
-              <List
-                items={brands}
-                rebderItems={(item, i) => (
-                  <div
-                    onClick={changeTab(item.title)}
-                    key={i}
-                    className={brand === item.title ? 'Catalog__tab-active Catalog__tab' : 'Catalog__tab'}
-                  >
-                    {item.title}
-                  </div>
-                )}
-              />
-            </div> */}
-          </div>
           
           <div className="Catalog__flex-filter">
             <Filters />
-            {/* <div className='Catalog__list'>
+            <div className='Catalog__list'>
 
               <TransitionGroup  component={null}>
-                {filtersData.map((item, i) => (
+                {filtered.map((item, i) => (
                   <CSSTransition
                       key={i}
                       timeout={300}
                       classNames="Catalog__item"
                       >
-                  <CatalogItem />
+                  <CatalogItem item={item}/>
                   </CSSTransition>
                 ))}
               </TransitionGroup>
-            </div> */}
+            </div>
           </div>
 
         </div>

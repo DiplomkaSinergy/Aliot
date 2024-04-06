@@ -26,7 +26,7 @@ class FiltersController {
           }
         ]
       });
-      const breakingCapacities = await BreakingCapacityChar.findAll({
+      const breakingCapacity = await BreakingCapacityChar.findAll({
         include: [
           {
             model: СharacteristicТame,
@@ -34,7 +34,7 @@ class FiltersController {
           }
         ]
       });
-      const degreesOfProtection = await DegreeProtectionChar.findAll({
+      const degreeProtection = await DegreeProtectionChar.findAll({
         include: [
           {
             model: СharacteristicТame,
@@ -42,7 +42,7 @@ class FiltersController {
           }
         ]
       });
-      const displays = await DisplayChar.findAll({
+      const display = await DisplayChar.findAll({
         include: [
           {
             model: СharacteristicТame,
@@ -58,7 +58,7 @@ class FiltersController {
           }
         ]
       });
-      const ratedCurrents = await RatedCurrentChar.findAll({
+      const ratedCurrent = await RatedCurrentChar.findAll({
         include: [
           {
             model: СharacteristicТame,
@@ -66,7 +66,7 @@ class FiltersController {
           }
         ]
       });
-      const ratedVoltages = await RatedVoltageChar.findAll({
+      const ratedVoltage = await RatedVoltageChar.findAll({
         include: [
           {
             model: СharacteristicТame,
@@ -74,7 +74,7 @@ class FiltersController {
           }
         ]
       });
-      const shutdownCurves = await ShutdownCruveChar.findAll({
+      const shutdownCruve = await ShutdownCruveChar.findAll({
         include: [
           {
             model: СharacteristicТame,
@@ -82,7 +82,7 @@ class FiltersController {
           }
         ]
       });
-      const typesOfMechanism = await TypeOfMechanismChar.findAll({
+      const typeOfMechanism = await TypeOfMechanismChar.findAll({
         include: [
           {
             model: СharacteristicТame,
@@ -94,14 +94,14 @@ class FiltersController {
       
       return res.json({
         brands,
-        breakingCapacities,
-        degreesOfProtection,
-        displays,
+        breakingCapacity,
+        degreeProtection,
+        display,
         numberPoles,
-        ratedCurrents,
-        ratedVoltages,
-        shutdownCurves,
-        typesOfMechanism
+        ratedCurrent,
+        ratedVoltage,
+        shutdownCruve,
+        typeOfMechanism
       });
     } catch (error) {
       return next(ApiError.internal(error.message))

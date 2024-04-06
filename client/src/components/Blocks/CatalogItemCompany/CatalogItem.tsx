@@ -3,20 +3,24 @@ import React from 'react'
 import './CatalogItem.scss'
 import { IItemDataCompanies } from '@/components/Catalog/data/data'
 import { Link } from 'react-router-dom'
+import { IProduct } from '@/stores/productStore'
 
+interface ICardProps {
+  item: IProduct
+}
 
-
-const CatalogItem = ({id, img, name, price}: IDevice) => {
+const CatalogItem = ({item}: ICardProps) => {
   return (
-      <Link to={`${id}`}>
-        <div className='CatalogItemCompany'>
-          <div className="CatalogItemCompany__img">
-            <img src={import.meta.env.VITE_APP_API_URL + img}/>
-          </div>
-          <div className='CatalogItemCompany__title'>{name}</div>
-          <div className='CatalogItemCompany__price'>{price} руб.</div>
+        <div className='CatalogItem'>
+          <Link to={`${item.id}`}>
+              <div className="CatalogItem__img">
+                <img src={import.meta.env.VITE_APP_API_URL + item.img}/>
+              </div>
+              <div className='CatalogItem__price'>{item.price} руб.</div>
+              <div className='CatalogItem__title'>{item.name}</div>
+              {/* <button className='CatalogItem__btnOrder'>Добавить в заказ</button> */}
+          </Link>
         </div>
-      </Link>
   )
 }
 
