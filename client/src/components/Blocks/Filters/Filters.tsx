@@ -95,7 +95,7 @@ export const FiltersBlock = ({ items, filterName }: FiltersBlockProps) => {
   return (
     <List
       items={items}
-      rebderItems={(item) => (
+      renderItems={(item) => (
         <label htmlFor={`${item.name}`} className='Filters__label'>
           <input
             value={item.id}

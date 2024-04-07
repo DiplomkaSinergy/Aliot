@@ -26,29 +26,21 @@ export interface IFilter {
     characteristicNameId: number,
     characteristic_name: {name: string}
 }
-export interface FiltersResponse {
-    brands: IFilter[];
-    breakingCapacity: IFilter[];
-    degreeProtection: IFilter[];
-    display: IFilter[];
-    numberPoles: IFilter[];
-    ratedCurrent: IFilter[];
-    ratedVoltage: IFilter[];
-    shutdownCruve: IFilter[];
-    typeOfMechanism: IFilter[];
-  }
-export interface IActiveFilters {
-    brands: number[];
-    breakingCapacity: number[];
-    degreeProtection: number[];
-    display: number[];
-    numberPoles: number[];
-    ratedCurrent: number[];
-    ratedVoltage: number[];
-    shutdownCruve: number[];
-    typeOfMechanism: number[];
-  }
 
+interface TFilters<T> {
+  brands: T;
+  breakingCapacity: T;
+  degreeProtection: T;
+  display: T;
+  numberPoles: T;
+  ratedCurrent: T;
+  ratedVoltage: T;
+  shutdownCruve: T;
+  typeOfMechanism: T;
+}
+
+export type FiltersResponse = TFilters<IFilter[]>
+export type IActiveFilters = TFilters<number[]>
 
 
 interface IFilterStore {
@@ -82,7 +74,6 @@ export const useFilterStore = create<IFilterStore>()(immer(devtools((set) => ({
       set({loading: true})
       try {
         const {data} = await $host.get(`api/filters`)
-        console.log(data);
         set({filters: data})
         //   set({products: data.products, filters: data.filters})
       } catch (error) {

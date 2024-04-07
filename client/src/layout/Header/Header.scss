@@ -122,6 +122,8 @@
     &__likes {
         height: 30px;
         width: 30px;
+        position: relative;
+
         img {
             width: 100%;
             height: 100%;
@@ -129,12 +131,28 @@
     }
 
     &__cart {
+        position: relative;
         height: 30px;
         width: 30px;
+        // background-color: #3266b4;
         img {
             width: 100%;
             height: 100%;
         }
+    }
+
+    &__notif {
+        position: absolute;
+        top: -15px;
+        right: -15px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        border-radius: 50%;
+        width: 25px;
+        height: 25px;
+        background-color: red;
     }
 
     &__burgerbtn { 

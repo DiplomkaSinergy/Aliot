@@ -25,7 +25,7 @@ class UserController {
         const user = await User.create({email, firstName,lastName: secondName, role, password: hashPassword})
         const basket = await Basket.create({userId: user.id})
         const token = generateJwt(user.id, user.email, user.firstName, user.lastName, user.role)
-        return res.json({token})
+        return res.json({token, basket})
     }
 
     async login(req, res, next) {

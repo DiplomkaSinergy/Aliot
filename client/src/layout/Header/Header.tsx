@@ -8,6 +8,7 @@ import './Header.scss'
 import { Link } from 'react-router-dom'
 import { Paths, PathsAccount } from '@/app/Routes/Types/paths'
 import { useAuth } from '@/stores/authStore'
+import { useCartOrderStore } from '@/stores/cartOrderStore'
 
 interface IHeaderProps {
     activeMenu: boolean
@@ -18,6 +19,7 @@ interface IHeaderProps {
 
 const Header: FC<IHeaderProps> = ({handleAuthForm, activeMenu, handleMenu}) => {
 
+    const cartItems = useCartOrderStore(state => state.cartItems)
     const isAuth = useAuth(state => state.isAuth)
     const role = useAuth(state => state.user.role)
 
@@ -49,9 +51,15 @@ const Header: FC<IHeaderProps> = ({handleAuthForm, activeMenu, handleMenu}) => {
                     </div>
                     <div className="header__likes">
                         <Heart  />
+                        {/* <span className='header__notif'></span> */}
                     </div>
                     <div className="header__cart">
                         <ShoppingCart />
+                        {cartItems.length > 0 ?
+                        <span className='header__notif'>{cartItems.length}</span>
+                        :
+                        null
+                        }
                     </div>
                     {isAuth ?  
                         <Link to={Paths.Account}>

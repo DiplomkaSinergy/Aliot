@@ -7,7 +7,8 @@ const {
     BreakingCapacityAvto,
     CharacteristicName,
     ShutdownCurveAvto,
-    Product
+    Product,
+    ProductInfo
 } = require('../models/models')
 const ApiError = require('../error/ApiError');
 const {
@@ -56,15 +57,13 @@ class ProductController {
                 ...filteredBody
               };
 
-              console.log(productData);
-
 
             const device = await Product.create(productData);
 
             if (info) {
                 info = JSON.parse(info)
                 info.forEach(i =>
-                    DeviceInfo.create({
+                    ProductInfo.create({
                         title: i.title,
                         description: i.description,
                         deviceId: device.id
@@ -81,27 +80,21 @@ class ProductController {
 
 
     async getOne(req, res) {
-        const {
-            id
-        } = req.query
+        const {id} = req.params
         console.log('backend: ' + id);
-        const device = await Device.findOne({
-            where: {
-                id
-            },
+        const product = await Product.findOne({
+            where: {id},
             include: [{
-                model: DeviceInfo,
+                model: ProductInfo,
                 as: 'info'
             }]
         }, )
-        return res.json(device)
+        return res.json(product)
     }
 
 
     async getAllProducts(req, res, next) {
-        
         const product = await Product.findAll()
-
         return res.json(product)
     }
 

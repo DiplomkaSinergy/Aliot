@@ -9,10 +9,14 @@ import { User } from "@/utils/Types/User";
 import { LoginFormValues, RegestrationFormValues } from "@/components/Forms/types.interface";
 
 
-
+interface IBasket {
+    id: number,
+    userId: number
+}
 
 interface IAuthStore {
     isAuth: boolean,
+    basket: IBasket,
     user: User,
     error: string,
     loading: boolean,
@@ -31,6 +35,7 @@ interface IAuthStore {
 export const useAuth = create<IAuthStore>()(immer(devtools((set) => ({
     isAuth: false,
     user: {} as User,
+    basket: {} as IBasket,
     error: '',
     loading: false,
 
@@ -40,7 +45,7 @@ export const useAuth = create<IAuthStore>()(immer(devtools((set) => ({
                 const {data} = await $host.post('api/user/registration', {firstName, secondName, email, firstPassword, role: "USER"})
                 localStorage.setItem('token', data.token)
                 const user = jwtDecode<User>(data.token)
-                set({user: user})
+                set({user: user, basket: data.basket})
                 return user;
             } catch (error) {
                 if (isAxiosError(error)) {
