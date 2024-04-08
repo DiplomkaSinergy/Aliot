@@ -1,35 +1,54 @@
-import { Loading, ProductSlider } from '@/components';
-import React, { useEffect, useState } from 'react';
+import { Loading } from '@/components';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import {ProductWithInfo,useProductStore,} from '@/stores/productStore';
 import { BaggageClaim, Heart, HeartOff } from 'lucide-react';
-import { useCartOrderStore } from '@/stores/cartOrderStore';
+import { ICartItem, useCartOrderStore } from '@/stores/cartOrderStore';
 import './ProdactPage.scss';
-
-
+import { useAuth } from '@/stores/authStore';
 
 const ProdactPage = () => {
   const { id } = useParams();
-  const [product, setProduct] = useState<ProductWithInfo | undefined>(
-    {} as ProductWithInfo
-  );
-  const getOneProduct = useProductStore((state) => state.getOneProduct);
+  const [product, setProduct] = useState<ProductWithInfo | undefined>({} as ProductWithInfo);
+  const [currentItem, setCurrentItem] = useState<ICartItem | undefined>({} as ICartItem)
+
+  const basketId = useAuth((state) => state.basket.id);
   const loading = useProductStore((state) => state.loading);
   const error = useProductStore((state) => state.error);
-  
-  const itemQuantity = useCartOrderStore(state => state.getItemQuantity(product?.id))
-  const decreaseCartQuantity = useCartOrderStore(state => state.decreaseCartQuantity)
-  const increaseCartQuantity = useCartOrderStore(state => state.increaseCartQuantity)
+  const getOneProduct = useProductStore((state) => state.getOneProduct);   
+
+  const getOneCartItem = useCartOrderStore(state => state.getOneCartItem)
+  const asyncDecreaseCartQuantity = useCartOrderStore(state => state.asyncDecreaseCartQuantity)
+  const asyncIncreaseCartQuantity = useCartOrderStore(state => state.asyncIncreaseCartQuantity)
   const removeFromCart = useCartOrderStore(state => state.removeFromCart)
   
-
-  console.log(itemQuantity);
-
+  
+  const fetchOneCartItem = async () => {
+      const data = await getOneCartItem(id, basketId)
+      setCurrentItem(data)
+  }  
+  const incresseOneCartItem = async () => {
+      await asyncIncreaseCartQuantity(id, basketId)
+      fetchOneCartItem()
+  }  
+  const decreaseOneCartItem = async () => {
+      await asyncDecreaseCartQuantity(id, basketId)
+      fetchOneCartItem()
+  }  
+  const deleteOneCartItem = async () => {
+      const data = await removeFromCart(id, basketId)
+      setCurrentItem(data)
+  }  
+  
   useEffect(() => {
     getOneProduct(id).then((data) => {
       setProduct(data);
     });
+    fetchOneCartItem()
   }, []);
+
+
+
 
   return (
     <div className='ProdactPage'>
@@ -64,8 +83,8 @@ const ProdactPage = () => {
                     <Heart color='red' /> {' '}
                   </button>
                   
-                  {itemQuantity === 0 ? (
-                    <button className='ProdactPage__wrapper-orderbtn' onClick={() => increaseCartQuantity(product?.id)}>
+                  {!currentItem?.quantity ? (
+                    <button className='ProdactPage__wrapper-orderbtn' onClick={incresseOneCartItem}>
                       <span className='s' >Добавить в корзину</span>{' '}
                       <BaggageClaim color='white' />
                     </button>
@@ -73,11 +92,11 @@ const ProdactPage = () => {
                   : (
                     <div className="ProdactPage__orderSetting">
                       <div className="ProdactPage__orderSetting-flex">
-                        <button className="ProdactPage__orderSetting-btn" onClick={() => increaseCartQuantity(product?.id)}>+</button>
-                        <div className="ProdactPage__orderSetting-title">{itemQuantity} в корзине</div>
-                        <button className="ProdactPage__orderSetting-btn" onClick={() => decreaseCartQuantity(product?.id)}>-</button>
+                        <button className="ProdactPage__orderSetting-btn" onClick={incresseOneCartItem}>+</button>
+                        <div className="ProdactPage__orderSetting-title">{currentItem?.quantity} в корзине</div>
+                        <button className="ProdactPage__orderSetting-btn" onClick={decreaseOneCartItem}>-</button>
                       </div>
-                      <button className="ProdactPage__orderSetting-btnremove" onClick={() => removeFromCart(product?.id)}>Удалить</button>
+                      <button className="ProdactPage__orderSetting-btnremove" onClick={deleteOneCartItem}>Удалить</button>
                     </div>
                   )}
 

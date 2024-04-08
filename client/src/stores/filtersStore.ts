@@ -73,7 +73,7 @@ export const useFilterStore = create<IFilterStore>()(immer(devtools((set) => ({
     getFilters: async () => {
       set({loading: true})
       try {
-        const {data} = await $host.get(`api/filters`)
+        const {data} = await $host.get<FiltersResponse>(`api/filters`)
         set({filters: data})
         //   set({products: data.products, filters: data.filters})
       } catch (error) {

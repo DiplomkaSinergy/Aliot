@@ -3,20 +3,16 @@ import {Routes} from './Routes/Router'
 import './App.scss'
 import { useAuth } from '@/stores/authStore';
 import { useEffect } from 'react';
+import { useCartOrderStore } from '@/stores/cartOrderStore';
 
 function App() {
 
   const chaekAuth = useAuth(state => state.chaekAuth)
-  // const getFil = useAuth(state => state.getFil)
+  const getAllOrderCartItems = useCartOrderStore(state => state.getAllOrderCartItems)
 
   useEffect(() => {
-    chaekAuth().then(data => {
-      // console.log(data);
-    })
-
-    // getFil().then(data => {
-    //   console.log(data);
-    // })
+    chaekAuth()
+    getAllOrderCartItems()
   }, [])
 
   return (

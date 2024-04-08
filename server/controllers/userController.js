@@ -38,8 +38,10 @@ class UserController {
         if (!comparePassword) {
             return next(ApiError.internal('Указан неверный пароль'))
         }
+
+        const basket = await Basket.findOne({where: {userId: user.id}})
         const token = generateJwt(user.id, user.email, user.firstName, user.lastName, user.role)
-        return res.json({token})
+        return res.json({token, basket})
     }
 
     async check(req, res, next) {

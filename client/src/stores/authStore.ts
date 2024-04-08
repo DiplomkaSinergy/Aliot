@@ -1,6 +1,6 @@
 import { $authHost, $host } from "@/services/instance/index";
 import { create } from "zustand";
-import { devtools } from "zustand/middleware";
+import { devtools, persist } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 import {jwtDecode}  from 'jwt-decode'
 import { AxiosError, isAxiosError } from "axios";
@@ -24,15 +24,10 @@ interface IAuthStore {
     login: ({email, firstPassword}: LoginFormValues) => Promise<User | undefined>,
     loguot: () => void,
     chaekAuth: () =>  Promise<User | undefined>,
-    getFil: () => Promise<any>
 }
 
 
-
-
-
-
-export const useAuth = create<IAuthStore>()(immer(devtools((set) => ({
+export const useAuth = create<IAuthStore>()(persist(immer(devtools((set) => ({
     isAuth: false,
     user: {} as User,
     basket: {} as IBasket,
@@ -64,7 +59,7 @@ export const useAuth = create<IAuthStore>()(immer(devtools((set) => ({
             const {data} = await $host.post('api/user/login', {email, firstPassword})
             localStorage.setItem('token', data.token)
             const user = jwtDecode<User>(data.token)
-            set({user: user, isAuth: true})
+            set({user: user, isAuth: true, basket: data.basket})
             return user
         } catch (error) {
             if (isAxiosError(error)) {
@@ -100,7 +95,7 @@ export const useAuth = create<IAuthStore>()(immer(devtools((set) => ({
         set({loading: true})
         try {
             localStorage.removeItem('token')
-            set({user: {} as User, isAuth: false})
+            set({user: {} as User, isAuth: false, basket: {} as IBasket})
         } catch (error) {
             if (isAxiosError(error)) {
                 const err: AxiosError<AuthErrorType> = error
@@ -111,21 +106,12 @@ export const useAuth = create<IAuthStore>()(immer(devtools((set) => ({
         }
     },
 
-    getFil: async () => {
-        set({loading: true})
-        try {
-            const {data} = await $host.get('api/filters')
-            console.log(data)
-        } catch (error) {
-            if (isAxiosError(error)) {
-                const err: AxiosError<AuthErrorType> = error
-                set({error: err.response?.data.message})
-            }
-        } finally {
-            set({loading: false})
+}))), {
+    name: 'basket-store',
+    partialize: (state) => ({ basket: state.basket })
         }
-    }
-}))))
+    ) 
+)
 
 
 

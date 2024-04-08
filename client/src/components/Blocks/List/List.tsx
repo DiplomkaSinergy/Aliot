@@ -7,9 +7,5 @@ interface IProps<T> {
 
 
 export function List<T>({items, renderItems}: IProps<T>) {
-  return (
-    <>
-        {items?.map(renderItems)}
-    </>
-  )
+  return items?.map(renderItems)
 }
