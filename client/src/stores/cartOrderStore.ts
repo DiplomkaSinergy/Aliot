@@ -8,25 +8,28 @@ import { AuthErrorType } from "@/utils/Types/Errors";
 import { User } from "@/utils/Types/User";
 import { Device } from "@/utils/Types/Device";
 import { options } from "node_modules/axios/index.d.cts";
+import { IProduct } from "./productStore";
 
 
 
 export interface ICartItem {
     id: number | undefined
-    quantity: number
+    quantity: number,
+    basketId: number,
+    productId: number,
+    product: IProduct
 }
 
 interface ICartOrderStore {
-  // currentCartItem: ICartItem
     cartItems: ICartItem[],
     cartQuantity: number,
     error: string,
     loading: boolean,
-    getAllOrderCartItems: () => Promise<void>
-    getOneCartItem: (productId: string | undefined, basketId: number) => Promise<ICartItem | undefined>
-    removeFromCart: (productId: string | undefined, basketId: number) => Promise<ICartItem | undefined>
-    asyncIncreaseCartQuantity: (productId: string | undefined, basketId: number) => Promise<void>
-    asyncDecreaseCartQuantity: (productId: string | undefined, basketId: number) => Promise<void>
+    getAllOrderCartItems: () => Promise<ICartItem[] | undefined>
+    getOneCartItem: (productId: string | number | undefined, basketId: number) => Promise<ICartItem | undefined>
+    removeFromCart: (productId: string | number | undefined, basketId: number) => Promise<ICartItem | undefined>
+    asyncIncreaseCartQuantity: (productId: string | number | undefined, basketId: number) => Promise<void>
+    asyncDecreaseCartQuantity: (productId: string | number | undefined, basketId: number) => Promise<void>
     // getItemQuantity: (id: number | undefined) => number | undefined
     // increaseCartQuantity: (id: number | undefined) => void 
     // decreaseCartQuantity: (id: number | undefined) => void
@@ -36,7 +39,7 @@ interface ICartOrderStore {
 export const useCartOrderStore = create<ICartOrderStore>()(immer(devtools((set,get) => ({
     cartItems: [],
     error: '',
-    loading: false,
+    loading: false, 
     cartQuantity: 0,
 
 
@@ -60,7 +63,8 @@ export const useCartOrderStore = create<ICartOrderStore>()(immer(devtools((set,g
       try {
         const {data} = await $host.get('api/cartOrder/all')
         set({cartItems: data})
-        console.log(data);
+        return data
+        // console.log(data);
       } catch (error) {
           if (isAxiosError(error)) {
               const err: AxiosError<AuthErrorType> = error
@@ -70,7 +74,7 @@ export const useCartOrderStore = create<ICartOrderStore>()(immer(devtools((set,g
           set({loading: false})
       }
     },
-    async getOneCartItem(productId: string | undefined, basketId: number) {
+    async getOneCartItem(productId: string | number | undefined, basketId: number) {
       set({loading: true})
       try {
         const {data} = await $host.get<ICartItem>(`api/cartOrder/one?basketId=${basketId}&productId=${productId}`)

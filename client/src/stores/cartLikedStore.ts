@@ -8,13 +8,16 @@ import { AuthErrorType } from "@/utils/Types/Errors";
 import { User } from "@/utils/Types/User";
 import { Device } from "@/utils/Types/Device";
 import { options } from "node_modules/axios/index.d.cts";
+import { IProduct } from "./productStore";
 
 
 
 interface ICartOrderStore {
-    likedItems: number[],
+    likedItems: IProduct[],
     error: string,
     loading: boolean,
+    getItemQuantity: (id: number | undefined) => number | undefined
+    toggleLikedItmes: (product: IProduct | undefined) => void
 }
 
 export const useCartLikedStore = create<ICartOrderStore>()(persist(immer(devtools((set,get) => ({
@@ -23,32 +26,23 @@ export const useCartLikedStore = create<ICartOrderStore>()(persist(immer(devtool
   loading: false,
 
   getItemQuantity(id: number | undefined) {
-      return get().likedItems.find(item => item === id)
+      return get().likedItems.find(item => item.id === id)?.id
   },
 
-  addCartQuantity(id: number | undefined) {
+  toggleLikedItmes(product: IProduct | undefined) {
     set((state) => {
-      const item = state.likedItems.find(item => item === id);
+      const item = state.likedItems.find(item => item.id === product?.id);
       if (item) {
-        item.quantity += 1;
+        state.likedItems = state.likedItems.filter(item => item.id !== product?.id)         
       } else {
-        state.cartItems.push({ id, quantity: 1 });
+        if (product) {  
+          state.likedItems.push(product);
+        }
       }
+      console.log(state.likedItems);
+      
     });
   },
-
-  deleteCartQuantity(id: number | undefined) {
-      set((state) => {
-        const item = state.likedItems.find(item => item.id === id);
-        if (item) {
-          if (item.quantity > 1) {
-            item.quantity -= 1;
-          } else {
-            state.likedItems = state.likedItems.filter(item => item.id !== id);
-          }
-        }
-      });
-    },
 
 
 }))),{name: 'LikedStoreStore'}))

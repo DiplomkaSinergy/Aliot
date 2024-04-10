@@ -47,6 +47,18 @@
         cursor: pointer;
         background-color: #EBF7FF;
         &:hover {
+            background-color: #d0f5f8;
+        }
+    }
+
+    &__wrapper-likedbtn-active {
+        border: none;
+        border-radius: 8px;
+        padding: 8px 12px;
+        font-size: 18px;
+        cursor: pointer;
+        background-color: #ffebeb;
+        &:hover {
             background-color: #f8d0d0;
         }
     }

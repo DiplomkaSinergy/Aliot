@@ -23,7 +23,7 @@ const Routes = () => {
                             path: PathsAccount.Main,
                             element:<AuthGuard>
                                         <Profile/>
-                                    </AuthGuard> 
+                                    </AuthGuard>, 
                             
                         },
                         {

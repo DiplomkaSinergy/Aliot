@@ -12,7 +12,7 @@ interface ICardProps {
 const CatalogItem = ({item}: ICardProps) => {
   return (
         <div className='CatalogItem'>
-          <Link to={`${item.id}`}>
+          <Link to={`/catalog/${item.id}`} >
               <div className="CatalogItem__img">
                 <img src={import.meta.env.VITE_APP_API_URL + item.img}/>
               </div>

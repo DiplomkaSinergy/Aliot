@@ -1,7 +1,8 @@
 const uuid = require('uuid')
 const path = require('path');
 const {
-  BasketProduct
+  BasketProduct,
+  Product
 } = require('../models/models')
 const ApiError = require('../error/ApiError');
 
@@ -10,7 +11,13 @@ class CartOrderController {
 
   async getAllCartItems(req, res, next) {
 
-    const orderItems = await BasketProduct.findAll()
+    const orderItems = await BasketProduct.findAll({
+      include: [
+        {
+          model: Product,
+        }
+      ]
+    })
 
     if (!orderItems) {
       return next(ApiError.badRequest('Товары не найдены'))

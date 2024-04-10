@@ -6,6 +6,7 @@ import { BaggageClaim, Heart, HeartOff } from 'lucide-react';
 import { ICartItem, useCartOrderStore } from '@/stores/cartOrderStore';
 import './ProdactPage.scss';
 import { useAuth } from '@/stores/authStore';
+import { useCartLikedStore } from '@/stores/cartLikedStore';
 
 const ProdactPage = () => {
   const { id } = useParams();
@@ -21,6 +22,10 @@ const ProdactPage = () => {
   const asyncDecreaseCartQuantity = useCartOrderStore(state => state.asyncDecreaseCartQuantity)
   const asyncIncreaseCartQuantity = useCartOrderStore(state => state.asyncIncreaseCartQuantity)
   const removeFromCart = useCartOrderStore(state => state.removeFromCart)
+
+  const toggleLikedItmes = useCartLikedStore(state => state.toggleLikedItmes)
+  const hasLike = useCartLikedStore(state => state.getItemQuantity(product?.id))
+
   
   
   const fetchOneCartItem = async () => {
@@ -79,8 +84,12 @@ const ProdactPage = () => {
               <div className='ProdactPage__wrapper-price'>
                 <span className='span-price'>{product?.price} ₽</span> за шт.
                 <div className='bns-widget'>
-                  <button className='ProdactPage__wrapper-likedbtn'>
-                    <Heart color='red' /> {' '}
+                  <button className={hasLike ? 'ProdactPage__wrapper-likedbtn-active ': 'ProdactPage__wrapper-likedbtn'} onClick={() => toggleLikedItmes(product)}>
+                    {hasLike ? 
+                    <Heart color='red' />
+                   : 
+                   <Heart color='black' /> 
+                   }
                   </button>
                   
                   {!currentItem?.quantity ? (

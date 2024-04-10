@@ -41,6 +41,9 @@ const Catalog = () => {
     });
   });
 
+  console.log(filtered);
+  console.log(activeFilters);
+  
 
   return (
     <section className='Catalog'>

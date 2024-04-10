@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom'
 import { Paths, PathsAccount } from '@/app/Routes/Types/paths'
 import { useAuth } from '@/stores/authStore'
 import { useCartOrderStore } from '@/stores/cartOrderStore'
+import { useCartLikedStore } from '@/stores/cartLikedStore'
 
 interface IHeaderProps {
     activeMenu: boolean
@@ -19,6 +20,7 @@ interface IHeaderProps {
 
 const Header: FC<IHeaderProps> = ({handleAuthForm, activeMenu, handleMenu}) => {
 
+    const likedItems = useCartLikedStore(state => state.likedItems)
     const cartItems = useCartOrderStore(state => state.cartItems)
     const isAuth = useAuth(state => state.isAuth)
     const role = useAuth(state => state.user.role)
@@ -45,21 +47,30 @@ const Header: FC<IHeaderProps> = ({handleAuthForm, activeMenu, handleMenu}) => {
                     </nav>
                 </div>
                 <div className="header__right">
-                    <div className='header__buy-input'>
+                    {/* <div className='header__buy-input'>
                         <input type="text" className='header__search' placeholder="Введите артикул"/>
                         <button className='header__search_btn'>Найти</button>
-                    </div>
+                    </div> */}
                     <div className="header__likes">
-                        <Heart  />
-                        {/* <span className='header__notif'></span> */}
+                        <Link to={PathsAccount.Favorites}>
+                            <Heart  />
+                            {likedItems.length > 0 ?
+                                <span className='header__notif'>{likedItems.length}</span>
+                                :
+                                null
+                                }
+                        </Link>
                     </div>
                     <div className="header__cart">
-                        <ShoppingCart />
-                        {cartItems.length > 0 ?
-                        <span className='header__notif'>{cartItems.length}</span>
-                        :
-                        null
-                        }
+                        <Link to={PathsAccount.Cart}>
+                                <ShoppingCart />
+                                {cartItems.length > 0 ?
+                            <span className='header__notif'>{cartItems.length}</span>
+                            :
+                            null
+                            }
+                                
+                        </Link>
                     </div>
                     {isAuth ?  
                         <Link to={Paths.Account}>
@@ -70,7 +81,7 @@ const Header: FC<IHeaderProps> = ({handleAuthForm, activeMenu, handleMenu}) => {
                     : <button className="header__sinin" onClick={() => handleAuthForm(Forms.Auth)}>Войти</button> }
 
                     {role === 'USER' ? 
-                        <Link  className=""><FolderLock /></Link> : null
+                        <Link to={Paths.AdminPanel} className=""><FolderLock /></Link> : null
                     }           
                 </div>
 
