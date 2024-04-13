@@ -22,8 +22,15 @@
   &__list {
     margin-top: 30px;
     display: flex;
+    flex: 1;
     flex-direction: column;
     gap: 10px;
+  }
+
+  &__main {
+    display: flex;
+    gap: 10px;
+    justify-content: space-between;
   }
 
     // .Cart__empty
@@ -43,7 +50,9 @@
     &__empty-img {
       width: 250px;
       height: 250px;
+      user-select: none;
       img {
+      user-select: none;
         object-fit: cover;
         width: 100%;
         height: 100%;
@@ -67,6 +76,51 @@
       font-size: 20px;
       color: #1f3d6a;
     }
+
+
+  
+      &__widget {
+        top: 10px;
+        position: sticky;
+        border: 2px solid #4182E3;
+        padding: 10px;
+        margin-top: 30px;
+        flex-basis: 250px;
+        flex: 0.5;
+        background-color: white;
+        height: max-content;
+        border-radius: 8px;
+        -webkit-box-shadow: 0px 0px 28px 2px rgba(34, 60, 80, 0.2);
+        -moz-box-shadow: 0px 0px 28px 2px rgba(34, 60, 80, 0.2);
+        box-shadow: 0px 0px 28px 2px rgba(34, 60, 80, 0.2);
+
+        &-flex {
+          margin-top: 10px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        }
+
+        &-price {
+          font-size: 25px;
+        }
+      }
+  
+  
+      &__widget-btn {
+        display: block;
+        text-align: center;
+        width: max-content;
+        margin: 15px auto 0px auto;
+        padding: 10px 14px;
+        font-size: 20px;
+        text-align: center;
+        color: white;
+        background-color: #4182E3;
+        border-radius: 8px;
+        cursor: pointer;
+      }
+  
 }
 
 

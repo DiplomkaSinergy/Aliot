@@ -36,6 +36,17 @@ const ProductInfo = sequelize.define('product_info', {
     description: {type: DataTypes.STRING, allowNull: false},
 })
 
+const Order = sequelize.define('order', {
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    price: {type: DataTypes.INTEGER, allowNull: false},
+    status: {type: DataTypes.STRING, allowNull: false},
+    price: {type: DataTypes.INTEGER, allowNull: false},
+})
+const OrderProduct = sequelize.define('order_product', {
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+})
+
+
 
 //////////////////////////////////////////////////////////////////////////////////////////////? Xарактеристики
 const BreakingCapacityChar = sequelize.define('breaking_capacity_char', {
@@ -100,6 +111,15 @@ BasketProduct.belongsTo(Product)
 
 Product.hasMany(ProductInfo, {as: 'info'});
 ProductInfo.belongsTo(Product)
+
+User.hasMany(Order)
+Order.belongsTo(User)
+
+Order.hasHooks(OrderProduct)
+OrderProduct.belongsTo(Order)
+
+BasketProduct.hasMany(OrderProduct)
+OrderProduct.belongsTo(BasketProduct)
 
 //////////////////////////////////////////////////////////////////////////! Characreristic
 
@@ -169,6 +189,8 @@ module.exports = {
     Product,
     Rating,
     ProductInfo,
+    Order,
+    OrderProduct,
 
 //////? char 
 BreakingCapacityChar,

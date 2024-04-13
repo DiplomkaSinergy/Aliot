@@ -30,6 +30,8 @@ interface ICartOrderStore {
     removeFromCart: (productId: string | number | undefined, basketId: number) => Promise<ICartItem | undefined>
     asyncIncreaseCartQuantity: (productId: string | number | undefined, basketId: number) => Promise<void>
     asyncDecreaseCartQuantity: (productId: string | number | undefined, basketId: number) => Promise<void>
+    reduceCartProdict: () => void
+    cretePayment: (value: number | string) => Promise<void>
     // getItemQuantity: (id: number | undefined) => number | undefined
     // increaseCartQuantity: (id: number | undefined) => void 
     // decreaseCartQuantity: (id: number | undefined) => void
@@ -42,21 +44,33 @@ export const useCartOrderStore = create<ICartOrderStore>()(immer(devtools((set,g
     loading: false, 
     cartQuantity: 0,
 
-
-    // getItemQuantity(id: number | undefined) {
-    //     return get().cartItems.find(item => item.id === id)?.quantity || 0;
-    // },
-
-    // increaseCartQuantity(id: number | undefined) {
-    //     set((state) => {
-    //       const item = state.cartItems.find(item => item.id === id);
-    //       if (item) {
-    //         item.quantity += 1;
-    //       } else {
-    //         state.cartItems.push({ id, quantity: 1 });
-    //       }
-    //     });
-    //   },
+    async cretePayment(value) { 
+      set({loading: true})  
+      try { 
+        const {data} = await $host.post('api/payment/create', {value}) 
+        console.log(data);
+      } catch (error) {
+          if (isAxiosError(error)) {
+              const err: AxiosError<AuthErrorType> = error
+              set({error: err.response?.data.message})
+          }
+      } finally {
+          get().reduceCartProdict() 
+          set({loading: false})
+      }
+    },
+ 
+    reduceCartProdict() {
+      set(state => {
+        state.cartQuantity = state.cartItems.reduce((total, cartItem) => {
+          if (cartItem !== null || cartItem !== undefined) {
+            return total + (cartItem?.product.price || 0) * cartItem.quantity 
+          } else {
+            return total
+          }
+        }, 0)
+      })
+    },
 
     async getAllOrderCartItems() {
       set({loading: true}) 
@@ -64,13 +78,13 @@ export const useCartOrderStore = create<ICartOrderStore>()(immer(devtools((set,g
         const {data} = await $host.get('api/cartOrder/all')
         set({cartItems: data})
         return data
-        // console.log(data);
       } catch (error) {
           if (isAxiosError(error)) {
               const err: AxiosError<AuthErrorType> = error
               set({error: err.response?.data.message})
           }
       } finally {
+          get().reduceCartProdict() 
           set({loading: false})
       }
     },
@@ -86,55 +100,46 @@ export const useCartOrderStore = create<ICartOrderStore>()(immer(devtools((set,g
               set({error: err.response?.data.message})
           }
       } finally {
+          set({error: ''})
           get().getAllOrderCartItems() 
+          get().reduceCartProdict() 
           set({loading: false})
       }
     },
 
-    async asyncIncreaseCartQuantity(productId: string | undefined, basketId: number) {
+    async asyncIncreaseCartQuantity(productId: string | number | undefined, basketId: number) {
         set({loading: true})
         try {
           const {data} = await $host.post('api/cartOrder/increase', {productId, basketId})
-          console.log(data);
+          console.log(data); 
         } catch (error) {
             if (isAxiosError(error)) {
                 const err: AxiosError<AuthErrorType> = error
                 set({error: err.response?.data.message})
-            }
+            } 
         } finally {
-            get().getAllOrderCartItems() 
+            get().getAllOrderCartItems()
+            get().reduceCartProdict() 
             set({loading: false})
         }
-      },
-
-    async asyncDecreaseCartQuantity(productId: string | undefined, basketId: number) {
+      },  
+        
+    async asyncDecreaseCartQuantity(productId: string | number | undefined, basketId: number) {
         set({loading: true})
         try {
           const {data} = await $host.post('api/cartOrder/decrease', {productId, basketId})
           console.log(data);
-        } catch (error) {
+        } catch (error) { 
             if (isAxiosError(error)) {
                 const err: AxiosError<AuthErrorType> = error
-                set({error: err.response?.data.message})
+                set({error: err.response?.data.message}) 
             }
         } finally {
-            get().getAllOrderCartItems()  
+            get().getAllOrderCartItems() 
+            get().reduceCartProdict()  
             set({loading: false})
-        } 
-      }, 
-
-    // decreaseCartQuantity(id: number | undefined) {
-    //     set((state) => {
-    //       const item = state.cartItems.find(item => item.id === id);
-    //       if (item) {
-    //         if (item.quantity > 1) {
-    //           item.quantity -= 1;
-    //         } else {
-    //           state.cartItems = state.cartItems.filter(item => item.id !== id);
-    //         }
-    //       }
-    //     });
-    //   },
+        }  
+      },    
 
     async removeFromCart(productId: string | undefined, basketId: number) {
       set({loading: true})
@@ -149,12 +154,10 @@ export const useCartOrderStore = create<ICartOrderStore>()(immer(devtools((set,g
         }
       } finally {
           get().getAllOrderCartItems()  
+          get().reduceCartProdict()  
           set({loading: false})
-      } 
-     
+      }  
     }
-
-
 }))))
 
 // , {name: 'cartOrderStore'})

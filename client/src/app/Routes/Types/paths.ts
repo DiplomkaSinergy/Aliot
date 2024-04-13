@@ -5,6 +5,7 @@ export enum Paths {
     Feedback = "/feedback",
     Catalog = "/catalog",
     Product = `/catalog/:id`,
+    Payment = '/payment',
 }
 
 export enum PathsAccount {
@@ -14,8 +15,10 @@ export enum PathsAccount {
     Favorites = "/my/favorites",
 }
 export enum PathsAdminPanel {
-    Product = "/panel/product",
-    Characteristic = "/panel/characteristic",
+    Main = "/panel/main",
+    Users = "/panel/users",
+    Products = "/panel/products",
+    Characteristics = "/panel/characteristics",
 }
 
 

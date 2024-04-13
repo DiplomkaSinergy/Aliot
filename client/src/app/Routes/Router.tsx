@@ -1,60 +1,112 @@
-import {createBrowserRouter   } from 'react-router-dom'
-import { AccountPage, Cart, CatalogCompanyPage, CatalogPage, Favorites, FeedbakPage, MainPage, Orders, ProdactPage, Profile } from './Lazy/Lazy';
+import { createBrowserRouter } from 'react-router-dom';
+import {
+  AccountPage,
+  AdminCharacteristics,
+  AdminMain,
+  AdminPanelPage,
+  AdminProducts,
+  AdminUsers,
+  Cart,
+  CatalogPage,
+  Favorites,
+  FeedbakPage,
+  MainPage,
+  Orders,
+  PaymentPage,
+  ProdactPage,
+  Profile,
+} from './Lazy/Lazy';
 import { Layout } from '../../layout';
-import { Paths, PathsAccount } from './Types/paths';
-import { useState } from 'react';
-import { Forms } from '@/components/Forms/types.interface';
+import { Paths, PathsAccount, PathsAdminPanel } from './Types/paths';
 import { AuthGuard } from '../Providers/AuthGuard';
 
 const Routes = () => {
-    return createBrowserRouter([ 
+  return createBrowserRouter([
+    {
+      path: Paths.Payment,
+      element: <PaymentPage />,
+    },
+    {
+      path: Paths.AdminPanel,
+      element: <AdminPanelPage />,
+      children: [
         {
-            element: <Layout />,
-            children: [
-                {
-                    path: Paths.Home,
-                    element: <MainPage />,
-                },
-                {
-                    path: Paths.Account,
-                    element: <AccountPage />,
-                    children: [
-                        {
-                            path: PathsAccount.Main,
-                            element:<AuthGuard>
-                                        <Profile/>
-                                    </AuthGuard>, 
-                            
-                        },
-                        {
-                            path: PathsAccount.Favorites,
-                            element: <Favorites/>,
-                        },
-                        {
-                            path: PathsAccount.Cart,
-                            element: <Cart/>,
-                        },
-                        {
-                            path: PathsAccount.Orders,
-                            element: <Orders/>,
-                        },
-                    ]
-                },
-                {
-                    path: Paths.Catalog,
-                    element: <CatalogPage />,
-                },
-                {
-                    path: Paths.Product,
-                    element: <ProdactPage />
-                },
-                {
-                    path: Paths.Feedback,
-                    element: <FeedbakPage />,
-                },
-                
-            ]
+            path: PathsAdminPanel.Main,
+            element: <AdminMain />,
         },
-    ]);
-}
-export {Routes}
+        {
+            path: PathsAdminPanel.Users,
+            element: <AdminUsers />,
+        },
+        {
+            path: PathsAdminPanel.Products,
+            element: <AdminProducts />,
+        },
+        {
+            path: PathsAdminPanel.Characteristics,
+            element: <AdminCharacteristics />,
+        },
+      ]
+    },
+    {
+      element: <Layout />,
+      children: [
+        {
+          path: Paths.Home,
+          element: <MainPage />,
+        },
+        {
+          path: Paths.Account,
+          element: <AccountPage />,
+          children: [
+            {
+              path: PathsAccount.Main,
+              element: (
+                <AuthGuard>
+                  <Profile />
+                </AuthGuard>
+              ),
+            },
+            {
+              path: PathsAccount.Favorites,
+              element: (
+                <AuthGuard>
+                  <Favorites />
+                </AuthGuard>
+              ),
+            },
+            {
+              path: PathsAccount.Cart,
+              element: (
+                <AuthGuard>
+                  <Cart />
+                </AuthGuard>
+              ),
+            },
+            {
+              path: PathsAccount.Orders,
+              element: (
+                <AuthGuard>
+                  <Orders />
+                </AuthGuard>
+              ),
+            },
+          ],
+        },
+        {
+          path: Paths.Catalog,
+          element: <CatalogPage />,
+        },
+        {
+          path: Paths.Product,
+          element: <ProdactPage />,
+        },
+        {
+          path: Paths.Feedback,
+          element: <FeedbakPage />,
+        },
+      ],
+    },
+  ]);
+};
+export { Routes };

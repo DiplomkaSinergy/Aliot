@@ -37,9 +37,9 @@ export const CartOrderItem = ({
               alt='asdas'
             />
           </div>
-          <div className='CartOrderItem__title'>{product.product?.name}</div>
         </div>
-        <div className='CartOrderItem__right'>
+        <div className="CartOrderItem__middle">
+          <div className='CartOrderItem__title'>{product.product?.name}</div>
           <div className='CartOrderItem__price'>
             <div className='CartOrderItem__price-total'>
               {product.product?.price * product.quantity} ₽
@@ -48,6 +48,8 @@ export const CartOrderItem = ({
               {product.product?.price} ₽ за Шт.
             </div>
           </div>
+        </div>
+        <div className='CartOrderItem__right'>
           <div className='CartOrderItem__counter'>
             <div className='CartOrderItem__orderSetting-flex'>
               <button
@@ -59,7 +61,7 @@ export const CartOrderItem = ({
                 +
               </button>
               <div className='CartOrderItem__orderSetting-title'>
-                {product?.quantity} в корзине
+                {product?.quantity}
               </div>
               <button
                 className='CartOrderItem__orderSetting-btn'

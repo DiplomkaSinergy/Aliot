@@ -8,11 +8,11 @@ export const MainPage = Loadable(
 export const CatalogPage = Loadable(
     lazy(() => import('@/pages/CatalogPage/CatalogPage'))
 );
-export const CatalogCompanyPage = Loadable(
-    lazy(() => import('@/pages/CatalogCompanyPage/CatalogCompanyPage'))
-);
 export const ProdactPage = Loadable(
     lazy(() => import('@/pages/ProdactPage/ProdactPage'))
+);
+export const PaymentPage = Loadable(
+    lazy(() => import('@/pages/PaymentPage/PaymentPage'))
 );
 
 //@ FeedBack
@@ -40,3 +40,23 @@ export const Orders = Loadable(
     lazy(() => import('@/pages/AccountPage/Childrens/Orders/Orders'))
 );
 
+
+//@ AdminPanel Pages
+export const AdminPanelPage = Loadable(
+    lazy(() => import('@/pages/AdminPanelPage/AdminPanelPage'))
+);
+
+
+//* Childrens
+export const AdminMain = Loadable(
+    lazy(() => import('@/pages/AdminPanelPage/Childrens/AdminMain/AdminMain'))
+);
+export const AdminUsers = Loadable(
+    lazy(() => import('@/pages/AdminPanelPage/Childrens/AdminUsers/AdminUsers'))
+);
+export const AdminProducts = Loadable(
+    lazy(() => import('@/pages/AdminPanelPage/Childrens/AdminProducts/AdminProducts'))
+);
+export const AdminCharacteristics = Loadable(
+    lazy(() => import('@/pages/AdminPanelPage/Childrens/AdminCharacteristics/AdminCharacteristics'))
+);

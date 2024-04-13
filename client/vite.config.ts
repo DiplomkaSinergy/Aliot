@@ -24,4 +24,5 @@ export default defineConfig({
   // @Build advanced settings
   base: './',
   plugins: [react()],
+
 })

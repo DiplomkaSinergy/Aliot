@@ -51,6 +51,10 @@ const Header: FC<IHeaderProps> = ({handleAuthForm, activeMenu, handleMenu}) => {
                         <input type="text" className='header__search' placeholder="Введите артикул"/>
                         <button className='header__search_btn'>Найти</button>
                     </div> */}
+                    {isAuth ?  
+                    role === 'ADMIN' ? 
+                        <Link to={Paths.AdminPanel} className=""><FolderLock /></Link> : 
+                    <>
                     <div className="header__likes">
                         <Link to={PathsAccount.Favorites}>
                             <Heart  />
@@ -69,20 +73,17 @@ const Header: FC<IHeaderProps> = ({handleAuthForm, activeMenu, handleMenu}) => {
                             :
                             null
                             }
-                                
                         </Link>
                     </div>
-                    {isAuth ?  
                         <Link to={Paths.Account}>
                             <div className="header__account">
                                 <CircleUserRound />
                             </div>
                         </Link>
+                    </>
                     : <button className="header__sinin" onClick={() => handleAuthForm(Forms.Auth)}>Войти</button> }
 
-                    {role === 'USER' ? 
-                        <Link to={Paths.AdminPanel} className=""><FolderLock /></Link> : null
-                    }           
+                              
                 </div>
 
                 <div onClick={handleMenu} className={activeMenu ? "header__burgerbtn-active" : "header__burgerbtn"} >
