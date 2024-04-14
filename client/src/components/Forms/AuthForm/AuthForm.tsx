@@ -11,6 +11,7 @@ import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { Paths } from '@/app/Routes/Types/paths';
 import { useAuth } from '@/stores/authStore';
+import InputMask from 'react-input-mask';
 
 interface IAuthFormProps {
   activeAuthForm: Forms | null;
@@ -30,23 +31,19 @@ const AuthForm = memo(({ activeAuthForm, handleAuthForm }: IAuthFormProps) => {
   const error = useAuth((state) => state.error)
   const loading = useAuth((state) => state.loading)
 
-  const [visionPasswordFirst, setVisionPasswordFirst] = useState<PasswordState>(
-    {
-      first: false,
-      second: false,
-    }
-  );
+  const [visionPasswordFirst, setVisionPasswordFirst] = useState<boolean>(false);
   const navigate = useNavigate();
 
-  const onSubmit = async ({ firstName,  secondName, email, firstPassword}: RegestrationFormValues) => {
+  const onSubmit = async ({ firstName,  secondName, email, phone, password}: RegestrationFormValues) => {
     
     if (activeTab === 'signup') {
-      const user = await setRegister({ firstName,secondName, email, firstPassword });
+      
+      const user = await setRegister({ firstName,secondName, email, password, phone });
       if (user && !error) {
         setActiveTab('signin')
       }
     } else {
-      const user = await setLogin({ email, firstPassword });
+      const user = await setLogin({ email, password });
       if (user && !error) {
         handleAuthForm(null)
         navigate(Paths.Account)
@@ -57,11 +54,8 @@ const AuthForm = memo(({ activeAuthForm, handleAuthForm }: IAuthFormProps) => {
     }
   }
   
-  const handleChangePasswordFirst = (value: keyof PasswordState) => {
-    setVisionPasswordFirst((prevState) => ({
-      ...prevState,
-      [value]: !prevState[value],
-    }));
+  const handleChangePasswordFirst = () => {
+    setVisionPasswordFirst(!visionPasswordFirst);
   };
 
   const handleChangeTab = (e: ChangeEvent<HTMLInputElement>) => {
@@ -126,67 +120,101 @@ const AuthForm = memo(({ activeAuthForm, handleAuthForm }: IAuthFormProps) => {
               </label>
             </div>
 
+ 
+
             {activeTab === 'signup' ? (
               <>
                 <div className='AuthForm__email'>
-                  <div className='AuthForm__input-title'>Имя</div>
+                  <div className='AuthForm__input-title'>Имя*</div>
+
                   <input
-                    {...register('firstName', {
-                        required: true,
-                        minLength: 3,
-                    })}
                     type='text'
                     className='AuthForm__input'
+                    {...register('firstName', {
+                        required: 'Обязательно к заполнению',
+                        minLength: {
+                          value: 3,
+                          message: 'Минимум 3 символа.'
+                        },
+                    })}
                   />
                     <div className='Form-error'>
-                        {errors.firstName && <p>{errors?.firstName?.message || 'Ошибка!'}</p>}
+                        {errors.firstName && <small>{errors?.firstName?.message || 'Ошибка!'}</small>}
                     </div>
                 </div>
-                <div className='AuthForm__email'>
+                <div className='AuthForm__email'> 
                   <div className='AuthForm__input-title'>Фамилия</div>
                   <input
-                    {...register('secondName', {
-                        required: true,
-                        minLength: 3,
-                    })}
                     type='text'
                     className='AuthForm__input'
+                    {...register('lastName', {
+                        required: 'Обязательно к заполнению',
+                        minLength: {
+                          value: 3,
+                          message: 'Минимум 3 символа.'
+                        },
+                    })}
                   />
                   <div className='Form-error'>
-                        {errors.secondName && <p>{errors?.secondName?.message || 'Ошибка!'}</p>}
+                        {errors.lastName && <small>{errors?.lastName?.message || 'Ошибка!'}</small>}
                     </div>
                 </div>
               </>
             ) : null}
             <div className='AuthForm__email'>
-              <div className='AuthForm__input-title'>Электронная почта</div>
+              <div className='AuthForm__input-title'>Электронная почта*</div>
               <input
-                {...register('email', {
-                    required: true,
-                    pattern: /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
-                })}
                 type='text'
                 className='AuthForm__input'
+                {...register('email', {
+                    required: 'Обязательно к заполнению',
+                    pattern: /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
+                })}
               />
               <div className='Form-error'>
-                    {errors.email && <p>{errors?.email?.message || 'Ошибка!'}</p>}
+                    {errors.email && <small>{errors?.email?.message || 'Ошибка!'}</small>}
                 </div>
             </div>
 
-            <div className='AuthForm__password'>
-              <div className='AuthForm__input-title'>Пароль</div>
-              <input
-                {...register('firstPassword', {
-                    required: true,
-                    minLength: 3
+
+            {activeTab === 'signup' ? (
+              <div className='AuthForm__repeatPassword'>
+                <div className='AuthForm__input-title'>Телефон*</div>
+                <InputMask
+                  type='text'
+                  className='AuthForm__input'
+                  mask='8 (999) 999 99-99' 
+                  {...register('phone', {
+                    required: 'Обязательно к заполнению',
                 })}
-                type={visionPasswordFirst.first ? 'text' : 'password'}
+                  >
+                </InputMask>
+                <div className='Form-error'>
+                    {errors.password && <small>{errors?.password?.message || 'Ошибка!'}</small>}
+                </div>
+              </div>
+              
+            ) : null}
+
+
+            <div className='AuthForm__password'>
+              <div className='AuthForm__input-title'>Пароль*</div>
+              <input
+                {...register('password', {
+                    required: 'Обязательно к заполнению',
+                    minLength: {
+                      value: 3,
+                      message: 'Минимум 3 символа.'
+                    },
+
+                })}
+                type={visionPasswordFirst ? 'text' : 'password'}
                 className='AuthForm__input'
               />
 
               <div
                 className='AuthForm__vision'
-                onClick={() => handleChangePasswordFirst('first')}
+                onClick={handleChangePasswordFirst}
               >
                 {visionPasswordFirst.first ? (
                   <EyeOff size={30} color='#466283' />
@@ -195,58 +223,16 @@ const AuthForm = memo(({ activeAuthForm, handleAuthForm }: IAuthFormProps) => {
                 )}
               </div>
               <div className='Form-error'>
-                    {errors.firstPassword && <p>{errors?.firstPassword?.message || 'Ошибка!'}</p>}
+                    {errors.password && <small>{errors?.password?.message || 'Ошибка!'}</small>}
                 </div>
             </div>
 
-            {activeTab === 'signup' ? (
-              <div className='AuthForm__repeatPassword'>
-                <div className='AuthForm__input-title'>Повторить пароль</div>
-                <input
-                  required
-                  type={visionPasswordFirst.second ? 'text' : 'password'}
-                  className='AuthForm__input'
-                />
-
-                <div
-                  className='AuthForm__vision'
-                  onClick={() => handleChangePasswordFirst('second')}
-                >
-                  {visionPasswordFirst.second ? (
-                    <EyeOff size={30} color='#466283' />
-                  ) : (
-                    <Eye size={30} color='#466283' />
-                  )}
-                </div>
-              </div>
-            ) : null}
-
-            {activeTab === 'signup' ? (
-              <div className='AuthForm__copyrate'>
-                Нажимая «Зарегистрироваться», вы соглашаетесь с политикой
-                конфиденциальности
-              </div>
-            ) : null}
 
             <button type='submit' className='AuthForm__submitbtn' disabled={error ? true : false}>
               {loading ? <Loading/> : activeTab === 'signup' ? 'Зарегестрироваться' :  'Войти'}
               
             </button>
-            {activeTab === 'signin' ? (
-              <div
-                onClick={() => handleAuthForm(Forms.ChangePassword)}
-                className='AuthForm__forgot'
-              >
-                Забыли пароль?
-              </div>
-            ) : null}
 
-            <button
-              type='button'
-              onClick={() => handleAuthForm(Forms.ForgotPassword)}
-            >
-              change
-            </button>
           </div>
         </form>
       </Modal>

@@ -12,7 +12,7 @@ import { Forms } from '@/components/Forms/types.interface'
 //   };
 
 interface IModalProps {
-    id: string
+    id?: string
     activeAuthForm?: Forms | null
     handleAuthForm?: (value: Forms | null) => void
     children: ReactNode

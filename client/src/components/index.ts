@@ -16,4 +16,5 @@ export { CartOrderItem} from './Blocks/CartOrderItem/CartOrderItem'
 export {AuthForm} from './Forms/AuthForm/AuthForm'
 export {ChangePasswordFrom} from './Forms/ChangePasswordFrom/ChangePasswordFrom'
 export {ForgotPasswordForm} from './Forms/ForgotPasswordForm/ForgotPasswordForm'
+export { UsersForm} from './Forms/UsersForm/UsersForm'
 

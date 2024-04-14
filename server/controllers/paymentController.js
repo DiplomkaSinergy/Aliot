@@ -1,9 +1,9 @@
 const { YooCheckout } = require('@a2seven/yoo-checkout');
 const { default: axios } = require('axios');
-
+const { v4: uuidv4 } = require('uuid');
 const SHOP_ID = 368853
 
-const authorization = "Basic MzY4ODUzOnRlc3RfcjV3Z0w3WjZhd1N5TXZnWHcyemxWMHo4Qmo3VVA4bzNLTUNvdmFXZndtbw=="
+const authorization = "Basic MzY4ODUzOnRlc3RfMGFCSWNiSzlBZDE0a2QzWmNhSmh3NEo3WmZVaFdnLXZYWW5XU24wS3lvMA=="
 const initial_payment_msg = "Списываем оплату за заказ";
 
 class PaymentController {
@@ -14,7 +14,7 @@ class PaymentController {
     const url = "https://api.yookassa.ru/v3/payments";
     const headers = {
         "Authorization": authorization,
-        "Idempotence-Key": '123qqq',
+        "Idempotence-Key": uuidv4().toString(),
         "Content-Type": 'application/json'
     };
 

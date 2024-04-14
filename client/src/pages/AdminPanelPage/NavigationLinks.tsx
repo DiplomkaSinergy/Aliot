@@ -1,5 +1,5 @@
 import { PathsAccount, PathsAdminPanel } from "@/app/Routes/Types/paths";
-import { CircleUserRound, Heart, ShoppingBag, ShoppingCart } from "lucide-react";
+import { CircleUserRound, Heart, ShoppingBag, ShoppingCart, SlidersHorizontal, Users } from "lucide-react";
 import {  ReactNode } from "react";
 
 export interface INavigationLinks {
@@ -15,7 +15,7 @@ export const navigation: INavigationLinks[] = [
         path: `${PathsAdminPanel.Main}`,
     },
     {
-        icon: <Heart />,
+        icon: <Users />,
         title: 'Пользователи',
         path: `${PathsAdminPanel.Users}`,
     },
@@ -25,7 +25,7 @@ export const navigation: INavigationLinks[] = [
         path: `${PathsAdminPanel.Products}`,
     },
     {
-        icon: <ShoppingBag />,
+        icon: <SlidersHorizontal />,
         title: 'Характеристики',
         path: `${PathsAdminPanel.Characteristics}`,
     },

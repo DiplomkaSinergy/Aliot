@@ -1,8 +1,8 @@
 export type User = {
     id: number
     firstName: string
-    secondName: string
+    lastName: string
+    phone: string
     email: string
     role: string
-    // password: string
 } 

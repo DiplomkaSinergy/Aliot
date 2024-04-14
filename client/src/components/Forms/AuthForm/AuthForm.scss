@@ -50,16 +50,16 @@
         width: 100%;
         padding: 8px 16px;
         border-radius: 8px;
-        border: 1px solid $light-blue-border;
+        border: 2px solid #4182e3;
         background: #FFF;
         color: $light-blue;
-        font-size: 14px;
+        font-size: 16px;
         font-weight: 400;
         line-height: 24px; /* 171.429% */
 
         &-title {
             color: $light-blue;
-            font-size: 12px;
+            font-size: 16px;
             font-weight: 400;
             line-height: 16px; /* 133.333% */
         }

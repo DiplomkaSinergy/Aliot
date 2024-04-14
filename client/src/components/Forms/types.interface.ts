@@ -13,13 +13,15 @@ export type PasswordState = {
 
 export type RegestrationFormValues = {
     firstName: string
-    secondName: string
+    lastName: string
     email: string;
-    firstPassword: string;
+    phone: string
+    password: string;
 };
 
-export type LoginFormValues = Pick<RegestrationFormValues, "email" | "firstPassword">
-export type ChangePasswordFormValues = { secondPassword: string } & Pick<RegestrationFormValues, "firstPassword">
+
+export type LoginFormValues = Pick<RegestrationFormValues, "email" | "password">
+export type ChangePasswordFormValues = { secondPassword: string } & Pick<RegestrationFormValues, "password">
 
 
 
