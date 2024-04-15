@@ -34,11 +34,11 @@ const AuthForm = memo(({ activeAuthForm, handleAuthForm }: IAuthFormProps) => {
   const [visionPasswordFirst, setVisionPasswordFirst] = useState<boolean>(false);
   const navigate = useNavigate();
 
-  const onSubmit = async ({ firstName,  secondName, email, phone, password}: RegestrationFormValues) => {
+  const onSubmit = async ({ firstName,  lastName, email, phone, password}: RegestrationFormValues) => {
     
     if (activeTab === 'signup') {
       
-      const user = await setRegister({ firstName,secondName, email, password, phone });
+      const user = await setRegister({ firstName,lastName, email, password, phone });
       if (user && !error) {
         setActiveTab('signin')
       }
@@ -216,7 +216,7 @@ const AuthForm = memo(({ activeAuthForm, handleAuthForm }: IAuthFormProps) => {
                 className='AuthForm__vision'
                 onClick={handleChangePasswordFirst}
               >
-                {visionPasswordFirst.first ? (
+                {visionPasswordFirst ? (
                   <EyeOff size={30} color='#466283' />
                 ) : (
                   <Eye size={30} color='#466283' />

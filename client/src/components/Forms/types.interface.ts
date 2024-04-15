@@ -18,6 +18,11 @@ export type RegestrationFormValues = {
     phone: string
     password: string;
 };
+export type CreateProductFormValues = {
+    name: string,
+    count: string,
+    img: string,
+};
 
 
 export type LoginFormValues = Pick<RegestrationFormValues, "email" | "password">

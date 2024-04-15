@@ -26,6 +26,7 @@ interface IAdminStore {
     getUsers: () => void
     getProducts: () => void
     updateRole: (userId: number | string, role: string) => Promise<void>
+    createProduct: (formdata) => Promise<void>
 }
 
 
@@ -51,6 +52,7 @@ export const useAdminStore = create<IAdminStore>()(immer(devtools((set, get) => 
           set({loading: false})
       }
     },
+
     async getProducts() {
       set({loading: true})
       try {
@@ -84,7 +86,23 @@ export const useAdminStore = create<IAdminStore>()(immer(devtools((set, get) => 
           get().getUsers() 
           set({loading: false})
       }
-    }
+    },
+
+    async createProduct(formdata) {
+      set({loading: true})
+      try {
+        console.log(formdata);
+        const {data} = await $host.put('api/admin/update-role', {formdata})
+        console.log(data);
+      } catch (error) {
+        if (isAxiosError(error)) {
+            const err: AxiosError<AuthErrorType> = error
+            set({error: err.response?.data.message})
+        }
+      } finally {
+          set({loading: false})
+      }
+    },
 
 
 
