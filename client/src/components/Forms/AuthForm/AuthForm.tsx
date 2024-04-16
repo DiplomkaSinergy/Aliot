@@ -46,7 +46,7 @@ const AuthForm = memo(({ activeAuthForm, handleAuthForm }: IAuthFormProps) => {
       const user = await setLogin({ email, password });
       if (user && !error) {
         handleAuthForm(null)
-        navigate(Paths.Account)
+        navigate(Paths.Home)
       } else {
         console.log(user);
         console.log(error);

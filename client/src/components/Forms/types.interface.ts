@@ -19,9 +19,18 @@ export type RegestrationFormValues = {
     password: string;
 };
 export type CreateProductFormValues = {
-    name: string,
-    count: string,
-    img: string,
+    name: string
+    price: string
+    picture: string
+    brandId: number
+    breakingCapacityId: number
+    degreeProectionId: number
+    displayId: number
+    numberPolesId: number
+    ratedCurrentId: number
+    ratedVoltageId: number
+    shutdownCruveId: number
+    typeOfMechanismId: number
 };
 
 

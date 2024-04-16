@@ -33,9 +33,9 @@ class ProductController {
                 brandsCharId,
             } = req.body
             
-            const {img} = req.files
+            const {picture} = req.files
             let fileName = uuid.v4() + ".jpg"
-            img.mv(path.resolve(__dirname, '..', 'static', fileName))
+            picture.mv(path.resolve(__dirname, '..', 'static', fileName))
 
 
               const filteredBody = Object.keys(req.body)
@@ -58,20 +58,20 @@ class ProductController {
               };
 
 
-            const device = await Product.create(productData);
+            const product = await Product.create(productData);
 
             if (info) {
                 info = JSON.parse(info)
-                info.forEach(i =>
+                info.forEach(item =>
                     ProductInfo.create({
-                        title: i.title,
-                        description: i.description,
-                        deviceId: device.id
+                        title: item.title,
+                        description: item.description,
+                        productId: product.id
                     })
                 )
             }
 
-            return res.json(device)
+            return res.json(item)
         } catch (e) {
             next(ApiError.badRequest(e.message))
         }

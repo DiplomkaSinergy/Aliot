@@ -42,6 +42,23 @@
     }
   }
 
+  &__fetchbtn {
+    margin: 0 auto;
+    width: 300px;
+    padding: 8px 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    font-size: 18px;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    background-color: #4182E3;
+    transition: all 0.3s;
+    cursor: pointer;
+  }
+
 
 
 }

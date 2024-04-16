@@ -28,6 +28,14 @@ const AdminProducts = () => {
     setIsCreating(true);
   };
 
+  useEffect(() => {
+    if (activeModal) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = 'auto'
+    }
+  }, [activeModal]);
+
 
   return (
     <>
@@ -86,7 +94,7 @@ const AdminProducts = () => {
 
     {activeModal ? 
     <>
-    <div className="">asdasdsd</div>
+    {/* <div className="">asdasdsd</div> */}
     <ProductForm
     currentItem={currentItem}
     isCreating={isCreating}
