@@ -60,3 +60,6 @@ export const AdminProducts = Loadable(
 export const AdminCharacteristics = Loadable(
     lazy(() => import('@/pages/AdminPanelPage/Childrens/AdminCharacteristics/AdminCharacteristics'))
 );
+export const AdminOrders = Loadable(
+    lazy(() => import('@/pages/AdminPanelPage/Childrens/AdminOrders/AdminOrders'))
+);

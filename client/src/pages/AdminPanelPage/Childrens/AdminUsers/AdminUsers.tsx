@@ -4,12 +4,14 @@ import './AdminUsers.scss'
 import { PencilLine, RotateCcw, User, UserX } from 'lucide-react'
 import { useAdminStore } from '@/stores/adminStore'
 import { Loading } from '@/components'
+import { useAuth } from '@/stores/authStore'
 
-const thead = ['Имя', 'Фамилия', 'Телефон', 'Email', 'Роль']
+const thead = ['Имя', 'Фамилия', 'Телефон', 'Email', 'Роль', "Действие"]
 const roles = ['ADMIN', 'USER']
 
 const AdminUsers = () => {
 
+  const userId = useAuth(state => state.user.id)
   const getUsers = useAdminStore(state => state.getUsers)
   const updateRole = useAdminStore(state => state.updateRole)
   const users = useAdminStore(state => state.users)
@@ -49,18 +51,22 @@ const AdminUsers = () => {
                   <td>{!item.phone ? '-': item.phone}</td>
                   <td>{item.email}</td>
                   <td>
+                    {userId === item.id ? 
+                    <div>{item.role}</div>
+                    :
                     <select className='AdminUsers__select' value={item.role} onChange={(event) => updateRole(item.id, event.target.value)} > 
                       {roles.map(role => (
                         <option value={role}>{role}</option>
                       ))}
                     </select>
+                    }
                   </td>
-                  {/* <td>
+                  <td>
                     <div className="AdminUsers__actions">
                       <div className="AdminUsers__icon"><UserX color='red'/></div>
-                      <div className="AdminUsers__icon"><PencilLine color='blue'/></div>
+                      {/* <div className="AdminUsers__icon"><PencilLine color='blue'/></div> */}
                     </div>
-                  </td> */}
+                  </td>
                 </tr>
               ))}
             </tbody>

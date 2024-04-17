@@ -24,10 +24,16 @@ class AdminController {
   }
   async getProducts(req, res, next) {
 
-    const products = await Product.findAndCountAll()
+    let {page, limit} = req.query
+    
+    page = page || 1
+    limit = limit || 3
+    let offset = page * limit - limit
+
+    const products = await Product.findAndCountAll({limit, offset})
 
     if (!products) {
-      return next(ApiError.badRequest('Пользователи не найдены'))
+      return next(ApiError.badRequest('Продукты не найдены'))
     }
 
     return res.json(products)

@@ -1,0 +1,75 @@
+.AdminCharacteristics {
+  border-radius: 32px;
+  padding: 15px;
+  // background-color: red;
+  &__wrapper {
+      display: flex;
+      gap: 150px;
+  }
+
+  &__flex {
+      align-items: center;
+      display: flex;
+      gap: 15px;
+  }
+
+  &__icon {
+  }
+
+  &__title {
+      font-size: 26px;
+  }
+
+		&__list {
+      margin-top: 30px;
+      display: flex;
+      gap: 30px;
+      justify-content: center;
+      flex-wrap: wrap;
+		}
+
+		&__item {
+      border-radius: 15px;
+      width: 200px;
+      border: 2px solid #47b;
+		}
+
+		&__item-title {
+      padding: 10px;
+      font-size: 22px;
+      border-bottom: 2px solid #47b;
+		}
+
+		&__item-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 10px;
+      font-size: 18px;
+		}
+
+		&__item-value {
+		}
+
+		&__create {
+      padding: 8px 12px;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      border: none;
+      width: 100%;
+      background-color: #47b;
+      border-bottom-left-radius: 12px;
+      border-bottom-right-radius: 12px;
+      transition: all 0.2s;
+      cursor: pointer;
+      &:hover {
+        background-color: rgb(51, 91, 144); 
+
+      }
+		}
+
+
+}

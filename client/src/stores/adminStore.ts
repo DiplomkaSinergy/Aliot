@@ -22,9 +22,13 @@ interface IAdminStore {
     products: ProductCounts
     users: UserCounts
     error: string,
+    _page: number,
+    _limit: number,
+    _totalCount: number
     loading: boolean,
     getUsers: () => void
-    getProducts: () => void
+    setPage: (page: number) => void
+    getProducts: (page: number, limit: number) => void
     updateRole: (userId: number | string, role: string) => Promise<void>
     createProduct: (formdata) => void
 }
@@ -34,6 +38,9 @@ interface IAdminStore {
 export const useAdminStore = create<IAdminStore>()(immer(devtools((set, get) => ({
     users: {} as UserCounts,
     products: {} as ProductCounts,
+    _page: 1,
+    _limit: 3,
+    _totalCount: 0,
     error: '',
     loading: false,
 
@@ -53,12 +60,12 @@ export const useAdminStore = create<IAdminStore>()(immer(devtools((set, get) => 
       }
     },
 
-    async getProducts() {
+    async getProducts(page, limit = 3) {
       set({loading: true})
       try {
-        const {data} = await $host.get<ProductCounts>('api/admin/products')
+        const {data} = await $host.get<ProductCounts>('api/admin/products', {params: {page, limit}}) 
         console.log(data);
-        set({products: data}) 
+        set({products: data, _totalCount: data.count}) 
       } catch (error) {
         if (isAxiosError(error)) {
             const err: AxiosError<AuthErrorType> = error
@@ -105,6 +112,9 @@ export const useAdminStore = create<IAdminStore>()(immer(devtools((set, get) => 
       }
     },
 
+    setPage(page: number) {
+      set({_page: page}) 
+    }
 
 
 }))))

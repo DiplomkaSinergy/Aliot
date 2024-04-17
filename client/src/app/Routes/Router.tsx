@@ -3,6 +3,7 @@ import {
   AccountPage,
   AdminCharacteristics,
   AdminMain,
+  AdminOrders,
   AdminPanelPage,
   AdminProducts,
   AdminUsers,
@@ -19,32 +20,41 @@ import {
 import { Layout } from '../../layout';
 import { Paths, PathsAccount, PathsAdminPanel } from './Types/paths';
 import { AuthGuard } from '../Providers/AuthGuard';
+import { Notification } from '@/components/Blocks/Tostify/Tostify';
 
 const Routes = () => {
   return createBrowserRouter([
+    // {
+    //   path: Paths.Notify,
+    //   element: <Notification />,
+    // },
     {
       path: Paths.Payment,
       element: <PaymentPage />,
     },
     {
       path: Paths.AdminPanel,
-      element: <AdminPanelPage />,
+      element: <AdminPanelPage /> ,
       children: [
         {
             path: PathsAdminPanel.Main,
-            element: <AdminMain />,
+            element: <AuthGuard><AdminMain /></AuthGuard>,
         },
         {
             path: PathsAdminPanel.Users,
-            element: <AdminUsers />,
+            element: <AuthGuard><AdminUsers /></AuthGuard>,
         },
         {
             path: PathsAdminPanel.Products,
-            element: <AdminProducts />,
+            element: <AuthGuard><AdminProducts /></AuthGuard>,
         },
         {
             path: PathsAdminPanel.Characteristics,
             element: <AdminCharacteristics />,
+        },
+        {
+            path: PathsAdminPanel.Orders,
+            element: <AuthGuard><AdminOrders /></AuthGuard>,
         },
       ]
     },

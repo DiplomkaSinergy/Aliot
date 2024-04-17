@@ -13,15 +13,29 @@ const AdminProducts = () => {
   const products = useAdminStore(state => state.products)
   const error = useAdminStore(state => state.error)
   const loading = useAdminStore(state => state.loading)
+  const totalCount = useAdminStore(state => state._totalCount)
+  const activePage = useAdminStore(state => state._page)
+  const limit = useAdminStore(state => state._limit)
+  const setPage = useAdminStore(state => state.setPage)
   
   const [currentItem, setCurrentItem] = useState(null);
   const [activeModal, setActiveModal] = useState<boolean>(false);
   const [isCreating, setIsCreating] = useState<boolean>(true);
   
+  const pageCount = Math.ceil(totalCount / limit)
+  const pages = []
+  
+  for (let i = 0; i < pageCount; i++) {
+    pages.push(i + 1)
+}
+
   useEffect(() => {
-    getProducts()
+    getProducts(1, 3)
   }, [getProducts]);
   
+  useEffect(() => {
+    getProducts(activePage, 3)
+  }, [activePage, getProducts]);
 
   const handleModal = () => {
     setActiveModal(!activeModal);
@@ -46,7 +60,7 @@ const AdminProducts = () => {
           </div>
 
           <div className="AdminProducts__bar">
-          <div className="AdminProducts__count">Всего: {products.count}</div>
+          <div className="AdminProducts__count">Всего: {totalCount}</div>
           <button className='AdminProducts__createbtn' onClick={handleModal}>Создать продукт</button>
           </div>
             <table className="tableProducts">
@@ -81,13 +95,24 @@ const AdminProducts = () => {
                 ))}
               </tbody>
             </table>
-            <button className='AdminProducts__fetchbtn' onClick={getProducts}>
+            <div className="AdminProducts__pagination">
+              {pages.map((page, i) =>
+                  <div
+                      key={page}
+                      className={activePage === i + 1? 'pagination-item pagination-item-active': 'pagination-item'}
+                      onClick={() => setPage(page)}
+                  >
+                      {page}
+                  </div>
+              )}
+            </div>
+            {/* <button className='AdminProducts__fetchbtn' onClick={() => getProducts(1, 3)}>
               {loading ? <Loading/> :
               <>
               <RotateCcw /> <span>Загрузить еще</span>
               </>
               }
-            </button>
+            </button> */}
 
 
       </section>
