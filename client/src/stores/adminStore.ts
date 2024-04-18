@@ -8,6 +8,7 @@ import { AuthErrorType } from "@/utils/Types/Errors";
 import { User } from "@/utils/Types/User";
 import { Device } from "@/utils/Types/Device";
 import { IProduct } from "./productStore";
+import { notification } from "@/components/Blocks/Tostify/Tostify";
 
 
 type fetchResponse<T> = {
@@ -22,34 +23,37 @@ interface IAdminStore {
     products: ProductCounts
     users: UserCounts
     error: string,
-    _page: number,
-    _limit: number,
+    _pageUsers: number,
+    _pageProduct: number,
+    _limitUsers: number,
+    _limitProducts: number,
     _totalCount: number
     loading: boolean,
-    getUsers: () => void
-    setPage: (page: number) => void
+    getUsers: (page: number, limit: number) => void
+    setPage: (page: number, key: string) => void
     getProducts: (page: number, limit: number) => void
     updateRole: (userId: number | string, role: string) => Promise<void>
-    createProduct: (formdata) => void
+    createProduct: (formdata) => Promise<void>
 }
-
 
 
 export const useAdminStore = create<IAdminStore>()(immer(devtools((set, get) => ({
     users: {} as UserCounts,
     products: {} as ProductCounts,
-    _page: 1,
-    _limit: 3,
+    _pageProduct: 1,
+    _pageUsers: 1,
+    _limitProducts: 3,
+    _limitUsers: 5, 
     _totalCount: 0,
     error: '',
     loading: false,
 
-    async getUsers() {
+    async getUsers(page, limit = 5) {
       set({loading: true})
       try {
-        const {data} = await $host.get<UserCounts>('api/admin/users')
+        const {data} = await $host.get<UserCounts>('api/admin/users', {params: {page, limit}})
         console.log(data);
-        set({users: data})
+        set({users: data, _totalCount: data.count})
       } catch (error) {
         if (isAxiosError(error)) {
             const err: AxiosError<AuthErrorType> = error
@@ -100,20 +104,31 @@ export const useAdminStore = create<IAdminStore>()(immer(devtools((set, get) => 
       try {
         console.log(formdata);
         const {data} = await $host.post('api/admin/create-product', formdata)
+        notification.success('Создание прошло успешно!')
         console.log(data);
+        return data
       } catch (error) {
         if (isAxiosError(error)) {
             const err: AxiosError<AuthErrorType> = error
             set({error: err.response?.data.message})
         }
       } finally {
-          get().getProducts() 
+          get().getProducts(get()._page, get()._limit) 
           set({loading: false})
       }
     },
 
-    setPage(page: number) {
-      set({_page: page}) 
+    setPage(page: number, key: string) {
+      switch (key) {
+        case 'user':
+          set({_pageUsers: page}) 
+          break;
+        case 'product':
+          set({_pageProduct: page}) 
+          break
+        default:
+          break;
+      }
     }
 
 

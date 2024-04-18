@@ -25,7 +25,7 @@ interface ICartOrderStore {
     cartQuantity: number,
     error: string,
     loading: boolean,
-    getAllOrderCartItems: () => Promise<ICartItem[] | undefined>
+    getAllOrderCartItems: (basketId: number) => Promise<ICartItem[] | undefined>
     getOneCartItem: (productId: string | number | undefined, basketId: number) => Promise<ICartItem | undefined>
     removeFromCart: (productId: string | number | undefined, basketId: number) => Promise<ICartItem | undefined>
     asyncIncreaseCartQuantity: (productId: string | number | undefined, basketId: number) => Promise<void>
@@ -60,7 +60,7 @@ export const useCartOrderStore = create<ICartOrderStore>()(immer(devtools((set,g
       }
     },
  
-    reduceCartProdict() {
+    reduceCartProdict() { 
       set(state => {
         state.cartQuantity = state.cartItems.reduce((total, cartItem) => {
           if (cartItem !== null || cartItem !== undefined) {
@@ -72,10 +72,11 @@ export const useCartOrderStore = create<ICartOrderStore>()(immer(devtools((set,g
       })
     },
 
-    async getAllOrderCartItems() {
-      set({loading: true}) 
+    async getAllOrderCartItems(basketId: number) {
+      set({loading: true})  
       try {
-        const {data} = await $host.get('api/cartOrder/all')
+        const {data} = await $host.get('api/cartOrder/all', {params: {basketId}})
+        console.log(data);
         set({cartItems: data})
         return data
       } catch (error) {

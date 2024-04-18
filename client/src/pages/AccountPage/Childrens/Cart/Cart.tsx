@@ -21,9 +21,14 @@ const Cart = () => {
   const asyncDecreaseCartQuantity = useCartOrderStore(state => state.asyncDecreaseCartQuantity)
   const asyncIncreaseCartQuantity = useCartOrderStore(state => state.asyncIncreaseCartQuantity)
   const removeFromCart = useCartOrderStore(state => state.removeFromCart)
+  const getAllOrderCartItems = useCartOrderStore(state => state.getAllOrderCartItems)
   const cretePayment = useCartOrderStore(state => state.cretePayment)
 
-
+  console.log(basketId);
+  
+  useEffect(() => {
+    getAllOrderCartItems(basketId)
+  }, []);
 
   // const fetcYouCassa = async (e: MouseEvent) => {
   //   e.preventDefault()

@@ -11,13 +11,17 @@ class CartOrderController {
 
   async getAllCartItems(req, res, next) {
 
+    let {basketId} = req.query
+
     const orderItems = await BasketProduct.findAll({
+      where: {basketId: basketId}, 
       include: [
         {
           model: Product,
         }
-      ]
+      ] 
     })
+    console.log(orderItems);
 
     if (!orderItems) {
       return next(ApiError.badRequest('Товары не найдены'))

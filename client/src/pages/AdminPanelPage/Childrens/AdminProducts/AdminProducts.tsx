@@ -4,6 +4,8 @@ import './AdminProducts.scss'
 import { RotateCcw, ShoppingCart } from 'lucide-react'
 import { useAdminStore } from '@/stores/adminStore'
 import { Loading, ProductForm } from '@/components'
+import { ToastContainer } from 'react-toastify'
+import { CSSTransition, TransitionGroup } from 'react-transition-group'
 
 const thead = ['Картинка', 'Название', 'Цена', 'Дата создания', 'Дата обновления']
 
@@ -14,8 +16,8 @@ const AdminProducts = () => {
   const error = useAdminStore(state => state.error)
   const loading = useAdminStore(state => state.loading)
   const totalCount = useAdminStore(state => state._totalCount)
-  const activePage = useAdminStore(state => state._page)
-  const limit = useAdminStore(state => state._limit)
+  const pageProduct = useAdminStore(state => state._pageProduct)
+  const limit = useAdminStore(state => state._limitProducts)
   const setPage = useAdminStore(state => state.setPage)
   
   const [currentItem, setCurrentItem] = useState(null);
@@ -26,16 +28,16 @@ const AdminProducts = () => {
   const pages = []
   
   for (let i = 0; i < pageCount; i++) {
-    pages.push(i + 1)
-}
+      pages.push(i + 1)
+  }
 
   useEffect(() => {
     getProducts(1, 3)
   }, [getProducts]);
   
   useEffect(() => {
-    getProducts(activePage, 3)
-  }, [activePage, getProducts]);
+    getProducts(pageProduct, 3)
+  }, [pageProduct, getProducts]);
 
   const handleModal = () => {
     setActiveModal(!activeModal);
@@ -72,35 +74,45 @@ const AdminProducts = () => {
                 </tr>
               </thead>
               <tbody>
-                {products?.rows?.map((item) => ( 
-                  <tr key={item.id}>
-                    <td>
-                      <div className="tableProducts__img">
-                        <img src={import.meta.env.VITE_APP_API_URL + item.img} alt={item.name} />
-                      </div>
-                    </td>
-                    <td>{item.name}</td>
-                    <td>{item.price}₽</td>
-                    <td>Дата: {moment(item.createdAt).format('YYYY-MM-DD')}
-                    <br />
-                    <br />
-                        Время: {moment(item.createdAt).format('HH:mm:ss')}
-                    </td>
-                    <td>Дата: {moment(item.updatedAt).format('YYYY-MM-DD')}
-                    <br />
-                    <br />
-                        Время: {moment(item.updatedAt).format('HH:mm:ss')}
-                    </td>
-                  </tr>
-                ))}
+              <TransitionGroup  component={null}>
+                {products?.rows?.map((item, i) => ( 
+                  <CSSTransition
+                      key={i}
+                      timeout={300}
+                      classNames="Catalog__item"
+                      >
+                    <tr key={item.id}>
+                      <td>
+                        <div className="tableProducts__img">
+                          <img src={import.meta.env.VITE_APP_API_URL + item.img} alt={item.name} />
+                        </div>
+                      </td>
+                      <td>{item.name}</td>
+                      <td>{item.price}₽</td>
+                      <td>Дата: {moment(item.createdAt).format('YYYY-MM-DD')}
+                      <br />
+                      <br />
+                          Время: {moment(item.createdAt).format('HH:mm:ss')}
+                      </td>
+                      <td>Дата: {moment(item.updatedAt).format('YYYY-MM-DD')}
+                      <br />
+                      <br />
+                          Время: {moment(item.updatedAt).format('HH:mm:ss')}
+                      </td>
+                    </tr>
+                  </CSSTransition>
+                    
+                  ))}
+              </TransitionGroup>
+
               </tbody>
             </table>
             <div className="AdminProducts__pagination">
               {pages.map((page, i) =>
                   <div
                       key={page}
-                      className={activePage === i + 1? 'pagination-item pagination-item-active': 'pagination-item'}
-                      onClick={() => setPage(page)}
+                      className={pageProduct === i + 1? 'pagination-item pagination-item-active': 'pagination-item'}
+                      onClick={() => setPage(page, 'product')}
                   >
                       {page}
                   </div>
@@ -113,7 +125,6 @@ const AdminProducts = () => {
               </>
               }
             </button> */}
-
 
       </section>
 

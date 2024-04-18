@@ -12,6 +12,8 @@ import { useNavigate } from 'react-router-dom';
 import { Paths } from '@/app/Routes/Types/paths';
 import { useAuth } from '@/stores/authStore';
 import InputMask from 'react-input-mask';
+import { ToastContainer } from 'react-toastify';
+import { notification } from '@/components/Blocks/Tostify/Tostify';
 
 interface IAuthFormProps {
   activeAuthForm: Forms | null;
@@ -40,11 +42,13 @@ const AuthForm = memo(({ activeAuthForm, handleAuthForm }: IAuthFormProps) => {
       
       const user = await setRegister({ firstName,lastName, email, password, phone });
       if (user && !error) {
+        notification.success('Успешная регистрация')
         setActiveTab('signin')
       }
     } else {
       const user = await setLogin({ email, password });
       if (user && !error) {
+        notification.success('Успешная авторизация')
         handleAuthForm(null)
         navigate(Paths.Home)
       } else {
@@ -129,7 +133,11 @@ const AuthForm = memo(({ activeAuthForm, handleAuthForm }: IAuthFormProps) => {
 
                   <input
                     type='text'
-                    className='AuthForm__input'
+                    className={
+                      errors?.firstName
+                        ? 'AuthForm__input input-red'
+                        : 'AuthForm__input '
+                    }
                     {...register('firstName', {
                         required: 'Обязательно к заполнению',
                         minLength: {
@@ -148,7 +156,6 @@ const AuthForm = memo(({ activeAuthForm, handleAuthForm }: IAuthFormProps) => {
                     type='text'
                     className='AuthForm__input'
                     {...register('lastName', {
-                        required: 'Обязательно к заполнению',
                         minLength: {
                           value: 3,
                           message: 'Минимум 3 символа.'
@@ -165,7 +172,11 @@ const AuthForm = memo(({ activeAuthForm, handleAuthForm }: IAuthFormProps) => {
               <div className='AuthForm__input-title'>Электронная почта*</div>
               <input
                 type='text'
-                className='AuthForm__input'
+                className={
+                  errors?.email
+                    ? 'AuthForm__input input-red'
+                    : 'AuthForm__input '
+                }
                 {...register('email', {
                     required: 'Обязательно к заполнению',
                     pattern: /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
@@ -182,7 +193,11 @@ const AuthForm = memo(({ activeAuthForm, handleAuthForm }: IAuthFormProps) => {
                 <div className='AuthForm__input-title'>Телефон*</div>
                 <InputMask
                   type='text'
-                  className='AuthForm__input'
+                  className={
+                    errors?.phone
+                      ? 'AuthForm__input input-red'
+                      : 'AuthForm__input '
+                  }
                   mask='8 (999) 999 99-99' 
                   {...register('phone', {
                     required: 'Обязательно к заполнению',
@@ -200,6 +215,11 @@ const AuthForm = memo(({ activeAuthForm, handleAuthForm }: IAuthFormProps) => {
             <div className='AuthForm__password'>
               <div className='AuthForm__input-title'>Пароль*</div>
               <input
+                className={
+                  errors?.password
+                    ? 'AuthForm__input input-red'
+                    : 'AuthForm__input '
+                }
                 {...register('password', {
                     required: 'Обязательно к заполнению',
                     minLength: {
@@ -209,7 +229,6 @@ const AuthForm = memo(({ activeAuthForm, handleAuthForm }: IAuthFormProps) => {
 
                 })}
                 type={visionPasswordFirst ? 'text' : 'password'}
-                className='AuthForm__input'
               />
 
               <div
@@ -232,7 +251,7 @@ const AuthForm = memo(({ activeAuthForm, handleAuthForm }: IAuthFormProps) => {
               {loading ? <Loading/> : activeTab === 'signup' ? 'Зарегестрироваться' :  'Войти'}
               
             </button>
-
+            {error ? <small style={{color: 'red'}}>{error}</small> : null}
           </div>
         </form>
       </Modal>

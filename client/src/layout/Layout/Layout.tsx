@@ -5,6 +5,7 @@ import { Outlet } from 'react-router-dom'
 import { AuthForm, ChangePasswordFrom, ForgotPasswordForm, Menu } from '@/components'
 import { Forms } from '@/components/Forms/types.interface'
 import './Layout.scss'
+import { ToastContainer } from 'react-toastify'
 
 
 // interface ILayoutProops {
@@ -74,6 +75,7 @@ const Layout = () => {
             <Outlet/>
         </main>
         <Footer/>
+        <ToastContainer/>
     </div>
   )
 }

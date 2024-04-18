@@ -37,7 +37,6 @@ const AdminMain = () => {
                 <div className="AdminMain__item-subtitle">Муж.</div>
               </div>
           </div>
-          <button onClick={() => notification.success('Черт баля')}>adasdasd</button>
           <div className="AdminMain__block">
           <div className="AdminMain__item">
               <div className="AdminMain__item-title">Телефон</div>

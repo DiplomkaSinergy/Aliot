@@ -12,8 +12,13 @@ class AdminController {
 
 
   async getUsers(req, res, next) {
+    let {page, limit} = req.query
+    
+    page = page || 1
+    limit = limit || 5
+    let offset = page * limit - limit
 
-    const users = await User.findAndCountAll()
+    const users = await User.findAndCountAll({limit, offset})
 
     if (!users) {
       return next(ApiError.badRequest('Пользователи не найдены'))
