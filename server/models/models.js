@@ -39,8 +39,8 @@ const ProductInfo = sequelize.define('product_info', {
 const Order = sequelize.define('order', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     price: {type: DataTypes.INTEGER, allowNull: false},
-    status: {type: DataTypes.STRING, allowNull: false},
-    price: {type: DataTypes.INTEGER, allowNull: false},
+    status: {type: DataTypes.STRING, allowNull: false, defaultValue: "Не оплачен"},
+    address: {type: DataTypes.STRING, allowNull: false},
 })
 const OrderProduct = sequelize.define('order_product', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
@@ -115,11 +115,11 @@ ProductInfo.belongsTo(Product)
 User.hasMany(Order)
 Order.belongsTo(User)
 
-Order.hasHooks(OrderProduct)
+Order.hasMany(OrderProduct)
 OrderProduct.belongsTo(Order)
 
-BasketProduct.hasMany(OrderProduct)
-OrderProduct.belongsTo(BasketProduct)
+Product.hasMany(OrderProduct)
+OrderProduct.belongsTo(Product)
 
 //////////////////////////////////////////////////////////////////////////! Characreristic
 

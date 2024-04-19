@@ -1,7 +1,7 @@
 import { Loading } from '@/components';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import {ProductWithInfo,useProductStore,} from '@/stores/productStore';
+import { ProductWithInfo, useProductStore } from '@/stores/productStore';
 import { BaggageClaim, Heart, HeartOff } from 'lucide-react';
 import { ICartItem, useCartOrderStore } from '@/stores/cartOrderStore';
 import './ProdactPage.scss';
@@ -10,50 +10,55 @@ import { useCartLikedStore } from '@/stores/cartLikedStore';
 
 const ProdactPage = () => {
   const { id } = useParams();
-  const [product, setProduct] = useState<ProductWithInfo | undefined>({} as ProductWithInfo);
-  const [currentItem, setCurrentItem] = useState<ICartItem | undefined>({} as ICartItem)
+  const [product, setProduct] = useState<ProductWithInfo | undefined>(
+    {} as ProductWithInfo
+  );
+  const [currentItem, setCurrentItem] = useState<ICartItem | undefined>(
+    {} as ICartItem
+  );
 
   const basketId = useAuth((state) => state.basket.id);
   const loading = useProductStore((state) => state.loading);
   const error = useProductStore((state) => state.error);
-  const getOneProduct = useProductStore((state) => state.getOneProduct);   
+  const getOneProduct = useProductStore((state) => state.getOneProduct);
 
-  const getOneCartItem = useCartOrderStore(state => state.getOneCartItem)
-  const asyncDecreaseCartQuantity = useCartOrderStore(state => state.asyncDecreaseCartQuantity)
-  const asyncIncreaseCartQuantity = useCartOrderStore(state => state.asyncIncreaseCartQuantity)
-  const removeFromCart = useCartOrderStore(state => state.removeFromCart)
+  const getOneCartItem = useCartOrderStore((state) => state.getOneCartItem);
+  const asyncDecreaseCartQuantity = useCartOrderStore(
+    (state) => state.asyncDecreaseCartQuantity
+  );
+  const asyncIncreaseCartQuantity = useCartOrderStore(
+    (state) => state.asyncIncreaseCartQuantity
+  );
+  const removeFromCart = useCartOrderStore((state) => state.removeFromCart);
 
-  const toggleLikedItmes = useCartLikedStore(state => state.toggleLikedItmes)
-  const hasLike = useCartLikedStore(state => state.getItemQuantity(product?.id))
+  const toggleLikedItmes = useCartLikedStore((state) => state.toggleLikedItmes);
+  const hasLike = useCartLikedStore((state) =>
+    state.getItemQuantity(product?.id)
+  );
 
-  
-  
   const fetchOneCartItem = async () => {
-      const data = await getOneCartItem(id, basketId)
-      setCurrentItem(data)
-  }  
+    const data = await getOneCartItem(id, basketId);
+    setCurrentItem(data);
+  };
   const incresseOneCartItem = async () => {
-      await asyncIncreaseCartQuantity(id, basketId)
-      fetchOneCartItem()
-  }  
+    await asyncIncreaseCartQuantity(id, basketId);
+    fetchOneCartItem();
+  };
   const decreaseOneCartItem = async () => {
-      await asyncDecreaseCartQuantity(id, basketId)
-      fetchOneCartItem()
-  }  
+    await asyncDecreaseCartQuantity(id, basketId);
+    fetchOneCartItem();
+  };
   const deleteOneCartItem = async () => {
-      const data = await removeFromCart(id, basketId)
-      setCurrentItem(data)
-  }  
-  
+    const data = await removeFromCart(id, basketId);
+    setCurrentItem(data);
+  };
+
   useEffect(() => {
     getOneProduct(id).then((data) => {
       setProduct(data);
     });
-    fetchOneCartItem()
+    fetchOneCartItem();
   }, []);
-
-
-
 
   return (
     <div className='ProdactPage'>
@@ -84,31 +89,52 @@ const ProdactPage = () => {
               <div className='ProdactPage__wrapper-price'>
                 <span className='span-price'>{product?.price} ₽</span> за шт.
                 <div className='bns-widget'>
-                  <button className={hasLike ? 'ProdactPage__wrapper-likedbtn-active ': 'ProdactPage__wrapper-likedbtn'} onClick={() => toggleLikedItmes(product)}>
-                    {hasLike ? 
-                    <Heart color='red' />
-                   : 
-                   <Heart color='black' /> 
-                   }
+                  <button
+                    className={
+                      hasLike
+                        ? 'ProdactPage__wrapper-likedbtn-active '
+                        : 'ProdactPage__wrapper-likedbtn'
+                    }
+                    onClick={() => toggleLikedItmes(product)}
+                  >
+                    {hasLike ? <Heart color='red' /> : <Heart color='black' />}
                   </button>
-                  
+
                   {!currentItem?.quantity ? (
-                    <button className='ProdactPage__wrapper-orderbtn' onClick={incresseOneCartItem}>
-                      <span className='s' >Добавить в корзину</span>{' '}
+                    <button
+                      className='ProdactPage__wrapper-orderbtn'
+                      onClick={incresseOneCartItem}
+                    >
+                      <span className='s'>Добавить в корзину</span>{' '}
                       <BaggageClaim color='white' />
                     </button>
-                  )
-                  : (
-                    <div className="ProdactPage__orderSetting">
-                      <div className="ProdactPage__orderSetting-flex">
-                        <button className="ProdactPage__orderSetting-btn" onClick={incresseOneCartItem}>+</button>
-                        <div className="ProdactPage__orderSetting-title">{currentItem?.quantity} в корзине</div>
-                        <button className="ProdactPage__orderSetting-btn" onClick={decreaseOneCartItem}>-</button>
+                  ) : (
+                    <div className='ProdactPage__orderSetting'>
+                      <div className='ProdactPage__orderSetting-flex'>
+                        <button
+                          className='ProdactPage__orderSetting-btn'
+                          onClick={incresseOneCartItem}
+                        >
+                          +
+                        </button>
+                        <div className='ProdactPage__orderSetting-title'>
+                          {currentItem?.quantity} в корзине
+                        </div>
+                        <button
+                          className='ProdactPage__orderSetting-btn'
+                          onClick={decreaseOneCartItem}
+                        >
+                          -
+                        </button>
                       </div>
-                      <button className="ProdactPage__orderSetting-btnremove" onClick={deleteOneCartItem}>Удалить</button>
+                      <button
+                        className='ProdactPage__orderSetting-btnremove'
+                        onClick={deleteOneCartItem}
+                      >
+                        Удалить
+                      </button>
                     </div>
                   )}
-
                 </div>
               </div>
             </div>
@@ -120,4 +146,3 @@ const ProdactPage = () => {
 };
 
 export default ProdactPage;
-{/* <HeartOff color='red' /> */}

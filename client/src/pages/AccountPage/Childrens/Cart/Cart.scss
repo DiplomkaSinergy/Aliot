@@ -78,6 +78,7 @@
     }
 
 
+
   
       &__widget {
         top: 10px;
@@ -104,6 +105,14 @@
         &-price {
           font-size: 25px;
         }
+
+        &-select {
+          margin: 10px;
+          padding: 5px;
+          border: 2px solid #4182E3;
+          font-size: 18px;
+    
+        }
       }
   
   
@@ -119,8 +128,12 @@
         background-color: #4182E3;
         border-radius: 8px;
         cursor: pointer;
+        border: none;
+        &:disabled {
+          background-color: rgb(206, 206, 206);
+        }
       }
-  
+    
 }
 
 

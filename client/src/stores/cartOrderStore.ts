@@ -41,7 +41,7 @@ interface ICartOrderStore {
 export const useCartOrderStore = create<ICartOrderStore>()(immer(devtools((set,get) => ({
     cartItems: [],
     error: '',
-    loading: false, 
+    loading: false,  
     cartQuantity: 0,
 
     async cretePayment(value) { 
@@ -73,9 +73,9 @@ export const useCartOrderStore = create<ICartOrderStore>()(immer(devtools((set,g
     },
 
     async getAllOrderCartItems(basketId: number) {
-      set({loading: true})  
-      try {
-        const {data} = await $host.get('api/cartOrder/all', {params: {basketId}})
+      set({loading: true})   
+      try { 
+        const {data} = await $host.get('api/cartOrder/all', {params: {basketId}}) 
         console.log(data);
         set({cartItems: data})
         return data
@@ -88,13 +88,13 @@ export const useCartOrderStore = create<ICartOrderStore>()(immer(devtools((set,g
           get().reduceCartProdict() 
           set({loading: false})
       }
-    },
-    async getOneCartItem(productId: string | number | undefined, basketId: number) {
-      set({loading: true})
+    }, 
+    async getOneCartItem(productId: string | number | undefined, basketId: number) {  
+      set({loading: true}) 
       try {
         const {data} = await $host.get<ICartItem>(`api/cartOrder/one?basketId=${basketId}&productId=${productId}`)
-        console.log(data);
-        return data
+        console.log(data); 
+        return data 
       } catch (error) {
           if (isAxiosError(error)) {
               const err: AxiosError<AuthErrorType> = error
@@ -102,12 +102,12 @@ export const useCartOrderStore = create<ICartOrderStore>()(immer(devtools((set,g
           }
       } finally {
           set({error: ''})
-          get().getAllOrderCartItems() 
+          get().getAllOrderCartItems(basketId) 
           get().reduceCartProdict() 
           set({loading: false})
-      }
-    },
-
+      } 
+    }, 
+ 
     async asyncIncreaseCartQuantity(productId: string | number | undefined, basketId: number) {
         set({loading: true})
         try {
@@ -119,7 +119,7 @@ export const useCartOrderStore = create<ICartOrderStore>()(immer(devtools((set,g
                 set({error: err.response?.data.message})
             } 
         } finally {
-            get().getAllOrderCartItems()
+            get().getAllOrderCartItems(basketId)
             get().reduceCartProdict() 
             set({loading: false})
         }
@@ -136,7 +136,7 @@ export const useCartOrderStore = create<ICartOrderStore>()(immer(devtools((set,g
                 set({error: err.response?.data.message}) 
             }
         } finally {
-            get().getAllOrderCartItems() 
+            get().getAllOrderCartItems(basketId) 
             get().reduceCartProdict()  
             set({loading: false})
         }  
@@ -148,19 +148,18 @@ export const useCartOrderStore = create<ICartOrderStore>()(immer(devtools((set,g
         const {data} = await $host.delete(`api/cartOrder/delete?basketId=${basketId}&productId=${productId}`)
         console.log(data);
         return data
-      } catch (error) {
+      } catch (error) { 
         if (isAxiosError(error)) {
           const err: AxiosError<AuthErrorType> = error
           set({error: err.response?.data.message})
         }
       } finally {
-          get().getAllOrderCartItems()  
+          get().getAllOrderCartItems(basketId)  
           get().reduceCartProdict()  
           set({loading: false})
       }  
     }
 }))))
-
 // , {name: 'cartOrderStore'})
 
 
