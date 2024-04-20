@@ -355,17 +355,6 @@
     name,
   }: IGridCharItemProps) => {
     return (
-      // <div className='grid-item'>
-      //   <div className='grid-item-title'>{name}</div>
-      //   <select className='grid-item-select'>
-      //     <option value=''>--Выберите вариант--</option>
-      //     {filters?.map((item) => (
-      //       <option key={item.id} value={item.id}>
-      //         {item.name}
-      //       </option>
-      //     ))}
-      //   </select>
-      // </div>
 
       <select 
       className='grid-item-select'

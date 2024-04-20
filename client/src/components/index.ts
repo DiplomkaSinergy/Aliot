@@ -12,6 +12,7 @@ export { Modal} from './UI/Modal/Modal'
 export { List} from './Blocks/List/List'
 export { CatalogItem} from './Blocks/CatalogItem/CatalogItem'
 export { CartOrderItem} from './Blocks/CartOrderItem/CartOrderItem'
+export { OrderItem} from './Blocks/OrderItem/OrderItem'
 
 export {AuthForm} from './Forms/AuthForm/AuthForm'
 export {ChangePasswordFrom} from './Forms/ChangePasswordFrom/ChangePasswordFrom'

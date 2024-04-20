@@ -5,7 +5,8 @@ const router = new Router()
 
 
 router.post('/create', orderController.createOrder)
-router.get('/getAll', orderController.getAllOrders)
+router.get('/getAll', orderController.getAllOrdersById)
+router.get('/getOne', orderController.getOneOrdersById)
 
 
 module.exports = router

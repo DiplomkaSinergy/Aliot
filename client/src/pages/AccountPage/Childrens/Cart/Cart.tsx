@@ -6,13 +6,14 @@ import { CartOrderItem, List } from '@/components';
 import { useAuth } from '@/stores/authStore';
 
 import battary from '../../../../assets/img/battartyZag.jpg';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Paths } from '@/app/Routes/Types/paths';
 import axios, { AxiosError, isAxiosError } from 'axios';
 import { $host } from '@/services/instance';
 import { AuthErrorType } from '@/utils/Types/Errors';
 import { useOrderStore } from '@/stores/orderStore';
 import './Cart.scss';
+import { ToastContainer, toast } from 'react-toastify';
 
 const arrAdreses = [
   'Мск. ул.Владыкино, д11, к2',
@@ -22,6 +23,7 @@ const arrAdreses = [
   'Мск. Ленинский проспект, 4',
 ];
 const Cart = () => {
+  const navigate = useNavigate()
   const basketId = useAuth((state) => state.basket.id);
   const userId = useAuth((state) => state.user.id);
   const cartItems = useCartOrderStore((state) => state.cartItems);
@@ -39,13 +41,35 @@ const Cart = () => {
   const cretePayment = useCartOrderStore((state) => state.cretePayment);
 
   const creteOrder = useOrderStore((state) => state.creteOrder);
-  const getAllOrders = useOrderStore((state) => state.getAllOrders);
+  const getAllOrdersById = useOrderStore((state) => state.getAllOrdersById);
+  const error = useOrderStore((state) => state.error);
 
   const [address, setAddress] = useState<string | null>(null);
 
   useEffect(() => {
     getAllOrderCartItems(basketId);
   }, []);
+
+
+  const handleCreateOrder =  (
+    userId: number, 
+    basketId: number, 
+    cartQuantity: number, 
+    address: string | null) => async () => {
+      try {
+        toast.promise(
+          creteOrder(userId, basketId, cartQuantity, address),
+          {
+            pending: 'Создание продукта в процессе...',
+            success: 'Заказ успешно создан!',
+            error: error
+          },
+        )
+        navigate('/my/orderlist')
+      } catch (e) {
+        toast.error(error);
+      }
+  }
 
   // const fetcYouCassa = async (e: MouseEvent) => {
   //   e.preventDefault()
@@ -163,17 +187,16 @@ const Cart = () => {
               disabled={address === null || address === ''}
               type='button'
               className='Cart__widget-btn'
-              onClick={() =>
-                creteOrder(userId, basketId, cartQuantity, address)
-              }
+              onClick={handleCreateOrder(userId, basketId, cartQuantity, address)}
             >
               Перейти к оформлению
             </button>
-            <button onClick={() => getAllOrders(userId)}>fetch</button>
+            <button onClick={() => getAllOrdersById(userId)}>fetch</button>
             {/* <Link to={Paths.Payment} className="Cart__widget-btn">Перейти к оформлению</Link> */}
           </div>
         </div>
       )}
+      {/* <ToastContainer /> */}
     </section>
   );
 };

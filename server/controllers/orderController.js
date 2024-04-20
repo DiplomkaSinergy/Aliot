@@ -15,7 +15,6 @@ class OrderController {
   async createOrder(req, res, next) {
     try {
       let { userId, basketId, price , address } = req.body
-      console.log(userId, basketId);
       const products = await BasketProduct.findAll({where: {basketId: basketId},
         include: [
           {
@@ -43,20 +42,51 @@ class OrderController {
       )
 
   
-      return res.json(orderProducts)
+      return res.json(order)
     } catch (error) {
-      return next(ApiError.badRequest('Jib,rf!'))
+      return next(ApiError.badRequest('Ошибка в запросе создания!'))
     }
   }
 
 
-  async getAllOrders(req, res, next) {
+  async getAllOrdersById(req, res, next) {
     let { userId } = req.query
-    console.log(userId);
-    const orders = await Order.findAll({where: {userId: userId}})
     
+    console.log(userId);
+    const orders = await Order.findAll({
+      where: {userId: userId},
+      include: {
+        model: OrderProduct,
+        include: Product
+      }
+    })
 
-    return res.json(orederWithProducts)
+    if (!orders) {
+      return res.status(404).json({ error: 'Заказ не найден' });
+    }
+    
+    res.json(orders)
+
+  }
+  async getOneOrdersById(req, res, next) {
+    let { orderId } = req.query
+    
+    console.log(orderId);
+    const order = await Order.findOne({
+      where: {id: orderId},
+      include: {
+        model: OrderProduct,
+        include: Product
+      }
+    })
+
+    console.log(order);
+    if (!order) {
+      return res.status(404).json({ error: 'Заказ не найден' });
+    }
+    
+    res.json(order)
+
   }
 
 }

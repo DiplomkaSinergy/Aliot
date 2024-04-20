@@ -73,11 +73,10 @@ export const useCartOrderStore = create<ICartOrderStore>()(immer(devtools((set,g
     },
 
     async getAllOrderCartItems(basketId: number) {
-      set({loading: true})   
+      set({loading: true})    
       try { 
         const {data} = await $host.get('api/cartOrder/all', {params: {basketId}}) 
-        console.log(data);
-        set({cartItems: data})
+        set({cartItems: data})  
         return data
       } catch (error) {
           if (isAxiosError(error)) {

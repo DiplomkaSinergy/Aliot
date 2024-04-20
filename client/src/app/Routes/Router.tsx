@@ -24,14 +24,7 @@ import { Notification } from '@/components/Blocks/Tostify/Tostify';
 
 const Routes = () => {
   return createBrowserRouter([
-    // {
-    //   path: Paths.Notify,
-    //   element: <Notification />,
-    // },
-    {
-      path: Paths.Payment,
-      element: <PaymentPage />,
-    },
+    
     {
       path: Paths.AdminPanel,
       element: <AdminPanelPage /> ,
@@ -100,6 +93,10 @@ const Routes = () => {
                   <Orders />
                 </AuthGuard>
               ),
+            },
+            {
+              path: PathsAccount.Order,
+              element: <PaymentPage />,
             },
           ],
         },

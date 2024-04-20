@@ -21,7 +21,6 @@ class CartOrderController {
         }
       ] 
     })
-    console.log(orderItems);
 
     if (!orderItems) {
       return next(ApiError.badRequest('Товары не найдены'))
