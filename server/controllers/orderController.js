@@ -37,7 +37,8 @@ class OrderController {
       products.forEach(item => 
         OrderProduct.create({
           productId: item.product.id,
-          orderId: order.id
+          orderId: order.id,
+          quantity: item.quantity
         })
       )
 

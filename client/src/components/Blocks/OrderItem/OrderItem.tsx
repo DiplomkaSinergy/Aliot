@@ -16,7 +16,7 @@ const OrderItem = ({item}: IOrderItemProps) => {
     <div className="OrderItem">
         <div className="OrderItem__header">
           <div className="OrderItem__left">
-            <div className="OrderItem__title">{moment(item.createdAt).locale('ru').format('YYYY-MM-DD')}</div>
+            {/* <div className="OrderItem__title">{moment(item.createdAt).locale('ru').format('YYYY-MM-DD')}</div> */}
             <Link to={`/my/order/${item.id}`} className="OrderItem__title">Посмотреть подробнее № {item.id}</Link>
           </div>
           <div >Статус : <span className={changeColor(item.status)}>{item.status}</span></div>

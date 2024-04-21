@@ -41,9 +41,11 @@ const Order = sequelize.define('order', {
     price: {type: DataTypes.INTEGER, allowNull: false},
     status: {type: DataTypes.STRING, allowNull: false, defaultValue: "Не оплачен"},
     address: {type: DataTypes.STRING, allowNull: false},
+    paymentId: {type: DataTypes.STRING, allowNull: true},
 })
 const OrderProduct = sequelize.define('order_product', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    quantity: {type: DataTypes.INTEGER, allowNull: false},
 })
 
 

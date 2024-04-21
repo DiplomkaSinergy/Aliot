@@ -3,7 +3,7 @@ import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 import {jwtDecode}  from 'jwt-decode'
-import { AxiosError, isAxiosError } from "axios";
+import { AxiosError, AxiosResponse, isAxiosError } from "axios";
 import { AuthErrorType } from "@/utils/Types/Errors";
 import { User } from "@/utils/Types/User";
 import { Device } from "@/utils/Types/Device";
@@ -14,6 +14,7 @@ export interface IOrderProducts {
   id: number,
   orderId: number,
   productId: number,
+  quantity: number,
   product: IProduct,
   createdAt: string,
   updatedAt: string,
@@ -39,6 +40,7 @@ interface IOrderStore {
     creteOrder: (userId: number, basketId: number, price: number, address: string | null) => Promise<IOrder | undefined>
     getAllOrdersById: (userId: number) => void
     getOneOrdersById: (orderId: string | undefined) => void
+    cretePayment: (value: number, orderId: string | undefined) => Promise<void>
 }
 
 
@@ -94,23 +96,25 @@ export const useOrderStore = create<IOrderStore>()(immer(devtools((set,get) => (
       } finally {
           set({loading: false})
       }
-    }
+    },
 
-    // async cretePayment(value) { 
-    //   set({loading: true})  
-    //   try { 
-    //     const {data} = await $host.post('api/payment/create', {value}) 
-    //     console.log(data);
-    //   } catch (error) {
-    //       if (isAxiosError(error)) {
-    //           const err: AxiosError<AuthErrorType> = error
-    //           set({error: err.response?.data.message})
-    //       }
-    //   } finally {
-    //       get().reduceCartProdict() 
-    //       set({loading: false})
-    //   }
-    // },
+
+    async cretePayment(value: number, orderId: string | undefined) { 
+      set({loading: true})  
+      try { 
+        const data = await $host.post('api/payment/create', {amount: value, orderId}) 
+        console.log(data);
+        // return data 
+      } catch (error) {
+          if (isAxiosError(error)) {
+              const err: AxiosError<AuthErrorType> = error
+              set({error: err.response?.data.message})
+          }
+      } finally {
+          // get().reduceCartProdict() 
+          set({loading: false})
+      }
+    },
  
   
 }))))

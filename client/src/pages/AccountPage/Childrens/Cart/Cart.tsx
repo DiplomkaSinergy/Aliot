@@ -71,46 +71,6 @@ const Cart = () => {
       }
   }
 
-  // const fetcYouCassa = async (e: MouseEvent) => {
-  //   e.preventDefault()
-
-  //   try {
-  //     const {data} = await axios.post(`
-  //     ${import.meta.env.VITE_APP_API_YOOKASSA}`,
-  //     {
-  //       "amount": {
-  //         "value": `${cartQuantity}`,
-  //         "currency": "RUB"
-  //       },
-  //       "capture": true,
-  //       "confirmation": {
-  //         "type": "redirect",
-  //         "return_url": "https://www.mvideo.ru"
-  //       },
-  //       "description": "Заказ №1"
-  //     },
-  //     {
-  //       auth: {
-  //         username: `${import.meta.env.VITE_APP_API_SHOP_ID}`,
-  //         password: `${import.meta.env.VITE_APP_API_SECRETE_KEY_UMONEY}`
-  //       },
-  //       headers: {
-  //         'Idempotence-Key': '123',
-  //         'Content-Type': 'application/json',
-  //         'Access-Control-Allow-Origin': true,
-  //       }
-  //     })
-  //     console.log(data);
-  //   } catch (error) {
-  //       if (isAxiosError(error)) {
-  //         console.log(error);
-  //       }
-  //   } finally {
-  //     console.log('final');
-
-  //   }
-  // }
-
   const handlePayment = async () => {
     try {
       const response = await fetch('http://localhost:5000/api/payment/create', {
@@ -191,7 +151,7 @@ const Cart = () => {
             >
               Перейти к оформлению
             </button>
-            <button onClick={() => getAllOrdersById(userId)}>fetch</button>
+            {/* <button onClick={() => getAllOrdersById(userId)}>fetch</button> */}
             {/* <Link to={Paths.Payment} className="Cart__widget-btn">Перейти к оформлению</Link> */}
           </div>
         </div>

@@ -4,6 +4,9 @@ import './PaymentPage.scss'
 import { useParams } from 'react-router-dom'
 import { useOrderStore } from '@/stores/orderStore'
 import { useAuth } from '@/stores/authStore'
+import { Link } from 'react-router-dom'
+import moment from 'moment'
+import { useCartOrderStore } from '@/stores/cartOrderStore'
 
 const PaymentPage = () => {
   
@@ -11,48 +14,73 @@ const PaymentPage = () => {
   const user = useAuth(state => state.user)
   const getOneOrdersById = useOrderStore(state => state.getOneOrdersById)
   const currentOrder = useOrderStore(state => state.currentOrder)
+  const cretePayment = useOrderStore(state => state.cretePayment)
+  const cartQuantity = useCartOrderStore((state) => state.cartQuantity);
 
   useEffect(() => {
     getOneOrdersById(id)
   }, [getOneOrdersById, id]);
+
+
+  const handlePayment = async () => {
+    try {
+      const response = await cretePayment(cartQuantity)
+
+      if (response?.ok) {
+        console.log(response);
+        const paymentData = await response?.json();
+        window.location.href = paymentData.confirmationUrl;
+      } else {
+        console.error('Failed to create payment:', response?.statusText);
+      }
+    } catch (error) {
+      console.error('Error creating payment:', error);
+    }
+  };
   
   return (
     <section className='PaymentPage'>
       <div className="PaymentPage__id">Заказ № {id}</div>
-      <div className="PaymentPage__createDate">{currentOrder.createdAt}</div>
 
-      <div className="PaymentPage__info">
-        <div className="PaymentPage__info-flex">
-          <div>
-                <div className="PaymentPage__info-block">
-                  <div className="PaymentPage__info-title">Пункт получения</div>
-                  <div className="PaymentPage__info-description">{currentOrder.address}</div>
+      <div className="PaymentPage__info-flex">
+            <div className="PaymentPage__list">
+              {currentOrder.order_products?.map(item => (
+                <div className="PaymentPage__item">
+                      <div className="PaymentPage__item-img">
+                        <img src={import.meta.env.VITE_APP_API_URL +  item.product.img} alt="" />
+                      </div> 
+                      <div className="PaymentPage__item-info">
+                        <Link to={`/catalog/${item.product.id}`} className="PaymentPage__item-title">{item.product.name}</Link> 
+                        <div className="PaymentPage__item-price">{item.product.price}  ₽ x {item.quantity}</div> 
+                      </div>
+                  </div>
+              ))}
+            </div>
+        <div className="PaymentPage__info">
+                <div className="PaymentPage__grid">
+                    <div className="PaymentPage__info-block">
+                      <div className="PaymentPage__info-title">Дата создания</div>
+                      <div className="PaymentPage__info-description">{moment(currentOrder.createdAt).format('YYYY MM DD')}</div>
+                    </div>
+                    <div className="PaymentPage__info-block">
+                      <div className="PaymentPage__info-title">Пункт получения</div>
+                      <div className="PaymentPage__info-description">{currentOrder.address}</div>
+                    </div>
+                    <div className="PaymentPage__info-block">
+                      <div className="PaymentPage__info-title">Получатель</div>
+                      <div className="PaymentPage__info-description">{user.firstName} {user.lastName}</div>
+                      <div className="PaymentPage__info-description">{user.email}</div>
+                      <div className="PaymentPage__info-description">{user.phone}</div>
+                    </div>
                 </div>
-                <div className="PaymentPage__info-block">
-                  <div className="PaymentPage__info-title">Получатель</div>
-                  <div className="PaymentPage__info-description">{user.firstName} {user.lastName}</div>
-                  <div className="PaymentPage__info-description">{user.email}</div>
-                  <div className="PaymentPage__info-description">{user.phone}</div>
-                </div>
-          </div>
-          <div>
                 <div className="PaymentPage__info-block flex-block">
                   <div className="PaymentPage__info-title">Итого</div>
                   <div className="PaymentPage__info-description">{currentOrder.price} ₽</div>
                 </div>
-                <button className='PaymentPage__info-buybtn'>Оплатить</button>
-
+                <button className='PaymentPage__info-buybtn' onClick={() => cretePayment(cartQuantity, id)}>Оплатить</button>
           </div>
-        </div>
       </div>
 
-      <div className="PaymentPage__list">
-        {currentOrder.order_products.map(item => (
-          <div className="PaymentPage__item">
-            
-          </div>
-        ))}
-      </div>
     </section>
   )
 }
