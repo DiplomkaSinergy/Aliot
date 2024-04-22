@@ -103,6 +103,21 @@ class CartOrderController {
 
   }
 
+  async clearBasket(req, res, next) {
+    const {basketId} = req.query
+
+    const items = await BasketProduct.findAll({where: {basketId: basketId}})
+
+    if (!items) {
+      return next(ApiError.badRequest('Товары не найдены'))
+    }
+    
+    items.forEach((item) => item.destroy())
+    
+    return res.json(items)
+
+  }
+
 }
 
 module.exports = new CartOrderController()

@@ -1,0 +1,131 @@
+.AdminOrders {
+  border-radius: 32px;
+  padding: 15px;
+  // background-color: red;
+  &__wrapper {
+      display: flex;
+      gap: 150px;
+  }
+
+  &__flex {
+      align-items: center;
+      display: flex;
+      gap: 15px;
+  }
+
+  &__icon {
+  }
+
+  &__title {
+      font-size: 26px;
+  }
+
+  &__count {
+    margin-top: 25px;
+  }
+
+
+  &__actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+  }
+
+  &__icon {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    padding: 4px;
+    border-radius: 8px;
+    cursor: pointer;
+    &:nth-child(1) {
+      border: 1px solid red;
+    }
+    &:nth-child(2) {
+      border: 1px solid blue;
+    }
+    svg {
+      width: 80%;
+      height: 80%;
+    }
+
+    &:hover {
+      &:nth-child(1) {
+        background-color:rgba(255, 0, 0, 0.114);
+      }
+      &:nth-child(2) {
+        background-color:rgba(0, 0, 255, 0.11);
+      }
+    }
+  }
+
+  &__select {
+    border-radius: 8px;
+    border: 1px solid #4182E3;
+    background-color: white;
+    padding: 8px 12px;
+    option {
+      width: 100px;
+      padding: 10px;
+    }
+  }
+
+  &__pagination {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+  }
+}
+
+
+
+.table {
+	width: 100%;
+	margin-bottom: 20px;
+  // border-collapse: collapse;
+  border-spacing: 0px; 
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  overflow: hidden;
+ 
+  th {
+    font-weight: bold;
+    padding: 5px;
+    background: #4182E3;
+    color: white;
+    border: 1px solid #dddddd;
+
+  }
+
+  td {
+    text-align: center;
+    border: 1px solid #dddddd;
+    padding: 5px;
+  }
+}
+
+
+.pagination-item  {
+  padding: 10px;
+  color: #4182E3;
+  border: 1px solid #4182E3;
+  background-color: white;
+  font-size: 18px;
+  cursor: pointer;
+  width: max-content;
+  &:nth-child(1) {  
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+  }
+  &:last-child {
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+  }
+}
+
+.pagination-item-active {
+  color: white;
+  background-color: #4182E3;
+}

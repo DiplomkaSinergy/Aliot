@@ -30,6 +30,7 @@ interface ICartOrderStore {
     removeFromCart: (productId: string | number | undefined, basketId: number) => Promise<ICartItem | undefined>
     asyncIncreaseCartQuantity: (productId: string | number | undefined, basketId: number) => Promise<void>
     asyncDecreaseCartQuantity: (productId: string | number | undefined, basketId: number) => Promise<void>
+    clearBasket: (basketId: number) => void
     reduceCartProdict: () => void
     cretePayment: (value: number | string) => Promise<void>
     // getItemQuantity: (id: number | undefined) => number | undefined
@@ -140,10 +141,10 @@ export const useCartOrderStore = create<ICartOrderStore>()(immer(devtools((set,g
             set({loading: false})
         }  
       },    
-
-    async removeFromCart(productId: string | undefined, basketId: number) {
+ 
+    async removeFromCart(productId: string | number| undefined, basketId: number) { 
       set({loading: true})
-      try {
+      try { 
         const {data} = await $host.delete(`api/cartOrder/delete?basketId=${basketId}&productId=${productId}`)
         console.log(data);
         return data
@@ -157,7 +158,23 @@ export const useCartOrderStore = create<ICartOrderStore>()(immer(devtools((set,g
           get().reduceCartProdict()  
           set({loading: false})
       }  
-    }
+    },
+
+    async clearBasket(basketId) {
+      set({loading: true})
+      try {
+        const {data} = await $host.delete(`api/cartOrder/clear`, {params: {basketId}})
+        console.log(data);
+      } catch (error) {
+        if (isAxiosError(error)) {
+          const err: AxiosError<AuthErrorType> = error
+          set({error: err.response?.data.message})
+        }
+    } 
+  }
+
+
+
 }))))
 // , {name: 'cartOrderStore'})
 

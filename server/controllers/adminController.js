@@ -4,7 +4,9 @@ const path = require('path');
 const {
   User,
   Product,
-  ProductInfo
+  ProductInfo,
+  Order,
+  OrderProduct
 } = require('../models/models')
 const ApiError = require('../error/ApiError');
 
@@ -42,8 +44,36 @@ class AdminController {
     }
 
     return res.json(products)
-    
   }
+
+  async getOrders(req, res, next) {
+
+    let {page, limit} = req.query
+    
+    page = page || 1
+    limit = limit || 5
+    let offset = page * limit - limit
+
+    const orders = await Order.findAndCountAll({limit, offset,
+      include: [
+        {
+          model: User
+        },
+        {
+          model: OrderProduct,
+          include: Product
+        }
+      ]
+    })
+
+    if (!orders) {
+      return next(ApiError.badRequest('Продукты не найдены'))
+    }
+
+    return res.json(orders)
+  }
+
+
   async updateRole(req, res, next) {
     const {userId, role} = req.body
 
@@ -58,6 +88,22 @@ class AdminController {
     await user.save()
 
     return res.json(user)
+    
+  }
+  async updateStatusOrder(req, res, next) {
+    const {orderId, status} = req.body
+
+    console.log(orderId, status);
+
+    const order = await Order.findOne({where: {id: orderId}})
+
+    if (!order) {
+      return next(ApiError.badRequest('Заказ не найден'))
+    }
+    order.status = status
+    await order.save()
+
+    return res.json(order)
     
   }
   async createProduct(req, res, next) {
@@ -114,6 +160,8 @@ class AdminController {
     }
   
   }
+
+
   
 }
 

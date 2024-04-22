@@ -9,6 +9,7 @@ import { User } from "@/utils/Types/User";
 import { Device } from "@/utils/Types/Device";
 import { options } from "node_modules/axios/index.d.cts";
 import { IProduct } from "./productStore";
+import { useCartOrderStore } from "./cartOrderStore";
 
 export interface IOrderProducts {
   id: number,
@@ -56,6 +57,7 @@ export const useOrderStore = create<IOrderStore>()(immer(devtools((set,get) => (
       try {
         const {data} = await $authHost.post<IOrder>('api/order/create', {userId, basketId, price, address})
         console.log(data);
+        useCartOrderStore.getState().cartItems = []
         return data
       } catch (error) {
         if (isAxiosError(error)) {

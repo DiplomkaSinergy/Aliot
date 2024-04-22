@@ -9,6 +9,7 @@ import { User } from "@/utils/Types/User";
 import { Device } from "@/utils/Types/Device";
 import { IProduct } from "./productStore";
 import { notification } from "@/components/Blocks/Tostify/Tostify";
+import { IOrder } from "./orderStore";
 
 
 type fetchResponse<T> = {
@@ -16,12 +17,18 @@ type fetchResponse<T> = {
   rows: T[]
 }
 
+type OrderWithUser = IOrder & {
+  user: User
+}
+
 type UserCounts = fetchResponse<User>
 type ProductCounts = fetchResponse<IProduct>
+type OrderCounts = fetchResponse<OrderWithUser>
 
 interface IAdminStore {
     products: ProductCounts
     users: UserCounts
+    orders: OrderCounts,
     error: string,
     _pageUsers: number,
     _pageProduct: number,
@@ -32,7 +39,9 @@ interface IAdminStore {
     getUsers: (page: number, limit: number) => void
     setPage: (page: number, key: string) => void
     getProducts: (page: number, limit: number) => void
+    getOrders: (page: number, limit: number) => void
     updateRole: (userId: number | string, role: string) => Promise<void>
+    changeOrderStatus: (orderId: number , status: string) => Promise<void>
     createProduct: (formdata) => Promise<void>
 }
 
@@ -40,10 +49,13 @@ interface IAdminStore {
 export const useAdminStore = create<IAdminStore>()(immer(devtools((set, get) => ({
     users: {} as UserCounts,
     products: {} as ProductCounts,
+    orders: {} as OrderCounts,
     _pageProduct: 1,
     _pageUsers: 1,
+    _pageOrders: 1,
     _limitProducts: 3,
     _limitUsers: 5, 
+    _limitOrders: 5, 
     _totalCount: 0,
     error: '',
     loading: false,
@@ -128,6 +140,39 @@ export const useAdminStore = create<IAdminStore>()(immer(devtools((set, get) => 
           break
         default:
           break;
+      }
+    },
+
+
+    async getOrders(page, limit = 5) {
+      set({loading: true})
+      try {
+        const {data} = await $host.get<OrderCounts>('api/admin/orders', {params: {page, limit}}) 
+        console.log(data);
+        set({orders: data, _totalCount: data.count}) 
+      } catch (error) {
+        if (isAxiosError(error)) {
+            const err: AxiosError<AuthErrorType> = error
+            set({error: err.response?.data.message})
+        }
+      } finally {
+          set({loading: false})
+      }
+    },
+    async changeOrderStatus(orderId, status) {
+      set({loading: true})
+      try {
+        const {data} = await $host.put('api/admin/change-order-status', {orderId, status}) 
+        console.log(data);
+        // set({orders: data, _totalCount: data.count}) 
+      } catch (error) {
+        if (isAxiosError(error)) {
+            const err: AxiosError<AuthErrorType> = error
+            set({error: err.response?.data.message})
+        }
+      } finally {
+          get().getOrders()
+          set({loading: false})
       }
     }
 

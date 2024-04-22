@@ -56,10 +56,16 @@ class OrderController {
     console.log(userId);
     const orders = await Order.findAll({
       where: {userId: userId},
-      include: {
-        model: OrderProduct,
-        include: Product
-      }
+      include: [
+        {
+          model: OrderProduct,
+          include: [
+            {
+              model:Product
+            }
+          ]
+        }
+      ]
     })
 
     if (!orders) {

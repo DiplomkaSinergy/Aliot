@@ -28,6 +28,7 @@ const Cart = () => {
   const userId = useAuth((state) => state.user.id);
   const cartItems = useCartOrderStore((state) => state.cartItems);
   const cartQuantity = useCartOrderStore((state) => state.cartQuantity);
+  const clearBasket = useCartOrderStore((state) => state.clearBasket);
   const asyncDecreaseCartQuantity = useCartOrderStore(
     (state) => state.asyncDecreaseCartQuantity
   );
@@ -38,13 +39,14 @@ const Cart = () => {
   const getAllOrderCartItems = useCartOrderStore(
     (state) => state.getAllOrderCartItems
   );
-  const cretePayment = useCartOrderStore((state) => state.cretePayment);
 
   const creteOrder = useOrderStore((state) => state.creteOrder);
-  const getAllOrdersById = useOrderStore((state) => state.getAllOrdersById);
   const error = useOrderStore((state) => state.error);
 
   const [address, setAddress] = useState<string | null>(null);
+
+
+  const [timeId, setTimeId] = useState<number | null>(null);
 
   useEffect(() => {
     getAllOrderCartItems(basketId);
@@ -65,33 +67,19 @@ const Cart = () => {
             error: error
           },
         )
-        navigate('/my/orderlist')
+        const timeId = setTimeout(() => {
+          clearBasket(basketId)
+          navigate('/my/orderlist')
+          clearTimeout(timeId)
+        }, 2000);
       } catch (e) {
         toast.error(error);
       }
+
   }
 
-  const handlePayment = async () => {
-    try {
-      const response = await fetch('http://localhost:5000/api/payment/create', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ amount: cartQuantity }), // Сумма к оплате и валюта
-      });
 
-      if (response.ok) {
-        console.log(response);
-        const paymentData = await response.json();
-        window.location.href = paymentData.confirmationUrl;
-      } else {
-        console.error('Failed to create payment:', response.statusText);
-      }
-    } catch (error) {
-      console.error('Error creating payment:', error);
-    }
-  };
+
 
   return (
     <section className='Cart'>
@@ -149,7 +137,7 @@ const Cart = () => {
               className='Cart__widget-btn'
               onClick={handleCreateOrder(userId, basketId, cartQuantity, address)}
             >
-              Перейти к оформлению
+               Перейти к оформлению
             </button>
             {/* <button onClick={() => getAllOrdersById(userId)}>fetch</button> */}
             {/* <Link to={Paths.Payment} className="Cart__widget-btn">Перейти к оформлению</Link> */}
