@@ -1,15 +1,13 @@
-import { $authHost, $host } from "@/services/instance/index";
+import { $host } from "@/services/instance/index";
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
-import {jwtDecode}  from 'jwt-decode'
 import { AxiosError, isAxiosError } from "axios";
 import { AuthErrorType } from "@/utils/Types/Errors";
 import { User } from "@/utils/Types/User";
-import { Device } from "@/utils/Types/Device";
 import { IProduct } from "./productStore";
 import { notification } from "@/components/Blocks/Tostify/Tostify";
-import { IOrder } from "./orderStore";
+import { IOrder, IOrderProduct } from "./orderStore";
 
 
 type fetchResponse<T> = {
@@ -34,6 +32,7 @@ interface IAdminStore {
     _pageProduct: number,
     _limitUsers: number,
     _limitProducts: number,
+    _limitOrders: number,
     _totalCount: number
     loading: boolean,
     getUsers: (page: number, limit: number) => void
@@ -42,6 +41,7 @@ interface IAdminStore {
     getOrders: (page: number, limit: number) => void
     updateRole: (userId: number | string, role: string) => Promise<void>
     changeOrderStatus: (orderId: number , status: string) => Promise<void>
+    getProductsInOrder: (orderId: number | null) => Promise<IOrderProduct[] | undefined>
     createProduct: (formdata) => Promise<void>
 }
 
@@ -58,7 +58,7 @@ export const useAdminStore = create<IAdminStore>()(immer(devtools((set, get) => 
     _limitOrders: 5, 
     _totalCount: 0,
     error: '',
-    loading: false,
+    loading: false, 
 
     async getUsers(page, limit = 5) {
       set({loading: true})
@@ -125,7 +125,7 @@ export const useAdminStore = create<IAdminStore>()(immer(devtools((set, get) => 
             set({error: err.response?.data.message})
         }
       } finally {
-          get().getProducts(get()._page, get()._limit) 
+          get().getProducts(get()._pageProduct, get()._limitProducts) 
           set({loading: false})
       }
     },
@@ -150,6 +150,22 @@ export const useAdminStore = create<IAdminStore>()(immer(devtools((set, get) => 
         const {data} = await $host.get<OrderCounts>('api/admin/orders', {params: {page, limit}}) 
         console.log(data);
         set({orders: data, _totalCount: data.count}) 
+      } catch (error) {  
+        if (isAxiosError(error)) {  
+            const err: AxiosError<AuthErrorType> = error 
+            set({error: err.response?.data.message})
+        }
+      } finally {
+          set({loading: false})
+      }
+    },
+
+    async getProductsInOrder(orderId) {
+      set({loading: true})
+      try { 
+        const {data} = await $host.get<IOrderProduct[]>('api/admin/products-in-order', {params: {orderId}}) 
+        console.log(data);
+        return data
       } catch (error) {
         if (isAxiosError(error)) {
             const err: AxiosError<AuthErrorType> = error
@@ -159,6 +175,7 @@ export const useAdminStore = create<IAdminStore>()(immer(devtools((set, get) => 
           set({loading: false})
       }
     },
+
     async changeOrderStatus(orderId, status) {
       set({loading: true})
       try {

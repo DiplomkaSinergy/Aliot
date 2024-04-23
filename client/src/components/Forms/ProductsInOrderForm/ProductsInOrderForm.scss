@@ -1,0 +1,50 @@
+.ProductsInOrderForm {
+  width: 670px;
+
+  height: 600px;
+  padding: 15px 10px 10px 15px;
+  background-color: white;
+  border-radius: 15px;
+  overflow:auto;
+  &__title {
+    font-size: 22px;
+  }
+  &__form {
+  }
+
+  &__closed {
+    position: absolute;
+    top: 0px;
+    right: 25px;
+    color: white;
+    cursor: pointer;
+  }
+
+  &__wrapper {
+      position: relative;
+      margin-top: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+  }
+
+  &__label {
+  }
+}
+
+.overlay {
+  background-color: #000000b8;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  // display: none;
+}
+
+.overlay__end {
+  display: none;
+}

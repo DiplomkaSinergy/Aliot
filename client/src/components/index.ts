@@ -18,4 +18,5 @@ export {AuthForm} from './Forms/AuthForm/AuthForm'
 export {ChangePasswordFrom} from './Forms/ChangePasswordFrom/ChangePasswordFrom'
 export {ForgotPasswordForm} from './Forms/ForgotPasswordForm/ForgotPasswordForm'
 export { ProductForm} from './Forms/ProductForm/ProductForm'
+export { ProductsInOrderForm} from './Forms/ProductsInOrderForm/ProductsInOrderForm'
 

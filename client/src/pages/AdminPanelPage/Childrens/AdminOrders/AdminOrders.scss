@@ -77,6 +77,18 @@
     display: flex;
     align-items: center;
   }
+
+  &__product-btn {
+    border: none;
+    background-color: #4182E3;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    &:hover {
+      background-color: #3369b9;
+    }
+  }
 }
 
 

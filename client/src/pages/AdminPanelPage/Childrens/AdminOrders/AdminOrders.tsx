@@ -1,5 +1,5 @@
 import { SlidersHorizontal, UserX } from 'lucide-react'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import './AdminOrders.scss'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
@@ -7,9 +7,11 @@ import { useAuth } from '@/stores/authStore'
 import { useAdminStore } from '@/stores/adminStore'
 import { changeColor } from '@/utils/helpers'
 import moment from 'moment'
+import { IOrderProduct } from '@/stores/orderStore'
+import { Loading, ProductsInOrderForm } from '@/components'
 
 
-const thead = ['Дата создания', 'Цена', 'Статус', 'Товары', 'email', 'ФИО']
+const thead = ['Дата создания', 'Цена', 'Статус', 'email', 'ФИО', 'Товары']
 const roles = ['Не оплачен', 'Купленные', 'В сборке', 'Ожидают получения', 'Отмененные']
 
 
@@ -17,16 +19,20 @@ const AdminOrders = () => {
 
 
   const userId = useAuth(state => state.user.id)
-  const getOrders = useAdminStore(state => state.getOrders)
-  const updateRole = useAdminStore(state => state.updateRole)
+
   const orders = useAdminStore(state => state.orders)
-  const changeOrderStatus = useAdminStore(state => state.changeOrderStatus)
   const error = useAdminStore(state => state.error)
   const loading = useAdminStore(state => state.loading)
   const activePage = useAdminStore(state => state._pageUsers)
   const totalCount = useAdminStore(state => state._totalCount)
-  const limit = useAdminStore(state => state._limitUsers)
+  const limit = useAdminStore(state => state._limitOrders)
+
+  const getOrders = useAdminStore(state => state.getOrders)
+  const changeOrderStatus = useAdminStore(state => state.changeOrderStatus)
   const setPage = useAdminStore(state => state.setPage)
+
+  const [activeWindow, setActiveWindow] = useState<boolean>(false);
+  const [orderId, setOrderId] = useState<number | null>(null);
 
 
   const pageCount = Math.ceil(totalCount / limit)
@@ -44,15 +50,21 @@ const AdminOrders = () => {
     getOrders(activePage, 5)
   }, [activePage, getOrders]);
 
+  const handleWindowProductInfo = (id: number | null) => () => {
+    setOrderId(id)
+    setActiveWindow(!activeWindow)
+  }
+
 
   return (
-    <section className='AdminOrders'>
+    <>
+        <section className='AdminOrders'>
         <div className="AdminOrders__flex">
           <div className="AdminOrders__titleicon"><SlidersHorizontal /></div>
           <div className="AdminOrders__title">Заказы</div>
         </div>
 
-        <div className="AdminOrders__count">Всего: {orders.count}</div>
+        <div className="AdminOrders__count">Всего: {totalCount}</div>
           <table className="table">
             <thead>
               <tr>
@@ -83,18 +95,12 @@ const AdminOrders = () => {
                             ))}
                           </select>
                         </td>
-                        <td>
-                          {item.order_products.map(item => (
-                            <div className="">{item.product.name} x {item.quantity}</div>
-                          ))}
-                        </td>
                         <td>{item.user.email}</td>
                         <td>{item.user.firstName} {item.user.lastName}</td>
-                        {/* <td>
-                          <div className="AdminOrders__actions">
-                            <div className="AdminOrders__icon"><UserX color='red'/></div>
-                          </div>
-                        </td> */}
+                        <td>
+                          <button className='AdminOrders__product-btn' onClick={handleWindowProductInfo(item.id)}>Подробнее</button>
+                       
+                        </td>
                     </tr>
                     </CSSTransition>
                     
@@ -102,6 +108,9 @@ const AdminOrders = () => {
               </TransitionGroup>
             </tbody>
           </table>
+          {loading 
+          ? <Loading/> 
+          :
           <div className="AdminUsers__pagination">
               {pages.map((page, i) =>
                   <div
@@ -113,8 +122,26 @@ const AdminOrders = () => {
                   </div>
               )}
             </div>
+          }
+          {error && 
+          <small className="error">{error}</small>
+          }
 
     </section>
+
+
+    {activeWindow
+    ?
+    <ProductsInOrderForm
+      activeWindow={activeWindow}
+      handleModal={handleWindowProductInfo}
+      orderId={orderId}
+    />
+    : null
+    }
+
+
+    </>
   )
 }
 

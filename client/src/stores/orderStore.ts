@@ -11,7 +11,7 @@ import { options } from "node_modules/axios/index.d.cts";
 import { IProduct } from "./productStore";
 import { useCartOrderStore } from "./cartOrderStore";
 
-export interface IOrderProducts {
+export interface IOrderProduct {
   id: number,
   orderId: number,
   productId: number,
@@ -28,7 +28,10 @@ export interface IOrder {
   createdAt: string,
   updatedAt: string,
   userId: number,
-  order_products: IOrderProducts[]
+}
+
+export type OrderWithProducts = IOrder & {
+  order_products: IOrderProduct[]
 }
 
 

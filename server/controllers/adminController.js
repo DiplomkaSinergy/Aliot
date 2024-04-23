@@ -14,96 +14,127 @@ class AdminController {
 
 
   async getUsers(req, res, next) {
-    let {page, limit} = req.query
-    
-    page = page || 1
-    limit = limit || 5
-    let offset = page * limit - limit
 
-    const users = await User.findAndCountAll({limit, offset})
-
-    if (!users) {
-      return next(ApiError.badRequest('Пользователи не найдены'))
+    try {
+      let {page, limit} = req.query
+      
+      page = page || 1
+      limit = limit || 5
+      let offset = page * limit - limit
+  
+      const users = await User.findAndCountAll({limit, offset})
+  
+      if (!users) {
+        return next(ApiError.badRequest('Пользователи не найдены'))
+      }
+  
+      return res.json(users)
+      
+    } catch (error) {
+      return next(ApiError.badRequest(error))
     }
 
-    return res.json(users)
     
   }
   async getProducts(req, res, next) {
 
-    let {page, limit} = req.query
-    
-    page = page || 1
-    limit = limit || 3
-    let offset = page * limit - limit
-
-    const products = await Product.findAndCountAll({limit, offset})
-
-    if (!products) {
-      return next(ApiError.badRequest('Продукты не найдены'))
+    try {
+      let {page, limit} = req.query
+      
+      page = page || 1
+      limit = limit || 3
+      let offset = page * limit - limit
+  
+      const products = await Product.findAndCountAll({limit, offset})
+  
+      if (!products) {
+        return next(ApiError.badRequest('Продукты не найдены'))
+      }
+  
+      return res.json(products)
+      
+    } catch (error) {
+      return next(ApiError.badRequest(error))
     }
 
-    return res.json(products)
   }
 
   async getOrders(req, res, next) {
 
-    let {page, limit} = req.query
-    
-    page = page || 1
-    limit = limit || 5
-    let offset = page * limit - limit
-
-    const orders = await Order.findAndCountAll({limit, offset,
-      include: [
-        {
-          model: User
-        },
-        {
-          model: OrderProduct,
-          include: Product
-        }
-      ]
-    })
-
-    if (!orders) {
-      return next(ApiError.badRequest('Продукты не найдены'))
+    try {
+      let {page, limit} = req.query
+      
+      page = page || 1
+      limit = limit || 5
+      let offset = page * limit - limit
+  
+      const orders = await Order.findAndCountAll({
+        include: [
+          // {
+          //   model: OrderProduct,
+          //   include: [
+          //     {
+          //       model: Product
+          //     }
+          //   ]
+          // },
+          {
+            model: User
+          },
+        ], subQuery:false,  limit, offset})
+  
+      if (!orders) {
+        return next(ApiError.badRequest('Продукты не найдены'))
+      }
+  
+      return res.json(orders)
+    } catch (error) {
+      return next(ApiError.badRequest(error))
     }
 
-    return res.json(orders)
   }
 
 
   async updateRole(req, res, next) {
-    const {userId, role} = req.body
 
-    console.log(userId, role);
-
-    const user = await User.findOne({where: {id: userId}})
-
-    if (!user) {
-      return next(ApiError.badRequest('Пользователь не найден'))
-    }
-    user.role = role
-    await user.save()
-
-    return res.json(user)
+    try {
+      const {userId, role} = req.body
+  
+      const user = await User.findOne({where: {id: userId}})
+  
+      if (!user) {
+        return next(ApiError.badRequest('Пользователь не найден'))
+      }
+      user.role = role
+      await user.save()
+  
+      return res.json(user)
+    } catch (error) {
+      return next(ApiError.badRequest(error))
+      
+    }  
+    
     
   }
   async updateStatusOrder(req, res, next) {
-    const {orderId, status} = req.body
 
-    console.log(orderId, status);
-
-    const order = await Order.findOne({where: {id: orderId}})
-
-    if (!order) {
-      return next(ApiError.badRequest('Заказ не найден'))
+    try {
+      const {orderId, status} = req.body
+  
+      const order = await Order.findOne({where: {id: orderId}})
+  
+      if (!order) {
+        return next(ApiError.badRequest('Заказ не найден'))
+      }
+      order.status = status
+      await order.save()
+  
+      return res.json(order)
+      
+    } catch (error) {
+      return next(ApiError.badRequest(error))
+      
     }
-    order.status = status
-    await order.save()
-
-    return res.json(order)
     
   }
   async createProduct(req, res, next) {
@@ -162,6 +193,30 @@ class AdminController {
   }
 
 
+  async getProductsInOrder(req, res, next) {
+    try {
+      const {orderId} = req.query
+
+      const products = await OrderProduct.findAll({
+        where: {orderId: orderId},
+        include: [
+          {
+            model: Product
+          }
+        ]
+      })
+
+
+      if (!products) {
+        return next(ApiError.badRequest('Товары не найдены'))
+      }
+
+      return res.json(products)
+
+    } catch (error) {
+      return next(ApiError.badRequest(error))
+    }
+  }
   
 }
 
