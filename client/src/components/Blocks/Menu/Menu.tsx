@@ -12,18 +12,7 @@ const Menu: FC<IBurgerProps> = ({activeMenu, setActiveMenu}) => {
           <div onClick={() => setActiveMenu(!activeMenu)} className="menu__burgerbtn">
               <span/>
           </div>
-                {/* <div className="menu__content-link">
-                    <NavLink 
-                    onClick={() => setActive(false)}
-                    end
-                    to='/'
-                    style={({isActive}) => ({color: isActive ? '#21A7AF' : 'white'})}
-                    >ГЛАВНАЯ
-                    </NavLink>
-                    </div>
-                    {items.map(item => 
-                        <a onClick={() => setActive(false)} className='menu__link' href={item.href}>{item.value}</a>
-                    )} */}
+
         </div>
     </div>
   )

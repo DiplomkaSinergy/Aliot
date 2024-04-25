@@ -5,6 +5,7 @@ import { CatalogItem } from '../Blocks/CatalogItem/CatalogItem';
 import { stringNameProp, useFilterStore } from '@/stores/filtersStore';
 import { useProductStore } from '@/stores/productStore';
 import './Catalog.scss';
+import { Loading } from '../Blocks/Loading/Loading';
 
 
 type CharIdKey<T extends stringNameProp> = `${T}CharId`;
@@ -14,6 +15,7 @@ const Catalog = () => {
   const getProducts = useProductStore(state => state.getProducts) 
   const products = useProductStore(state => state.products) 
   const activeFilters = useFilterStore((state) => state.activeFilters);
+  const loading = useFilterStore((state) => state.loading);
 
   useEffect(() => {
     getProducts()
@@ -47,19 +49,33 @@ const Catalog = () => {
         <div className='Catalog__wrapper'>
           <div className="Catalog__flex-filter">
             <Filters />
-            <div className='Catalog__list'>
-              <TransitionGroup  component={null}>
-                {filtered.map((item, i) => (
-                  <CSSTransition
-                      key={i}
-                      timeout={300}
-                      classNames="Catalog__item"
-                      >
-                  <CatalogItem item={item}/>
-                  </CSSTransition>
-                ))}
-              </TransitionGroup>
-            </div>
+
+            {loading ? 
+            <Loading/>
+            :
+             products.length === 0 ?
+              <div className="Catalog__emptyz">
+                <h1 className='Catalog__title'>Товаров пока что не нет.</h1>
+                <div className="Catalog__gif">
+                  <img src="https://i.gifer.com/Q0t0.gif" alt="gif" />
+                </div>
+              </div>
+             :
+              <div className='Catalog__list'>
+                  <TransitionGroup  component={null}>
+                    {filtered.map((item, i) => (
+                      <CSSTransition
+                          key={i}
+                          timeout={300}
+                          classNames="Catalog__item"
+                          >
+                      <CatalogItem item={item}/>
+                      </CSSTransition>
+                    ))}
+                  </TransitionGroup>
+                </div>
+            }
+            
           </div>
         </div>
       </div>
