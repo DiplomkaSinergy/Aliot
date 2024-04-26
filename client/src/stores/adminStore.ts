@@ -53,7 +53,7 @@ export const useAdminStore = create<IAdminStore>()(immer(devtools((set, get) => 
     _pageProduct: 1,
     _pageUsers: 1,
     _pageOrders: 1,
-    _limitProducts: 3,
+    _limitProducts: 5,
     _limitUsers: 5, 
     _limitOrders: 5, 
     _totalCount: 0,
@@ -76,7 +76,7 @@ export const useAdminStore = create<IAdminStore>()(immer(devtools((set, get) => 
       }
     },
 
-    async getProducts(page, limit = 3) {
+    async getProducts(page, limit = 5) {
       set({loading: true})
       try {
         const {data} = await $host.get<ProductCounts>('api/admin/products', {params: {page, limit}}) 

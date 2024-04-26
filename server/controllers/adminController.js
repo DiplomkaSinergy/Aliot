@@ -42,7 +42,7 @@ class AdminController {
       let {page, limit} = req.query
       
       page = page || 1
-      limit = limit || 3
+      limit = limit || 5
       let offset = page * limit - limit
   
       const products = await Product.findAndCountAll({limit, offset})

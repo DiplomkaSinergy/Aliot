@@ -111,7 +111,7 @@ const AdminOrders = () => {
           {loading 
           ? <Loading/> 
           :
-          <div className="AdminUsers__pagination">
+          <div className="AdminOrders__pagination">
               {pages.map((page, i) =>
                   <div
                       key={page}

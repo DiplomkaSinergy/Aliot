@@ -40,12 +40,23 @@
         width: max-content;
         border-radius: 25px;
         background: linear-gradient(124deg, #4182E3 0%, #063479 134.92%);
+        img {
+            width: 200px;
+            height: 200px;
+            img {
+                object-fit: cover;
+                height: 100%;
+                width: 100%;
+            }
+        }
         &-wrap {
             display: flex;
+            flex-direction: column;
             justify-content: space-around;
             align-items: center;
         }
         &-title {
+            margin-top: 30px;
             width: min-content;
             text-align: center;
             font-size: 25px;

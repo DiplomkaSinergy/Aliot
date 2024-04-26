@@ -32,11 +32,11 @@ const AdminProducts = () => {
   }
 
   useEffect(() => {
-    getProducts(1, 3)
+    getProducts(1, 5)
   }, [getProducts]);
   
   useEffect(() => {
-    getProducts(pageProduct, 3)
+    getProducts(pageProduct, 5)
   }, [pageProduct, getProducts]);
 
   const handleModal = () => {
