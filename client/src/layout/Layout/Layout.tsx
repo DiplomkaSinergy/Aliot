@@ -19,7 +19,7 @@ const Layout = () => {
   const [activeAuthForm, setActiveAuthForm] = useState<Forms | null>(null);
   const [activeMenu, setActiveMenu] = useState<boolean>(false);
 
-
+  
 
   useEffect(() => {
     if (activeAuthForm !== null) {

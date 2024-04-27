@@ -96,13 +96,12 @@ export const FiltersBlock = ({ items, filterName }: FiltersBlockProps) => {
     <List
       items={items}
       renderItems={(item) => (
-        <label htmlFor={`${item.name}`} className='Filters__label'>
+        <label className='Filters__label'>
           <input
             value={item.id}
             name={filterName}
             type='checkbox'
             className='Filters__input'
-            id={`${item.name}`}
             onChange={handleCheckboxChange}
           />
           <div className='Filters__charName'>{item.name}</div>

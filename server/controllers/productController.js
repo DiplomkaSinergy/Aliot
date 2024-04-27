@@ -81,7 +81,6 @@ class ProductController {
 
     async getOne(req, res) {
         const {id} = req.params
-        console.log('backend: ' + id);
         const product = await Product.findOne({
             where: {id},
             include: [{
@@ -94,8 +93,25 @@ class ProductController {
 
 
     async getAllProducts(req, res, next) {
-        const product = await Product.findAll()
-        return res.json(product)
+        try {
+            let {page, limit} = req.query
+      
+            page = page || 1
+            limit = limit || 35
+            let offset = page * limit - limit
+
+            const product = await Product.findAndCountAll({limit, offset})
+
+            if (!product) {
+                return next(ApiError.badRequest('Продукты не найдены'))
+              }
+          
+            return res.json(product)
+
+        } catch (error) {
+            return next(ApiError.badRequest(error))
+        }
+
     }
 
 

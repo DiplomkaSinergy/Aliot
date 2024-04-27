@@ -20,7 +20,7 @@ type OrderWithUser = IOrder & {
 }
 
 type UserCounts = fetchResponse<User>
-type ProductCounts = fetchResponse<IProduct>
+export type ProductCounts = fetchResponse<IProduct>
 type OrderCounts = fetchResponse<OrderWithUser>
 
 interface IAdminStore {
@@ -35,6 +35,7 @@ interface IAdminStore {
     _limitOrders: number,
     _totalCount: number
     loading: boolean,
+    deleteUser: (userId: number | undefined) => Promise<User | undefined>
     getUsers: (page: number, limit: number) => void
     setPage: (page: number, key: string) => void
     getProducts: (page: number, limit: number) => void
@@ -68,6 +69,22 @@ export const useAdminStore = create<IAdminStore>()(immer(devtools((set, get) => 
         set({users: data, _totalCount: data.count})
       } catch (error) {
         if (isAxiosError(error)) {
+            const err: AxiosError<AuthErrorType> = error
+            set({error: err.response?.data.message})
+        }
+      } finally {
+          set({loading: false})
+      }
+    },
+
+    async deleteUser(userId) {
+      set({loading: true})
+      try {
+        const {data} = await $host.delete<User>('api/admin/delete-user', {params: {userId: userId}}) 
+        console.log(data)
+        return data
+      } catch (error) {
+        if (isAxiosError(error)) { 
             const err: AxiosError<AuthErrorType> = error
             set({error: err.response?.data.message})
         }
@@ -191,7 +208,9 @@ export const useAdminStore = create<IAdminStore>()(immer(devtools((set, get) => 
           get().getOrders()
           set({loading: false})
       }
-    }
+    },
+
+
 
 
 }))))

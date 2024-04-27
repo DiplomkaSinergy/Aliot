@@ -36,13 +36,30 @@ class AdminController {
 
     
   }
+
+  async deleteUser(req, res, next) {
+    try {
+      let {userId} = req.query
+     
+      const user = await User.findByPk(userId)
+      
+      console.log(user);
+      user.destroy()
+
+      return res.json(user)
+
+    } catch (error) {
+      return next(ApiError.badRequest(error))
+    }
+
+  }
   async getProducts(req, res, next) {
 
     try {
       let {page, limit} = req.query
       
       page = page || 1
-      limit = limit || 5
+      limit = limit || 5  
       let offset = page * limit - limit
   
       const products = await Product.findAndCountAll({limit, offset})

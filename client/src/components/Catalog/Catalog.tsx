@@ -14,15 +14,34 @@ const Catalog = () => {
 
   const getProducts = useProductStore(state => state.getProducts) 
   const products = useProductStore(state => state.products) 
+  const limitProduct = useProductStore(state => state._limitProduct) 
+  const pageProduct = useProductStore(state => state._pageProduct) 
+  const totalCount = useProductStore(state => state._totalCount) 
+  const setProductsPage = useProductStore(state => state.setProductsPage) 
+
+
   const activeFilters = useFilterStore((state) => state.activeFilters);
   const loading = useFilterStore((state) => state.loading);
 
+
   useEffect(() => {
-    getProducts()
+    getProducts(1, 30)
   }, [getProducts]);
+  useEffect(() => {
+    getProducts(pageProduct, 30)
+    window.scrollTo(0, 0)
+  }, [getProducts, pageProduct]);
+
   
+  const pageCount = Math.ceil(totalCount / limitProduct)
+  const pages = []
   
-  const filtered = products.filter((product) => {
+  for (let i = 0; i < pageCount; i++) {
+    pages.push(i + 1)
+}
+
+  
+  const filtered = products.rows?.filter((product) => {
     
     // Проверяем, соответствует ли каждый продукт выбранным фильтрам
 
@@ -53,7 +72,7 @@ const Catalog = () => {
             {loading ? 
             <Loading/>
             :
-             products.length === 0 ?
+             products.count === 0 ?
               <div className="Catalog__emptyz">
                 <h1 className='Catalog__title'>Товаров пока что не нет.</h1>
                 <div className="Catalog__gif">
@@ -61,9 +80,10 @@ const Catalog = () => {
                 </div>
               </div>
              :
+              <div className='flex1'>
               <div className='Catalog__list'>
                   <TransitionGroup  component={null}>
-                    {filtered.map((item, i) => (
+                    {filtered?.map((item, i) => (
                       <CSSTransition
                           key={i}
                           timeout={300}
@@ -73,7 +93,20 @@ const Catalog = () => {
                       </CSSTransition>
                     ))}
                   </TransitionGroup>
+
                 </div>
+                  <div className="Catalog__pagination">
+                    {pages.map((page, i) =>
+                        <div
+                            key={page}
+                            className={pageProduct === i + 1? 'pagination-item pagination-item-active': 'pagination-item'}
+                            onClick={() => setProductsPage(page)}
+                        >
+                            {page}
+                        </div>
+                    )}
+                  </div>
+              </div>
             }
             
           </div>

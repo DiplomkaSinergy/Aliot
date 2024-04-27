@@ -1,17 +1,19 @@
-import React, { ChangeEvent, useEffect } from 'react'
+import React, { ChangeEvent, useEffect, useState } from 'react'
 
 import './AdminUsers.scss'
-import { PencilLine, RotateCcw, User, UserX } from 'lucide-react'
+import { User as UserLucide,UserX } from 'lucide-react'
 import { useAdminStore } from '@/stores/adminStore'
-import { Loading } from '@/components'
 import { useAuth } from '@/stores/authStore'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
+import { User } from '@/utils/Types/User'
+import { ToastContainer, toast } from 'react-toastify'
 
 const thead = ['Имя', 'Фамилия', 'Телефон', 'Email', 'Роль', "Действие"]
 const roles = ['ADMIN', 'USER']
 
 const AdminUsers = () => {
 
+  
   const userId = useAuth(state => state.user.id)
   const getUsers = useAdminStore(state => state.getUsers)
   const updateRole = useAdminStore(state => state.updateRole)
@@ -22,7 +24,10 @@ const AdminUsers = () => {
   const totalCount = useAdminStore(state => state._totalCount)
   const limit = useAdminStore(state => state._limitUsers)
   const setPage = useAdminStore(state => state.setPage)
-
+  const deleteUser = useAdminStore(state => state.deleteUser)
+  
+  const [activeModal, setActiveModal] = useState<boolean>(false);
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
 
   const pageCount = Math.ceil(totalCount / limit)
   const pages = []
@@ -40,12 +45,36 @@ const AdminUsers = () => {
   }, [activePage, getUsers]);
 
 
+  const handleMenu = (user: User | null) => () => {
+    setActiveModal(value => !value)
+    setCurrentUser(user)
+  }
+
+  const handleDeleteUser = (
+    userId: number | undefined
+  ) =>  async () => {
+    try {
+      toast.promise(
+        deleteUser(userId),
+        {
+          pending: 'Удаление пользователя в процессе...',
+          success: 'Пользователь удален!',
+          error: error
+        },
+      )
+      setActiveModal(false)
+      getUsers(activePage, 5)
+    } catch (e) {
+      toast.error(error);
+    }
+  }
+
 
   return (
     
     <section className='AdminUsers'>
         <div className="AdminUsers__flex">
-          <div className="AdminUsers__titleicon"><User /></div>
+          <div className="AdminUsers__titleicon"><UserLucide /></div>
           <div className="AdminUsers__title">Пользователи</div>
         </div>
         <div className="AdminUsers__count">Всего: {users.count}</div>
@@ -82,10 +111,13 @@ const AdminUsers = () => {
                           }
                         </td>
                         <td>
+                          {userId === item.id ?
+                            <div className="">---</div>                          
+                          :
                           <div className="AdminUsers__actions">
-                            <div className="AdminUsers__icon"><UserX color='red'/></div>
-                            {/* <div className="AdminUsers__icon"><PencilLine color='blue'/></div> */}
+                            <div className="AdminUsers__icon" onClick={handleMenu(item)}><UserX color='red'/></div>
                           </div>
+                          }
                         </td>
                     </tr>
                     </CSSTransition>
@@ -105,16 +137,41 @@ const AdminUsers = () => {
                   </div>
               )}
             </div>
-          {/* <button className='AdminUsers__fetchbtn' onClick={() => getUsers()}>
-            {loading ? <Loading/> :
-            <>
-            <RotateCcw /> <span>Загрузить еще</span>
-            </>
-            }
-          </button> */}
-
+            <MoadlConfitmDelete 
+            handleDeleteUser={handleDeleteUser}
+            activeModal={activeModal} 
+            handleMenu={handleMenu} 
+            user={currentUser}/>
+            <ToastContainer/>
     </section>
   )
 }
+
+
+
+function MoadlConfitmDelete({
+  user,
+  handleMenu,
+  activeModal,
+  handleDeleteUser
+}: {
+  user: User | null,
+  handleMenu: (user: User | null) => () => void
+  activeModal: boolean,
+  handleDeleteUser: (userId: number | undefined) => () => Promise<void>
+}) {
+  return (
+    <div onClick={handleMenu(null)} className={activeModal ? 'Modal Modal-active' : 'Modal'}>
+      <div onClick={e => e.stopPropagation()} className="Modal__content">
+          <h3 className="modal-title">Вы точно хотите удалить пользователя {user?.firstName} {user?.lastName}?</h3>
+          <div className="modal-flex">
+            <button className='modal-btn btn-back' onClick={handleMenu(null)}>Назад</button>
+            <button className='modal-btn btn-del' onClick={handleDeleteUser(user?.id)}>Удалить</button>
+          </div>
+      </div>
+  </div>
+  )
+}
+
 
 export default AdminUsers

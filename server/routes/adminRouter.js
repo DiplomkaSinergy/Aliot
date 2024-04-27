@@ -12,7 +12,9 @@ router.get('/products-in-order', adminController.getProductsInOrder)
 router.put('/update-role', adminController.updateRole)
 router.put('/change-order-status', adminController.updateStatusOrder)
 
+router.delete('/delete-user', adminController.deleteUser)
 
 router.post('/create-product', productController.createProduct)
+
 
 module.exports = router

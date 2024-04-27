@@ -7,6 +7,7 @@ import { AxiosError, isAxiosError } from "axios";
 import { AuthErrorType } from "@/utils/Types/Errors";
 import { User } from "@/utils/Types/User";
 import { Device } from "@/utils/Types/Device";
+import { ProductCounts } from "./adminStore";
 
 export interface IInfoProduct {
     id: number
@@ -36,26 +37,32 @@ export interface IProduct {
 } 
 
 interface IProductStore {
-    products: IProduct[] 
+    _limitProduct: number
+    _totalCount: number
+    _pageProduct: number
+    products: ProductCounts 
     error: string,
     loading: boolean,
-    getProducts: () => Promise<void>
+    getProducts: (page: number, limit: number) => Promise<void>
+    setProductsPage: (page: number) => void
     getOneProduct: (id: string | undefined) => Promise<ProductWithInfo | undefined>
 }
 
 
 
 export const useProductStore = create<IProductStore>()(immer(devtools((set) => ({
-    products: [],
+    _limitProduct: 30,
+    _pageProduct: 1,
+    _totalCount: 0,
+    products: {} as ProductCounts,
     error: '',
     loading: false,
 
-    getProducts: async () => {
+    getProducts: async (page, limit = 35) => {
       set({loading: true})
-      try {
-        const {data} = await $host.get('api/product')
-        set({products: data})
-            
+      try { 
+        const {data} = await $host.get<ProductCounts>('api/product', {params: {page, limit}})
+        set({products: data, _totalCount: data.count})            
       } catch (error) {
           if (isAxiosError(error)) {
               const err: AxiosError<AuthErrorType> = error
@@ -80,6 +87,9 @@ export const useProductStore = create<IProductStore>()(immer(devtools((set) => (
     }
 },
 
+    setProductsPage(page: number) {
+        set({_pageProduct: page})
+    }
 
 
 }))))

@@ -70,7 +70,6 @@ const ProdactPage = () => {
         ) : (
           <div className='ProdactPage__wrapper'>
             <div className='ProdactPage__wrapper-name'>{product?.name}</div>
-            <hr />
             <div className='ProdactPage__wrapper-flex'>
               <div className='ProdactPage__wrapper-img'>
                 <img
@@ -80,9 +79,9 @@ const ProdactPage = () => {
               </div>
               <div className='ProdactPage__wrapper-specifications'>
                 {product?.info?.map((item) => (
-                  <div className='dff'>
-                    <div className=''>{item.title}</div>
-                    <div className=''>{item.description}</div>
+                  <div className='specifications-wrap'>
+                    <div className='specifications-title'>{item.title}: </div>
+                    <div className='specifications-subtitle'>{item.description}</div>
                   </div>
                 ))}
               </div>

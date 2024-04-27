@@ -1,5 +1,5 @@
 .ProdactPage {
-
+    padding-bottom: 100px;
     &__wrapper {
         margin-top: 40px;
     }
@@ -14,10 +14,24 @@
     }
 
     &__wrapper-name {
-        font-size: 22px;
+        font-size: 35px;
         padding-left: 40px;
+        font-weight: 700;
         padding-bottom: 10px;
         // background-color: #4444;
+    }
+
+    &__wrapper-img {
+        width: 350px;
+        height: 350px;
+        border: 2px solid #4182E3;
+        border-radius: 15px;
+        overflow: hidden;
+        img {
+            object-fit: cover;
+            width: 100%;
+            height: 100%;
+        }
     }
 
     &__wrapper-price {
@@ -33,9 +47,10 @@
     }
 
     &__wrapper-specifications {
-        width: 100px;
-        height: 100px;
-        background-color: #4444;
+        width: 500px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 
     }
 
@@ -142,4 +157,25 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
+}
+
+
+.specifications-wrap {
+    padding: 5px;
+    display: flex;
+    justify-content: space-between;
+    &:nth-child(even) {
+        border-radius: 5px;
+        color: white;
+        background-color: #4182E3;
+    }
+}
+
+.specifications-title {
+    font-size: 18px;
+
+}
+.specifications-subtitle {
+    font-size: 18px;
+
 }
