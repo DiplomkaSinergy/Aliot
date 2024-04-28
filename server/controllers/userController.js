@@ -13,7 +13,7 @@ const generateJwt = (id, email, firstName, lastName, role) => {
 
 class UserController {
     async registration(req, res, next) {
-        const {firstName, secondName , email, password, phone, role} = req.body
+        const {firstName, lastName , email, password, phone, role} = req.body
         if (!email || !password) {
             return next(ApiError.badRequest('Некорректный email или пароль'))
         }
@@ -22,7 +22,7 @@ class UserController {
             return next(ApiError.badRequest('Пользователь с таким email уже существует'))
         }
         const hashPassword = await bcrypt.hash(password, 5)
-        const user = await User.create({email, firstName,lastName: secondName,phone, role, password: hashPassword})
+        const user = await User.create({email, firstName,lastName ,phone, role, password: hashPassword})
         const basket = await Basket.create({userId: user.id})
         const token = generateJwt(user.id, user.email, user.firstName, user.lastName, user.role)
         return res.json({token, basket})

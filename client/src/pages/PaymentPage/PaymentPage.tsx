@@ -21,7 +21,8 @@ const PaymentPage = () => {
     getOneOrdersById(id)
   }, [getOneOrdersById, id]);
 
-
+  console.log(currentOrder);
+  
   const handlePayment = async () => {
     try {
       const response = await cretePayment(cartQuantity)
@@ -73,11 +74,19 @@ const PaymentPage = () => {
                       <div className="PaymentPage__info-description">{user.phone}</div>
                     </div>
                 </div>
-                <div className="PaymentPage__info-block flex-block">
-                  <div className="PaymentPage__info-title">Итого</div>
-                  <div className="PaymentPage__info-description">{currentOrder.price} ₽</div>
-                </div>
-                <button className='PaymentPage__info-buybtn' onClick={() => cretePayment(cartQuantity, id)}>Оплатить</button>
+
+                {
+                  currentOrder.status === 'Не оплачен' ?
+                  <>
+                  <div className="PaymentPage__info-block flex-block">
+                    <div className="PaymentPage__info-title">Итого</div>
+                    <div className="PaymentPage__info-description">{currentOrder.price} ₽</div>
+                  </div>
+                  <button className='PaymentPage__info-buybtn' onClick={() => cretePayment(cartQuantity, id)}>Оплатить</button>
+                  </>
+                  : null
+                }
+
           </div>
       </div>
 

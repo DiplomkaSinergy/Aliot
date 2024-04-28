@@ -2,12 +2,12 @@ import React from 'react'
 
 import './OrderItem.scss'
 import { Link } from 'react-router-dom'
-import { IOrder } from '@/stores/orderStore'
+import { IOrder, OrderWithProducts } from '@/stores/orderStore'
 import moment from 'moment'
 import { changeColor } from '@/utils/helpers'
 
 interface IOrderItemProps {
-  item: IOrder
+  item: OrderWithProducts
 }
 
 const OrderItem = ({item}: IOrderItemProps) => {
@@ -19,7 +19,7 @@ const OrderItem = ({item}: IOrderItemProps) => {
             {/* <div className="OrderItem__title">{moment(item.createdAt).locale('ru').format('YYYY-MM-DD')}</div> */}
             <Link to={`/my/order/${item.id}`} className="OrderItem__title">Посмотреть подробнее № {item.id}</Link>
           </div>
-          <div >Статус : <span className={changeColor(item.status)}>{item.status}</span></div>
+          <div ><span className={changeColor(item.status)}>{item.status}</span></div>
           <div className="OrderItem__title">{item.price} ₽</div>
         </div>
 

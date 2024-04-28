@@ -20,9 +20,41 @@ import {
 import { Layout } from '../../layout';
 import { Paths, PathsAccount, PathsAdminPanel } from './Types/paths';
 import { AuthGuard } from '../Providers/AuthGuard';
-import { Notification } from '@/components/Blocks/Tostify/Tostify';
+import { useCallback, useEffect, useState } from 'react';
+import { Forms } from '@/components/Forms/types.interface';
 
 const Routes = () => {
+
+  const [activeAuthForm, setActiveAuthForm] = useState<Forms | null>(null);
+  const [activeMenu, setActiveMenu] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (activeAuthForm !== null) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = 'auto'
+    }
+    switch(activeAuthForm) {
+      case Forms.Auth: 
+        setActiveAuthForm(Forms.Auth)
+        break
+      case Forms.ChangePassword: 
+        setActiveAuthForm(Forms.ChangePassword)
+        break
+      case Forms.ForgotPassword: 
+        setActiveAuthForm(Forms.ForgotPassword)
+        break
+    }
+  }, [activeAuthForm]);
+
+  const handleMenu = () => {
+    setActiveMenu(value => !value)
+  }
+
+  const handleAuthForm = useCallback((value: Forms | null) => {
+    setActiveAuthForm(value)
+  }, []);
+
   return createBrowserRouter([
     
     {
@@ -52,7 +84,12 @@ const Routes = () => {
       ]
     },
     {
-      element: <Layout />,
+      element: <Layout 
+      activeAuthForm={activeAuthForm}
+      activeMenu={activeMenu}
+      handleAuthForm={handleAuthForm}
+      handleMenu={handleMenu}
+      />,
       children: [
         {
           path: Paths.Home,
@@ -102,16 +139,19 @@ const Routes = () => {
         },
         {
           path: Paths.Catalog,
-          element: <CatalogPage />,
+          element: 
+          <AuthGuard
+          handleAuthForm={handleAuthForm}
+          ><CatalogPage /></AuthGuard>
         },
         {
           path: Paths.Product,
           element: <ProdactPage />,
         },
-        {
-          path: Paths.Feedback,
-          element: <FeedbakPage />,
-        },
+        // {
+        //   path: Paths.Feedback,
+        //   element: <FeedbakPage />,
+        // },
       ],
     },
   ]);

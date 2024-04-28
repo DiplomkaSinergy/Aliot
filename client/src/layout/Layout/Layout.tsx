@@ -8,45 +8,19 @@ import './Layout.scss'
 import { ToastContainer } from 'react-toastify'
 
 
-// interface ILayoutProops {
-//   activeAuthForm: Forms | null
-//   setActiveAuthForm: Dispatch<React.SetStateAction<Forms | null>>
-// }
+interface ILayoutProops {
+  activeMenu: boolean
+  activeAuthForm: Forms | null
+  handleMenu: () => void
+  handleAuthForm: (value: Forms | null) => void
+}
 
+const Layout = ({
+  activeAuthForm, 
+  activeMenu, 
+  handleAuthForm,
+  handleMenu}: ILayoutProops) => {
 
-const Layout = () => {
-
-  const [activeAuthForm, setActiveAuthForm] = useState<Forms | null>(null);
-  const [activeMenu, setActiveMenu] = useState<boolean>(false);
-
-  
-
-  useEffect(() => {
-    if (activeAuthForm !== null) {
-      document.body.style.overflow = 'hidden'
-    } else {
-      document.body.style.overflow = 'auto'
-    }
-    switch(activeAuthForm) {
-      case Forms.Auth: 
-        setActiveAuthForm(Forms.Auth)
-        break
-      case Forms.ChangePassword: 
-        setActiveAuthForm(Forms.ChangePassword)
-        break
-      case Forms.ForgotPassword: 
-        setActiveAuthForm(Forms.ForgotPassword)
-        break
-    }
-  }, [activeAuthForm]);
-
-  const handleMenu = () => {
-    setActiveMenu(value => !value)
-  }
-
-  const handleAuthForm = useCallback((value: Forms | null) => {
-    setActiveAuthForm(value)
-  }, []);
 
   return (
     <div className='layout'>

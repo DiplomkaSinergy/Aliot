@@ -37,7 +37,7 @@ export type OrderWithProducts = IOrder & {
 
 
 interface IOrderStore {
-    currentOrder: IOrder,
+    currentOrder: OrderWithProducts,
     orders: IOrder[],
     error: string,
     loading: boolean,
@@ -49,7 +49,7 @@ interface IOrderStore {
 
 
 export const useOrderStore = create<IOrderStore>()(immer(devtools((set,get) => ({
-    currentOrder: {} as IOrder,
+    currentOrder: {} as OrderWithProducts,
     orders: [],
     error: '',
     loading: false,  
@@ -90,7 +90,7 @@ export const useOrderStore = create<IOrderStore>()(immer(devtools((set,get) => (
     async getOneOrdersById(orderId: string | undefined) {
       set({loading: true})
       try {
-        const {data} = await $authHost.get<IOrder>('api/order/getOne', {params: {orderId}})
+        const {data} = await $authHost.get<OrderWithProducts>('api/order/getOne', {params: {orderId}})
         set({currentOrder: data}) 
         console.log(data);
       } catch (error) {

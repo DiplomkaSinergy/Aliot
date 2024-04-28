@@ -23,29 +23,16 @@ const AdminMain = () => {
           <div className="AdminMain__block">
               <div className="AdminMain__item">
                 <div className="AdminMain__item-title">ФИО</div>
-                {/* <div className='hr'></div> */}
                   <div className="AdminMain__item-subtitle">{firstName}</div>
               </div>
-              <div className="AdminMain__item">
-                <div className="AdminMain__item-title">Дата рождения</div>
-                {/* <div className='hr'></div> */}
-                <div className="AdminMain__item-subtitle">5 Мая 2004</div>
-              </div>
-              <div className="AdminMain__item">
-                <div className="AdminMain__item-title">Пол</div>
-                {/* <div className='hr'></div> */}
-                <div className="AdminMain__item-subtitle">Муж.</div>
-              </div>
+          <div className="AdminMain__item">
+              <div className="AdminMain__item-title">Телефон</div>
+              <div className="AdminMain__item-subtitle">{phone ? phone : '---'}</div>
+          </div>
           </div>
           <div className="AdminMain__block">
           <div className="AdminMain__item">
-              <div className="AdminMain__item-title">Телефон</div>
-              {/* <div className='hr'></div> */}
-              <div className="AdminMain__item-subtitle">{phone ? phone : '---'}</div>
-          </div>
-          <div className="AdminMain__item">
               <div className="AdminMain__item-title">Почта</div>
-              {/* <div className='hr'></div> */}
               <div className="AdminMain__item-subtitle">{email}</div>
           </div>
           </div>

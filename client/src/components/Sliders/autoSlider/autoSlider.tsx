@@ -55,7 +55,7 @@ const AutoSlider: FC<IProps> = ({ data, rtl }) => {
     >
       {data.map((item, i) => (
         <SwiperSlide key={i}>
-          <div className='slider__item'>
+          <div className='slider__item-auto'>
             <img src={item.img} alt='img' />
           </div>
         </SwiperSlide>

@@ -112,7 +112,7 @@ const AdminUsers = () => {
                         </td>
                         <td>
                           {userId === item.id ?
-                            <div className="">---</div>                          
+                            <div className="">-</div>                          
                           :
                           <div className="AdminUsers__actions">
                             <div className="AdminUsers__icon" onClick={handleMenu(item)}><UserX color='red'/></div>

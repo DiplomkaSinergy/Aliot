@@ -1,9 +1,8 @@
 import React from 'react'
 
 import { Swiper, SwiperSlide, } from 'swiper/react';
-import {Navigation, Pagination} from 'swiper/modules'
+import {Autoplay, Navigation, Pagination} from 'swiper/modules'
 import { data } from './data';
-
 import 'swiper/scss';
 import 'swiper/scss/pagination';
 
@@ -24,8 +23,12 @@ const ActiveSlider = () => {
         <div className="container">
             <Swiper
                 spaceBetween={50}
+                autoplay={{
+                    delay: 2500,
+                    disableOnInteraction: false,
+                  }}
                 slidesPerView={1}
-                modules={[Navigation, Pagination]}
+                modules={[Autoplay,Navigation, Pagination]}
                 pagination={pagination}
                 className='mySwiper'
                 >
@@ -33,10 +36,6 @@ const ActiveSlider = () => {
                         <SwiperSlide key={i}>
                             <div className="slider__item">
                                 <img src={item.img} alt="img" />
-                                <div className="slider__item-description">
-                                    <div className="slider__item-description-title">{item.title}</div>
-                                    <div className="slider__item-description-subtitle">{item.subtitle}</div>
-                                </div>
                             </div>
                         </SwiperSlide>
                     ))}

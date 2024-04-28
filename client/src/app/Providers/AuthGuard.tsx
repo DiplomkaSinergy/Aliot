@@ -3,9 +3,10 @@ import { TGuardProps } from '../Routes/Types/IGuardProps'
 import { Paths } from '../Routes/Types/paths';
 import { useAuth } from '@/stores/authStore';
 import { Loading } from '@/components';
+import { Forms } from '@/components/Forms/types.interface';
 
 
-const AuthGuard = ({children}: TGuardProps) => {
+const AuthGuard = ({children, handleAuthForm}: TGuardProps) => {
     const isAuth = useAuth(state => state.isAuth)
     const isLoading = useAuth(state => state.loading)
     
@@ -20,7 +21,10 @@ const AuthGuard = ({children}: TGuardProps) => {
       if (isAuth) {
         return children
       } else {
+        
+        handleAuthForm?.(Forms.Auth)
         return <Navigate to={Paths.Home}/>
+
       }
       
 };

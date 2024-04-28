@@ -10,9 +10,9 @@ export const links = [
         text: 'КАТАЛОГ',
         link: `${Paths.Catalog}`,
     },
-    {
-        text: 'ОБРАТНАЯ СВЯЗЬ',
-        link: `${Paths.Feedback}`,
-    },
+    // {
+    //     text: 'ОБРАТНАЯ СВЯЗЬ',
+    //     link: `${Paths.Feedback}`,
+    // },
     
 ]

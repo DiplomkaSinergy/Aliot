@@ -23,18 +23,12 @@ const ProdactPage = () => {
   const getOneProduct = useProductStore((state) => state.getOneProduct);
 
   const getOneCartItem = useCartOrderStore((state) => state.getOneCartItem);
-  const asyncDecreaseCartQuantity = useCartOrderStore(
-    (state) => state.asyncDecreaseCartQuantity
-  );
-  const asyncIncreaseCartQuantity = useCartOrderStore(
-    (state) => state.asyncIncreaseCartQuantity
-  );
+  const asyncDecreaseCartQuantity = useCartOrderStore((state) => state.asyncDecreaseCartQuantity);
+  const asyncIncreaseCartQuantity = useCartOrderStore((state) => state.asyncIncreaseCartQuantity);
   const removeFromCart = useCartOrderStore((state) => state.removeFromCart);
 
   const toggleLikedItmes = useCartLikedStore((state) => state.toggleLikedItmes);
-  const hasLike = useCartLikedStore((state) =>
-    state.getItemQuantity(product?.id)
-  );
+  const hasLike = useCartLikedStore((state) => state.getItemQuantity(product?.id));
 
   const fetchOneCartItem = async () => {
     const data = await getOneCartItem(id, basketId);

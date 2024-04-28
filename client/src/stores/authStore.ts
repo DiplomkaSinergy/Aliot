@@ -20,7 +20,7 @@ interface IAuthStore {
     user: User,
     error: string,
     loading: boolean,
-    register: ({ firstName, secondName, email, password, phone }: RegestrationFormValues) => Promise<User | undefined>,
+    register: ({ firstName, lastName, email, password, phone }: RegestrationFormValues) => Promise<User | undefined>,
     login: ({email, password}: LoginFormValues) => Promise<User | undefined>,
     loguot: () => void,
     chaekAuth: () =>  Promise<User | undefined>,
@@ -34,10 +34,10 @@ export const useAuth = create<IAuthStore>()(persist(immer(devtools((set) => ({
     error: '',
     loading: false,
 
-    register: async ({firstName, secondName, email, password, phone}) => {
+    register: async ({firstName,lastName , email, password, phone}) => {
             try {
                 set({loading: true})
-                const {data} = await $host.post('api/user/registration', {firstName, secondName, email, password, phone, role: "USER"})
+                const {data} = await $host.post('api/user/registration', {firstName, lastName, email, password, phone, role: "USER"})
                 localStorage.setItem('token', data.token)
                 const user = jwtDecode<User>(data.token) 
                 set({user: user, basket: data.basket})
@@ -51,7 +51,7 @@ export const useAuth = create<IAuthStore>()(persist(immer(devtools((set) => ({
                 set({loading: false})
                 setTimeout(() => set({error: ''}), 5000)
             }
-    },  
+    },
 
     login: async ({email, password}) => {
         try {

@@ -7,6 +7,7 @@ import { useAuth } from '@/stores/authStore'
 const Profile = () => {
 
   const firstName = useAuth(state => state.user.firstName)
+  const lastName = useAuth(state => state.user.lastName)
   const email = useAuth(state => state.user.email)
   const loguot = useAuth(state => state.loguot)
 
@@ -22,17 +23,7 @@ const Profile = () => {
               <div className="Profile__item">
                 <div className="Profile__item-title">ФИО</div>
                 {/* <div className='hr'></div> */}
-                  <div className="Profile__item-subtitle">{firstName}</div>
-              </div>
-              <div className="Profile__item">
-                <div className="Profile__item-title">Дата рождения</div>
-                {/* <div className='hr'></div> */}
-                <div className="Profile__item-subtitle">5 Мая 2004</div>
-              </div>
-              <div className="Profile__item">
-                <div className="Profile__item-title">Пол</div>
-                {/* <div className='hr'></div> */}
-                <div className="Profile__item-subtitle">Муж.</div>
+                  <div className="Profile__item-subtitle">{firstName} {lastName}</div>
               </div>
           </div>
           <div className="Profile__block">
