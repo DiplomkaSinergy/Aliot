@@ -13,25 +13,25 @@
         border-radius: 15px;
         img {
           object-fit: cover;
-            width: 100%;
+            width: 110%;
             height: 100%;
         }
 
         &-description {
           position: absolute;
-          width: 97.2%;
+          width: 100%;
           padding: 10px 0px 20px 0px;
           background: rgba(0, 0, 0, 0.60);
-          left: 20px;
           bottom: 150px;
           &-title {
             margin-left: 45px;
-            color: var(--RED, #DF3B3B);
+            color: var(--RED, #007aff);
+            -webkit-text-stroke: 0.3px #FFF;
             font-size: 50px;
             font-weight: 700;
           }
           &-subtitle {
-            margin-left: 45px;
+              margin-left: 45px;
               color: #FFF;
               font-size: 25px;
               font-weight: 400;
@@ -52,6 +52,8 @@
     opacity: 1;
     background: rgba(0, 0, 0, 0.619);
     border-radius: 0px;
+    border: 2px solid #FFF;
+
   }
   
   .swiper-pagination-bullet-active {
@@ -63,9 +65,6 @@
 
   .mySwiper > .swiper-pagination {
     bottom: 10%;
-    // text-align: right;
-    left: 5%;
-    // padding-right: 100px;
   }
 
   .sw-act {

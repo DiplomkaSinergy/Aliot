@@ -1,18 +1,123 @@
-import { FeedbackForm } from '@/components'
-import React from 'react'
+import { FeedbackForm } from '@/components';
+import React, { useState } from 'react';
 
-import './FeedbakPage.scss'
+import './FeedbakPage.scss';
+import Label from '@/components/FeedbackForm/Label/Label';
+import { FormProvider, useForm } from 'react-hook-form';
+import InputMask from 'react-input-mask';
+import { data } from './data';
+import { toast } from 'react-toastify';
+import { $authHost } from '@/services/instance';
 
-const FeedbakPage = () => {
-  return (
-    <div className='FeedbakPage'>
-        <div className="container">
-            <div className="FeedbakPage__wrapper">
-              <FeedbackForm/>
-            </div>
-        </div>
-    </div>
-  )
+
+interface IFeedbakFormValues {
+  name: string
+  phone: string,
+  product: string,
+
 }
 
-export default FeedbakPage
+const FeedbakPage = () => {
+
+  // const [currentProduct, setCurrentProduct] = useState<string | null>(null);
+
+  const {
+    register,
+    handleSubmit,
+    control,
+    reset,
+    formState: { errors },
+} = useForm<IFeedbakFormValues>({ mode: "onBlur" });
+
+
+  const onSubmit = async ({ name, phone,  product}: IFeedbakFormValues) => {
+    console.log(name, phone, product);
+    
+    try {
+      toast.promise(
+        $authHost.post('api/tgReq/custom-products', {name, phone, product}),
+        {
+          pending: 'Заявка в процессе...',
+          success: 'Успешная отправка! C вами скоро свяжутся.',
+          error: 'Ошибка запроса !'
+        },
+      )
+      reset()
+    } catch (error) {
+      console.log(error);
+    } 
+  }
+
+
+  return (
+    <div className='FeedbakPage'>
+      <div className='container'>
+        <div className='FeedbakPage__wrapper'>
+          <form className='FeedbakPage__form' onSubmit={handleSubmit(onSubmit)}>
+            <h2 className='FeedbakPage__form-title'>Оставьте заявку</h2>
+              
+              <Label
+                control={control}
+                className='FeedbakPage__form-label'
+                defaultValue=''
+                name='name' 
+                type='text'
+                label='Имя'
+                rules={{
+                  required: 'Обязательное поле'
+                }}
+              />
+              
+              <Label
+                control={control}
+                className='FeedbakPage__form-label'
+                defaultValue=''
+                name='phone' 
+                type='text'
+                label='Телефон'
+                rules={{
+                  required: 'Обязательное поле'
+                }}
+              />
+              
+        
+              <div className="FeedbakPage__choise-title">Выбранный товар</div>
+              <select 
+              {...register('product', {
+                required: 'Выберите товар!'
+              })} 
+              className='FeedbakPage__select'>
+                <option value="">--Выберите товар--</option>
+                <option value="Автоматические резервные вводы">Автоматические резервные вводы</option>
+                <option value="Главные распределительные щиты">Главные распределительные щиты</option>
+                <option value="Автоматизированные щиты">Автоматизированные щиты</option>
+                <option value="Силовые щиты">Силовые щиты</option>
+                <option value="Осветительные щиты">Осветительные щиты</option>
+                <option value="Вводно-распределительные устройства">Вводно-распределительные устройства</option>
+              </select>
+              <div>
+              {errors.product && <span className='label-error'>{errors.product.message}</span>}
+              </div>
+              <button className='FeedbakPage__submitbtn'>Отправить</button>
+          </form>
+
+
+          {/* <div className="FeedbakPage__list">
+            {data.map((item, i) => (
+              <div
+              onClick={() => setCurrentProduct(item.title)}
+               className={currentProduct === item.title ? "FeedbakPage__list-item active-product " : "FeedbakPage__list-item"}>
+                <div className="FeedbakPage__list-img">
+                  <img src={item.img} alt={item.title} />
+                </div>
+                <div className="FeedbakPage__list-title">{item.title}</div>
+              </div>
+            ))}
+          </div> */}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default FeedbakPage;

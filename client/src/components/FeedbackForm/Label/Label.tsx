@@ -1,36 +1,72 @@
-import React, { FC } from 'react'
-import { FieldError, FieldErrors, Path, UseFormRegister } from 'react-hook-form';
+import React, { FC } from 'react';
+import {
+  Control,
+  Controller,
+  FieldError,
+  FieldErrors,
+  Path,
+  RegisterOptions,
+  UseFormRegister,
+  useController,
+  useForm,
+  useFormContext,
+} from 'react-hook-form';
 import { RegistrationFormFields } from '../FeedbackForm';
 import { IData } from '../data';
 
-export interface ILabelProps {
-    name: Path<RegistrationFormFields>
-    register: UseFormRegister<RegistrationFormFields>
-    errors?: FieldError | undefined
-    placeholder: string;
-    type?: 'text' | 'email';
-    rules?: Record<string, string | number>
+import './Label.scss'
+
+interface LabelProps {
+  name: string;
+  label: string;
+  defaultValue?: string;
+  className?: string;
+  type: string
+  control: Control<IFeedbakFormValues, any, IFeedbakFormValues>;
+  rules?:
+    | Omit<
+        RegisterOptions<IFeedbakFormValues, string>,
+        'valueAsNumber' | 'valueAsDate' | 'setValueAs' | 'disabled'
+      >
+    | undefined;
 }
 
-const Label: FC<ILabelProps> = ({name, register, errors,placeholder,rules,type }) => {
-
+const Label: FC<LabelProps> = ({
+  label,
+  name,
+  control,
+  className,
+  defaultValue,
+  type,
+  rules,
+}) => {
   return (
-    <label>
-        <input 
-            type={type}
-            className='FeedbackForm__input' 
-            placeholder={placeholder}
-            {...register(name, {
-                ...rules
-            })} 
-        />
-        <div className="Form-error">
-            {errors && (
-                <p>{errors?.message || 'Ошибка!'}</p>
-            )}
-        </div>
+    <label className={className}>
+      <div>{label}</div>
+      <Controller
+        name={name}
+        control={control}
+        defaultValue={defaultValue}
+        rules={rules}
+        render={({
+          field: { onChange, value, name },
+          fieldState: { error },
+        }) => (
+          <>
+            <input
+              name={name}
+              type={type}
+              value={value}
+              onChange={(value) => onChange(value)}
+            />
+            <div className="">
+              {error && <span className='label-error'>{error.message}</span>}
+            </div>
+          </>
+        )}
+      />
     </label>
-  )
-}
+  );
+};
 
-export default Label
+export default Label;

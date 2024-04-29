@@ -14,6 +14,9 @@ export const ProdactPage = Loadable(
 export const PaymentPage = Loadable(
     lazy(() => import('@/pages/PaymentPage/PaymentPage'))
 );
+export const ErrorPage = Loadable(
+    lazy(() => import('@/pages/ErrorPage/ErrorPage'))
+);
 
 //@ FeedBack
 export const FeedbakPage = Loadable(

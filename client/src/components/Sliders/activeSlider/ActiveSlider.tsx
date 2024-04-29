@@ -36,6 +36,10 @@ const ActiveSlider = () => {
                         <SwiperSlide key={i}>
                             <div className="slider__item">
                                 <img src={item.img} alt="img" />
+                                <div className="slider__item-description">
+                                    <div className="slider__item-description-title">{item.title}</div>
+                                    <div className="slider__item-description-subtitle">{item.subtitle}</div>
+                                </div>
                             </div>
                         </SwiperSlide>
                     ))}

@@ -1,0 +1,29 @@
+.ErrorPage {
+  background-color: #4182E3;
+  height: 100dvh;
+  width: 100%;
+  &__wrapper {
+    padding-top: 50px;
+    margin: 0px auto;
+    width: 600px;
+    height: auto;
+  }
+
+  &__title {
+    font-size: 32px;
+    color: white;
+    font-weight: 500;
+    text-align: center;
+  }
+
+  &__gif {
+    margin-top: 20px;
+    width: 100%;
+    overflow: hidden;
+    border-radius: 10%;
+    img {
+      width: 100%;
+      scale: 1.37;
+    }
+  }
+}

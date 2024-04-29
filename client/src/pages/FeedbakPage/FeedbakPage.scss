@@ -1,6 +1,135 @@
 .FeedbakPage {
+    background-color: #2284F7;
     &__wrapper {
+        padding-top: 40px;
+        padding-bottom: 40px;
+        gap: 100px;
         display: flex;
         justify-content: center;
     }
+
+    &__select {
+        margin-top: 5px;
+        padding: 10px;
+        border: 2px solid #2284F7;
+        border-radius: 8px;
+    }
+
+    &__form {
+        width: max-content;
+        padding: 15px;
+        background-color: white;
+        border-radius: 8px;
+        height: max-content;
+        &-title {
+            font-size: 35px;
+
+        }
+        &-label {
+
+            div {
+                margin-top: 8px;
+                font-size: 18px;
+            }
+
+            input {
+                width: 100%;
+                padding: 8px 16px;
+                font-size: 16px;
+                border-radius: 8px;
+                line-height: 24px;
+                margin-top: 5px;
+                border: 2px solid #2284F7;
+                &:focus {
+                    border: 2px solid #2284F7;
+                    box-shadow: 0px 0px 1px 2px #2284F7;
+                    outline: none;
+                }
+            }
+        }
+    }
+
+		// .FeedbakPage__choise-title
+
+		&__choise {
+
+            &-title {
+            }
+            &-input {
+                width: 100%;
+                padding: 8px 16px;
+                font-size: 16px;
+                line-height: 24px;
+                margin-top: 5px;
+                border: none;
+                border-bottom: 2px solid #2284F7;
+                &:focus {
+                    outline: none;
+                }
+            }
+        }
+
+    &__submitbtn {
+        border:none;
+        color: white;
+        font-size: 18px;
+        display: block;
+        padding: 8px 12px ;
+        background-color: #2284F7;
+        margin: 10px auto;
+        cursor: pointer;
+        &:hover {
+            background-color: #67aeff;
+        }
+    }
+
+
+
+		&__list {
+            flex: 3;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+		}
+
+
+		&__list-item {
+            cursor: pointer;
+            width: 300px;
+            border-radius: 18px;
+            padding: 10px;
+            background-color: white;
+		}
+
+
+		&__list-img {
+            overflow: hidden;
+            border-radius: 8px;
+            text-align: center;
+            img {
+                width: 100%;
+                height: 100%;
+            }
+		}
+
+
+		&__list-title {
+            font-size: 20px;
+            text-align: center;
+		}
+
+
+}
+
+
+.titleep {
+    margin-top: 8px;
+    font-size: 18px;
+}
+
+
+.active-product {
+    box-shadow: 0px 0px 1px 2px red;
+    background-color: rgb(205, 205, 205);
+
 }

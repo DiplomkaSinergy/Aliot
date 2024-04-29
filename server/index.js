@@ -7,11 +7,6 @@ const router = require('./routes/index')
 const fileUpload = require('express-fileupload')
 const path = require('path')
 const errorHandler = require('./middleware/ErrorHandlingMiddleware')
-// const authenticateSocket = require('./middleware/authenticateSocket')
-// const http = require('http')
-// const jwt = require('jsonwebtoken');
-// const { Server } = require('socket.io')
-// const {io} = require('./socket')
 
 const PORT = process.env.PORT || 5000
 
@@ -26,6 +21,9 @@ app.use('/api', router)
 //! Обработка ошибок, последний Middleware
 app.use(errorHandler)
 
+
+
+
 const start = async () => {
     try {
         await sequelize.authenticate()
@@ -36,3 +34,4 @@ const start = async () => {
     }
 }
 start()
+

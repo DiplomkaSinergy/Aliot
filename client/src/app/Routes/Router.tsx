@@ -9,6 +9,7 @@ import {
   AdminUsers,
   Cart,
   CatalogPage,
+  ErrorPage,
   Favorites,
   FeedbakPage,
   MainPage,
@@ -59,6 +60,7 @@ const Routes = () => {
     
     {
       path: Paths.AdminPanel,
+      errorElement: <ErrorPage/>,
       element: <AdminPanelPage /> ,
       children: [
         {
@@ -90,6 +92,7 @@ const Routes = () => {
       handleAuthForm={handleAuthForm}
       handleMenu={handleMenu}
       />,
+      errorElement: <ErrorPage/>,
       children: [
         {
           path: Paths.Home,
@@ -148,10 +151,10 @@ const Routes = () => {
           path: Paths.Product,
           element: <ProdactPage />,
         },
-        // {
-        //   path: Paths.Feedback,
-        //   element: <FeedbakPage />,
-        // },
+        {
+          path: Paths.Feedback,
+          element: <FeedbakPage />,
+        },
       ],
     },
   ]);
