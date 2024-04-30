@@ -32,10 +32,10 @@ const Layout = ({
           handleMenu={handleMenu}
           handleAuthForm={handleAuthForm}
         />
-        <Menu
+        {/* <Menu
           activeMenu={activeMenu}
           handleMenu={handleMenu}
-        />
+        /> */}
         <AuthForm
           activeAuthForm={activeAuthForm}
           handleAuthForm={handleAuthForm}
