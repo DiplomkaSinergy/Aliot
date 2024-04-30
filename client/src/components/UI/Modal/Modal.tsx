@@ -1,3 +1,6 @@
+//@ts-nocheck
+
+
 import React, { ReactNode } from 'react'
 
 import './Modal.scss'

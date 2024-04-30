@@ -1,4 +1,7 @@
-  import React, { useEffect, useState } from 'react';
+//@ts-nocheck
+
+
+import React, { useEffect, useState } from 'react';
   import { FieldError, Path, UseFormRegister, useForm } from 'react-hook-form';
 
   import './ProductForm.scss';

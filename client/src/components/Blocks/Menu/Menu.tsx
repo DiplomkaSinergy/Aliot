@@ -1,15 +1,11 @@
-import {FC} from 'react'
-import { IBurgerProps } from '@/layout/types'
 import './Menu.scss'
 
-
-
-const Menu: FC<IBurgerProps> = ({activeMenu, setActiveMenu}) => {
+const Menu = () => {
   return (
-    <div className={activeMenu ? "menu active" : "menu"} onClick={() => setActiveMenu(false)}>
+    <div className=''>
         <div className="blur"/>
         <div className="menu__content" onClick={e => e.stopPropagation()}>
-          <div onClick={() => setActiveMenu(!activeMenu)} className="menu__burgerbtn">
+          <div className="menu__burgerbtn">
               <span/>
           </div>
 

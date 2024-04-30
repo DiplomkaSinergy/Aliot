@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import Filters from '../Blocks/Filters/Filters';
 import { CatalogItem } from '../Blocks/CatalogItem/CatalogItem';

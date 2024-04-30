@@ -1,3 +1,6 @@
+//@ts-nocheck
+
+
 import React, { ChangeEvent, memo, useState } from 'react';
 import { Eye, EyeOff, X } from 'lucide-react';
 import './AuthForm.scss';

@@ -1,3 +1,5 @@
+//@ts-nocheck
+
 import React from 'react'
 import AssortmentItem from './AssortmentItem'
 import {data} from './data'

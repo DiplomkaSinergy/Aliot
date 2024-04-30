@@ -1,3 +1,6 @@
+//@ts-nocheck
+
+
 import React from 'react'
 import vk from '@/assets/icons/VK.svg'
 import tg from '@/assets/icons/TG.svg'

@@ -1,10 +1,8 @@
-import React, { useEffect } from 'react'
-
-
-import './AccountPage.scss'
+import { useEffect } from 'react'
 import { navigation } from './NavigationLinks'
 import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { Paths, PathsAccount } from '@/app/Routes/Types/paths'
+import './AccountPage.scss'
 
 const AccountPage = () => {
   const location = useLocation(); 

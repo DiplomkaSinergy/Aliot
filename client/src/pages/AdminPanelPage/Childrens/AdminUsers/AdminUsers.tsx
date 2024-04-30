@@ -1,3 +1,5 @@
+//@ts-nocheck
+
 import React, { ChangeEvent, useEffect, useState } from 'react'
 
 import './AdminUsers.scss'

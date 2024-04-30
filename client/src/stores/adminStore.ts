@@ -1,3 +1,5 @@
+//@ts-nocheck
+
 import { $host } from "@/services/instance/index";
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";

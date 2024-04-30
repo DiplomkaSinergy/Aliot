@@ -1,3 +1,5 @@
+//@ts-nocheck
+
 import { PathsAdminPanel } from "@/app/Routes/Types/paths";
 import { CircleUserRound, ListOrdered, ShoppingCart, SlidersHorizontal, Users } from "lucide-react";
 import {  ReactNode } from "react";

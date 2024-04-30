@@ -1,4 +1,4 @@
-import React, { ReactNode} from 'react'
+import { ReactNode} from 'react'
 
 interface IProps<T> {
     items: T[] | undefined,

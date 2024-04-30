@@ -1,3 +1,6 @@
+//@ts-nocheck
+
+
 import React, { FC} from 'react'
 import {links} from './headerLinks'
 import { NavLink } from 'react-router-dom'

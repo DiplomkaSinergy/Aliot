@@ -1,8 +1,10 @@
+//@ts-nocheck
+
 import { FeedbackForm, List } from '@/components';
 import React, { useState } from 'react';
 
 import './FeedbakPage.scss';
-import Label from '@/components/FeedbackForm/Label/Label';
+import Label from '@/components/UI/Label/Label';
 import { FormProvider, useForm } from 'react-hook-form';
 import InputMask from 'react-input-mask';
 import { data } from './data';

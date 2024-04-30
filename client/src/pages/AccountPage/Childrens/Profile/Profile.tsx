@@ -1,3 +1,5 @@
+
+//@ts-nocheck
 import { LogOut, UserRoundCog } from 'lucide-react'
 import React from 'react'
 

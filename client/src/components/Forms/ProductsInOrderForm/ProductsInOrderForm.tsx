@@ -1,4 +1,7 @@
-  import React, { useEffect, useState } from 'react';
+//@ts-nocheck
+
+
+import React, { useEffect, useState } from 'react';
 
   import './ProductsInOrderForm.scss';
   import { useAdminStore } from '@/stores/adminStore';

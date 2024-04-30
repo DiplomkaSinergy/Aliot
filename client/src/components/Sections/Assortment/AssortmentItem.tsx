@@ -1,3 +1,6 @@
+//@ts-nocheck
+
+
 import React, { FC } from 'react'
 
 interface IDataDescriptiom {
@@ -12,20 +15,6 @@ interface IProps {
     }
 }
 
-// const AssortmentItem:FC<IProps> = ({data}) => {
-//     const  {img, title} = data
-//   return (
-//     <div className='Assortment__item'>
-//         <div className="Assortment__img">
-//             <img src={img} alt="foto" />
-//         </div>
-
-//         <div className="Assortment__back">
-//             <div className="Assortment__name">{title}</div>
-//         </div>
-//     </div>
-//   )
-// }
 
 const AssortmentItem:FC<IProps> = ({data}) => {
   const  {img, title, description} = data

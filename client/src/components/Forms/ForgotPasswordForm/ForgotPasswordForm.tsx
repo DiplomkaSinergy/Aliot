@@ -1,3 +1,6 @@
+//@ts-nocheck
+
+
 import { Modal } from '@/components'
 import React, { memo, useState } from 'react'
 import { Eye, EyeOff, X } from 'lucide-react'

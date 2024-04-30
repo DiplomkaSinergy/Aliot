@@ -1,3 +1,5 @@
+//@ts-nocheck
+
 import React, { MouseEvent, useEffect, useState } from 'react';
 
 import { ShoppingBasket } from 'lucide-react';

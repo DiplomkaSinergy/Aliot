@@ -1,7 +1,4 @@
-import React from 'react'
-
 import './CatalogItem.scss'
-import { IItemDataCompanies } from '@/components/Catalog/data/data'
 import { Link } from 'react-router-dom'
 import { IProduct } from '@/stores/productStore'
 

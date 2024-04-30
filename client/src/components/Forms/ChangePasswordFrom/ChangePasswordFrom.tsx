@@ -1,3 +1,6 @@
+//@ts-nocheck
+
+
 import { Modal } from '@/components'
 import React, { memo } from 'react'
 

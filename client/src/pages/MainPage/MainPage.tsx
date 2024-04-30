@@ -1,6 +1,7 @@
+
+
 import { About, ActiveSlider, Assortment, Contact } from '@/components'
 import { Companies } from '@/components/Sections/Companies/Companies'
-import React from 'react'
 
 
 

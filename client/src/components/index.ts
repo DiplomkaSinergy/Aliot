@@ -5,7 +5,7 @@ export { Contact} from './Sections/Contact/Contact'
 export { AutoSlider } from './Sliders/autoSlider/autoSlider'
 export { Catalog} from './Catalog/Catalog'
 export { ProductSlider} from './Sliders/ProductSlider/ProductSlider'
-export { FeedbackForm} from './FeedbackForm/FeedbackForm'
+
 export { Menu} from './Blocks/Menu/Menu'
 export {Loading} from './Blocks/Loading/Loading'
 export { Modal} from './UI/Modal/Modal'

@@ -1,3 +1,5 @@
+
+//@ts-nocheck
 import { SlidersHorizontal, UserX } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 

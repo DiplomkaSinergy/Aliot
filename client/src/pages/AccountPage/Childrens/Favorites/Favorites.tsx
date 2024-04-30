@@ -1,12 +1,10 @@
 import { Heart} from 'lucide-react'
-import React from 'react'
-
-import './Favorites.scss'
 import { useCartLikedStore } from '@/stores/cartLikedStore'
 import { CatalogItem } from '@/components'
 import { Link } from 'react-router-dom'
 import { Paths } from '@/app/Routes/Types/paths'
 import socketZag from '../../../../assets/img/socketZag.jpg'
+import './Favorites.scss'
 
 const Favorites = () => {
   const likedItems = useCartLikedStore(state => state.likedItems)

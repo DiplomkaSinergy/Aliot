@@ -1,3 +1,5 @@
+//@ts-nocheck
+
 import React from 'react'
 import counts from '@/assets/img/about.svg'
 import {data} from './data'

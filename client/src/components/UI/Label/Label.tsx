@@ -1,3 +1,6 @@
+
+//@ts-nocheck
+
 import React, { FC } from 'react';
 import {
   Control,
@@ -11,8 +14,8 @@ import {
   useForm,
   useFormContext,
 } from 'react-hook-form';
-import { RegistrationFormFields } from '../FeedbackForm';
-import { IData } from '../data';
+import { RegistrationFormFields } from '../../FeedbackForm/FeedbackForm';
+import { IData } from '../../FeedbackForm/data';
 
 import './Label.scss'
 

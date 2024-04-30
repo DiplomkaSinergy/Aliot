@@ -1,7 +1,5 @@
-import { IProduct } from '@/stores/productStore';
 import './CartOrderItem.scss';
-import { ICartItem, useCartOrderStore } from '@/stores/cartOrderStore';
-import { useEffect, useState } from 'react';
+import { ICartItem } from '@/stores/cartOrderStore';
 
 interface CartOrderItemProps {
   product: ICartItem;

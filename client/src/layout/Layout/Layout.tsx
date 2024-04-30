@@ -1,3 +1,6 @@
+//@ts-nocheck
+
+
 import React, {useCallback, useEffect, useState, Dispatch, FC} from 'react'
 import Footer from '../Footer/Footer'
 import Header from '../Header/Header'

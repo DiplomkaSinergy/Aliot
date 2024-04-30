@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect } from 'react';
+import { ChangeEvent, useEffect } from 'react';
 import { List } from '../List/List';
 import { IFilter, stringNameProp, useFilterStore } from '@/stores/filtersStore';
 import { Loading } from '../Loading/Loading';

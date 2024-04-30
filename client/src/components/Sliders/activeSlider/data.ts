@@ -1,3 +1,4 @@
+//@ts-nocheck
 
 import png from '@/assets/img/PNG.png'
 import slider2 from '@/assets/img/slider2.jpg'

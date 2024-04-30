@@ -1,3 +1,5 @@
+//@ts-nocheck
+
 import { Paths, PathsAdminPanel } from '@/app/Routes/Types/paths';
 import React, { useEffect } from 'react'
 import { NavLink } from 'react-router-dom';

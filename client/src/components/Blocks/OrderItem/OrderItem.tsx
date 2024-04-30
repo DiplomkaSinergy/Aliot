@@ -1,10 +1,7 @@
-import React from 'react'
-
-import './OrderItem.scss'
 import { Link } from 'react-router-dom'
-import { IOrder, OrderWithProducts } from '@/stores/orderStore'
-import moment from 'moment'
+import { OrderWithProducts } from '@/stores/orderStore'
 import { changeColor } from '@/utils/helpers'
+import './OrderItem.scss'
 
 interface IOrderItemProps {
   item: OrderWithProducts
