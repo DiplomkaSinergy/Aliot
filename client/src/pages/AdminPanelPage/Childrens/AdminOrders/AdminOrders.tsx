@@ -12,7 +12,7 @@ import { Loading, ProductsInOrderForm } from '@/components'
 
 
 const thead = ['Дата создания', 'Цена', 'Статус', 'email', 'ФИО', 'Товары']
-const roles = ['Не оплачен', 'Купленные', 'В сборке', 'Ожидают получения', 'Отмененные']
+const roles = ['Не оплачен', 'Оплачен', 'В сборке', 'Ожидают получения', 'Получен', 'Отмененные']
 
 
 const AdminOrders = () => {
@@ -23,7 +23,7 @@ const AdminOrders = () => {
   const orders = useAdminStore(state => state.orders)
   const error = useAdminStore(state => state.error)
   const loading = useAdminStore(state => state.loading)
-  const activePage = useAdminStore(state => state._pageUsers)
+  const activePage = useAdminStore(state => state._pageOrders)
   const totalCount = useAdminStore(state => state._totalCount)
   const limit = useAdminStore(state => state._limitOrders)
 
@@ -68,7 +68,7 @@ const AdminOrders = () => {
           <table className="table">
             <thead>
               <tr>
-                {thead.map((item, i) => (
+                {thead.map((item) => (
                   <th key={item}>{item}</th>
                 ))}
               </tr>
@@ -95,8 +95,8 @@ const AdminOrders = () => {
                             ))}
                           </select>
                         </td>
-                        <td>{item.user.email}</td>
-                        <td>{item.user.firstName} {item.user.lastName}</td>
+                        <td>{item.user?.email}</td>
+                        <td>{item.user?.firstName} {item.user?.lastName}</td>
                         <td>
                           <button className='AdminOrders__product-btn' onClick={handleWindowProductInfo(item.id)}>Подробнее</button>
                        

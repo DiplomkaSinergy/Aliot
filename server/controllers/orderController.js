@@ -87,7 +87,6 @@ class OrderController {
       }
     })
 
-    console.log(order);
     if (!order) {
       return res.status(404).json({ error: 'Заказ не найден' });
     }

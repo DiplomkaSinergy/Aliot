@@ -21,16 +21,16 @@ const PaymentPage = () => {
     getOneOrdersById(id)
   }, [getOneOrdersById, id]);
 
-  console.log(currentOrder);
   
   const handlePayment = async () => {
     try {
-      const response = await cretePayment(cartQuantity)
+      const response = await cretePayment(currentOrder.price, id)
+      
+      console.log(response);
 
-      if (response?.ok) {
+      if (response.status === 200) {
         console.log(response);
-        const paymentData = await response?.json();
-        window.location.href = paymentData.confirmationUrl;
+        window.location.href = response.data.confirmationUrl;
       } else {
         console.error('Failed to create payment:', response?.statusText);
       }
@@ -82,7 +82,7 @@ const PaymentPage = () => {
                     <div className="PaymentPage__info-title">Итого</div>
                     <div className="PaymentPage__info-description">{currentOrder.price} ₽</div>
                   </div>
-                  <button className='PaymentPage__info-buybtn' onClick={() => cretePayment(cartQuantity, id)}>Оплатить</button>
+                  <button className='PaymentPage__info-buybtn' onClick={() => handlePayment()}>Оплатить</button>
                   </>
                   : null
                 }

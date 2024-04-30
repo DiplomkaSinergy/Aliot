@@ -5,7 +5,7 @@ const ApiError = require('../error/ApiError');
 const { Order } = require('../models/models');
 const SHOP_ID = 368853
 
-const authorization = "Basic MzY4ODUzOnRlc3RfOUJsUFB5aUpkVTVOdGJ3T29kMDFzUTRpY2JHU1haVkk5Rkd1VFRhQnMzVQ=="
+const authorization = "Basic MzY4ODUzOnRlc3RfOGR6YVhZTXhQVVRqNHNNN2c5ZjdDZXhOU3Z1X3FfSjhnWUxnVTIxaFloaw=="
 const initial_payment_msg = "Списываем оплату за заказ";
 
 class PaymentController {
@@ -46,11 +46,11 @@ class PaymentController {
           }
           order.paymentId = response.data.payment_method.id
           await order.save()
-          console.log(order);
-          console.log(response);
+        //   console.log(order);
+        //   console.log(response);
           const paymentData = response.data;
-          res.json(response.data)
-        //   res.json({ confirmationUrl: paymentData.confirmation.confirmation_url });
+        //   res.json(response.data)
+          res.json({ confirmationUrl: paymentData.confirmation.confirmation_url });
       } else {
           console.error('Failed to create payment:', response.statusText);
           return next(ApiError.internal('Ошибка в создании платежа'))

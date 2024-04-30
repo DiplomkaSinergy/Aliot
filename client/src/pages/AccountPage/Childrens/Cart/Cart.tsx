@@ -45,9 +45,6 @@ const Cart = () => {
 
   const [address, setAddress] = useState<string | null>(null);
 
-
-  const [timeId, setTimeId] = useState<number | null>(null);
-
   useEffect(() => {
     getAllOrderCartItems(basketId);
   }, []);

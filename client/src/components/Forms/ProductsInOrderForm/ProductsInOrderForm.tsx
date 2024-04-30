@@ -31,7 +31,6 @@ import { IOrderProduct } from '@/stores/orderStore';
     toast.promise(
       fetchProducts(),
       {
-
       }
     )
   }, []);
@@ -49,10 +48,12 @@ import { IOrderProduct } from '@/stores/orderStore';
                 <div className="ProductsInOrderForm__list">
 
                 {productsInOrder?.map(item => (
-                <div className="ProductsInOrderForm_item">
-                  <div className=""><img src={import.meta.env.VITE_APP_API_URL +  item.product.img} alt="img" /></div>
-                  <div className="">{item.product.name}</div>
-                  <div className="">{item.product.price} x {item.quantity}</div>
+                <div className="ProductsInOrderForm__item">
+                  <div className="ProductsInOrderForm__item-img"><img src={import.meta.env.VITE_APP_API_URL +  item.product.img} alt="img" /></div>
+                  <div>
+                  <div className="ProductsInOrderForm__item-title">{item.product.name}</div>
+                  <div className="ProductsInOrderForm__item-price">{item.product.price} x {item.quantity}</div>
+                  </div>
                 </div>      
 
                 ))}

@@ -24,11 +24,6 @@ export const navigation: INavigationLinks[] = [
         title: 'Продукты',
         path: `${PathsAdminPanel.Products}`,
     },
-    // {
-    //     icon: <SlidersHorizontal />,
-    //     title: 'Характеристики',
-    //     path: `${PathsAdminPanel.Characteristics}`,
-    // },
     {
         icon: <ListOrdered />,
         title: 'Заказы',

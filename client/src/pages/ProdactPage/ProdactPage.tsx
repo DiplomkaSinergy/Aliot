@@ -2,7 +2,7 @@ import { Loading } from '@/components';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { ProductWithInfo, useProductStore } from '@/stores/productStore';
-import { BaggageClaim, Heart, HeartOff } from 'lucide-react';
+import { BaggageClaim, Heart } from 'lucide-react';
 import { ICartItem, useCartOrderStore } from '@/stores/cartOrderStore';
 import './ProdactPage.scss';
 import { useAuth } from '@/stores/authStore';

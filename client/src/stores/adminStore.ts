@@ -30,6 +30,7 @@ interface IAdminStore {
     error: string,
     _pageUsers: number,
     _pageProduct: number,
+    _pageOrders: number,
     _limitUsers: number,
     _limitProducts: number,
     _limitOrders: number,
@@ -123,7 +124,7 @@ export const useAdminStore = create<IAdminStore>()(immer(devtools((set, get) => 
             set({error: err.response?.data.message})
         }
       } finally {
-          get().getUsers() 
+          get().getUsers(get()._pageUsers, get()._limitUsers)  
           set({loading: false})
       }
     },
@@ -205,13 +206,10 @@ export const useAdminStore = create<IAdminStore>()(immer(devtools((set, get) => 
             set({error: err.response?.data.message})
         }
       } finally {
-          get().getOrders()
+          get().getOrders(get()._pageOrders, get()._limitOrders) 
           set({loading: false})
       }
     },
-
-
-
 
 }))))
 

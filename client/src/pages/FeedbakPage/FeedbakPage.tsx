@@ -1,4 +1,4 @@
-import { FeedbackForm } from '@/components';
+import { FeedbackForm, List } from '@/components';
 import React, { useState } from 'react';
 
 import './FeedbakPage.scss';
@@ -17,9 +17,16 @@ interface IFeedbakFormValues {
 
 }
 
-const FeedbakPage = () => {
+const options: string[] = [
+  'Автоматические резервные вводы', 
+  'Главные распределительные щиты',
+  'Автоматизированные щиты',
+  'Силовые щиты',
+  'Осветительные щиты',
+  'Вводно-распределительные устройства',
+]
 
-  // const [currentProduct, setCurrentProduct] = useState<string | null>(null);
+const FeedbakPage = () => {
 
   const {
     register,
@@ -88,12 +95,12 @@ const FeedbakPage = () => {
               })} 
               className='FeedbakPage__select'>
                 <option value="">--Выберите товар--</option>
-                <option value="Автоматические резервные вводы">Автоматические резервные вводы</option>
-                <option value="Главные распределительные щиты">Главные распределительные щиты</option>
-                <option value="Автоматизированные щиты">Автоматизированные щиты</option>
-                <option value="Силовые щиты">Силовые щиты</option>
-                <option value="Осветительные щиты">Осветительные щиты</option>
-                <option value="Вводно-распределительные устройства">Вводно-распределительные устройства</option>
+                <List
+                  items={options}
+                  renderItems={(item) => (
+                    <option value={item}>{item}</option>
+                  )}
+                />
               </select>
               <div>
               {errors.product && <span className='label-error'>{errors.product.message}</span>}

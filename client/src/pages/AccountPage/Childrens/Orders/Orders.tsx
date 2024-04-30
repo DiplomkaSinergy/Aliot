@@ -11,37 +11,8 @@ import { Paths } from '@/app/Routes/Types/paths'
 import { OrderItem } from '@/components'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 
-type tabOrder = {
-  title: string,
-  value: string
-}
 
-const tabs: tabOrder[] = [
-  {
-    title: 'Все',
-    value: 'all',
-  },
-  {
-    title: 'Не оплачен',
-    value: 'notBuy',
-  },
-  {
-    title: 'Купленные',
-    value: 'bought',
-  },
-  {
-    title: 'В сборке',
-    value: 'in process',
-  },
-  {
-    title: 'Ожидают получения',
-    value: 'waiting',
-  },
-  {
-    title: 'Отмененные',
-    value: 'reject',
-  },
-]
+const tabs: string[] = ['Все', 'Не оплачен','Оплачен','В сборке','Ожидают получения','Получен','Отмененные']
 
 const Orders = () => {
 
@@ -64,7 +35,6 @@ const Orders = () => {
   })
 
 
-
   return (
     <div className='Orders'>
       <div className='Orders__flex'>
@@ -76,7 +46,7 @@ const Orders = () => {
 
       <select className='Orders__select' onChange={(e) => setActiveTab(e.target.value)}>
         {tabs.map(item => (
-          <option value={item.title}>{item.title}</option>
+          <option value={item}>{item}</option>
         ))}
       </select>
 

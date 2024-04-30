@@ -18,7 +18,6 @@ const CatalogItem = ({item}: ICardProps) => {
               </div>
               <div className='CatalogItem__price'>{item.price} руб.</div>
               <div className='CatalogItem__title'>{item.name}</div>
-              {/* <button className='CatalogItem__btnOrder'>Добавить в заказ</button> */}
           </Link>
         </div>
   )

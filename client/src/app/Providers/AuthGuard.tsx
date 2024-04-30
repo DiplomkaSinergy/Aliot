@@ -21,10 +21,8 @@ const AuthGuard = ({children, handleAuthForm}: TGuardProps) => {
       if (isAuth) {
         return children
       } else {
-        
         handleAuthForm?.(Forms.Auth)
         return <Navigate to={Paths.Home}/>
-
       }
       
 };

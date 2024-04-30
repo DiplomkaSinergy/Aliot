@@ -11,8 +11,6 @@ import socketZag from '../../../../assets/img/socketZag.jpg'
 const Favorites = () => {
   const likedItems = useCartLikedStore(state => state.likedItems)
 
-
-
   return (
     <section className='Favorites'>
         <div className="Favorites__flex">

@@ -54,7 +54,7 @@ const AdminUsers = () => {
     userId: number | undefined
   ) =>  async () => {
     try {
-      toast.promise(
+      const Id = await toast.promise(
         deleteUser(userId),
         {
           pending: 'Удаление пользователя в процессе...',
@@ -63,7 +63,9 @@ const AdminUsers = () => {
         },
       )
       setActiveModal(false)
-      getUsers(activePage, 5)
+      if (Id) {
+        getUsers(activePage, 5)
+      }
     } catch (e) {
       toast.error(error);
     }
@@ -81,7 +83,7 @@ const AdminUsers = () => {
           <table className="table">
             <thead>
               <tr>
-                {thead.map((item, i) => (
+                {thead.map((item) => (
                   <th key={item}>{item}</th>
                 ))}
               </tr>

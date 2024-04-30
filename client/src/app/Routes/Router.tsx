@@ -23,9 +23,11 @@ import { Paths, PathsAccount, PathsAdminPanel } from './Types/paths';
 import { AuthGuard } from '../Providers/AuthGuard';
 import { useCallback, useEffect, useState } from 'react';
 import { Forms } from '@/components/Forms/types.interface';
+import { useAuth } from '@/stores/authStore';
 
 const Routes = () => {
 
+  const checkAuth = useAuth(state => state.chaekAuth)
   const [activeAuthForm, setActiveAuthForm] = useState<Forms | null>(null);
   const [activeMenu, setActiveMenu] = useState<boolean>(false);
 
@@ -142,10 +144,13 @@ const Routes = () => {
         },
         {
           path: Paths.Catalog,
-          element: 
-          <AuthGuard
-          handleAuthForm={handleAuthForm}
-          ><CatalogPage /></AuthGuard>
+          loader: async () => {
+            const user = await checkAuth()
+            return user || null
+          },
+          element: (
+            <AuthGuard handleAuthForm={handleAuthForm}><CatalogPage /></AuthGuard>
+          )
         },
         {
           path: Paths.Product,

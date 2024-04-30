@@ -38,17 +38,17 @@ export type OrderWithProducts = IOrder & {
 
 interface IOrderStore {
     currentOrder: OrderWithProducts,
-    orders: IOrder[],
+    orders: OrderWithProducts[],
     error: string,
     loading: boolean,
     creteOrder: (userId: number, basketId: number, price: number, address: string | null) => Promise<IOrder | undefined>
     getAllOrdersById: (userId: number) => void
     getOneOrdersById: (orderId: string | undefined) => void
-    cretePayment: (value: number, orderId: string | undefined) => Promise<void>
+    cretePayment: (value: number | string, orderId: string | undefined) => Promise
 }
 
 
-export const useOrderStore = create<IOrderStore>()(immer(devtools((set,get) => ({
+export const useOrderStore = create<IOrderStore>()(immer(devtools((set) => ({
     currentOrder: {} as OrderWithProducts,
     orders: [],
     error: '',
@@ -71,11 +71,11 @@ export const useOrderStore = create<IOrderStore>()(immer(devtools((set,get) => (
           set({loading: false})
       }
     },
-
-    async getAllOrdersById(userId: number) {
+ 
+    async getAllOrdersById(userId: number) { 
       set({loading: true})
       try {
-        const {data} = await $authHost.get<IOrder[]>('api/order/getAll', {params: {userId}})
+        const {data} = await $authHost.get<OrderWithProducts[]>('api/order/getAll', {params: {userId}})
         set({orders: data}) 
         console.log(data);
       } catch (error) {
@@ -103,22 +103,21 @@ export const useOrderStore = create<IOrderStore>()(immer(devtools((set,get) => (
       }
     },
 
-
-    async cretePayment(value: number, orderId: string | undefined) { 
-      set({loading: true})  
+    async cretePayment(value: number | string, orderId: string | undefined) { 
+      set({loading: true})
       try { 
-        const data = await $host.post('api/payment/create', {amount: value, orderId}) 
-        console.log(data);
-        // return data 
-      } catch (error) {
-          if (isAxiosError(error)) {
-              const err: AxiosError<AuthErrorType> = error
-              set({error: err.response?.data.message})
-          }
-      } finally {
-          // get().reduceCartProdict() 
-          set({loading: false})
-      }
+        const data = await $host.post('api/payment/create', {amount: value, orderId})  
+        console.log(data)
+        return data 
+      } catch (error) {  
+          if (isAxiosError(error)) { 
+              const err: AxiosError<AuthErrorType> = error 
+              set({error: err.response?.data.message}) 
+          } 
+      } finally { 
+          // get().reduceCartProdict()  
+          set({loading: false}) 
+      } 
     },
  
   

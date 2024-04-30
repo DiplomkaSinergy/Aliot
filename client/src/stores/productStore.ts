@@ -25,6 +25,8 @@ export interface IProduct {
     img: string
     price: number
     rating: number
+    createdAt: string,
+    updatedAt: string,
     brandsCharId: null | string
     breakingCapacityCharId: null | string
     degreeProtectionCharId: null | string
