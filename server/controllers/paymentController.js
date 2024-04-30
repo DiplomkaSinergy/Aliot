@@ -5,7 +5,7 @@ const ApiError = require('../error/ApiError');
 const { Order } = require('../models/models');
 const SHOP_ID = 368853
 
-const authorization = "Basic MzY4ODUzOnRlc3RfOGR6YVhZTXhQVVRqNHNNN2c5ZjdDZXhOU3Z1X3FfSjhnWUxnVTIxaFloaw=="
+const authorization = process.env.YOKASSA_TOKEN
 const initial_payment_msg = "Списываем оплату за заказ";
 
 class PaymentController {
