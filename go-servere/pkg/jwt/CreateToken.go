@@ -6,30 +6,30 @@ import (
 	"time"
 
 	"github.com/golang-jwt/jwt"
-	"gorm.io/gorm"
 )
 
-// CreateToken создает JWT токен для пользователя
+// CreateToken creates a JWT token for a user
 func CreateToken(user models.User) (string, error) {
-	// Создание структуры claims, основанной на данных пользователя и стандартных JWT claims
 	claims := &models.Claims{
-		Model:     gorm.Model{ID: user.ID}, // Используем ID пользователя из gorm.Model
+		GormModel: models.GormModel{
+			ID: user.ID,
+		},
 		Email:     user.Email,
 		FirstName: user.FirstName,
 		LastName:  user.LastName,
 		Role:      user.Role,
 		StandardClaims: jwt.StandardClaims{
-			ExpiresAt: time.Now().Add(time.Hour * 24 * 7).Unix(), // Устанавливаем время истечения токена
+			ExpiresAt: time.Now().Add(time.Hour * 24 * 7).Unix(),
 		},
 	}
 
-	// Создание нового JWT токена с указанными claims
+	// Create a new JWT token with the specified claims
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 
-	// Подписывание токена с использованием секретного ключа, хранящегося в переменных окружения
+	// Sign the token using the secret key stored in environment variables
 	signedToken, err := token.SignedString([]byte(os.Getenv("JWT_SECRET")))
 	if err != nil {
-		return "", err // В случае ошибки возвращаем пустую строку и ошибку
+		return "", err // Return empty string and error in case of failure
 	}
 
 	return signedToken, nil

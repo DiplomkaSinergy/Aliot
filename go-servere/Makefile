@@ -5,7 +5,7 @@ appname = app
 .PHONY: all
 
 # building docs and run the app
-all: docs run
+all: run
 
 # run the app
 run:
@@ -17,7 +17,3 @@ build:
 # start binary app
 start:
 	./$(appname)
-
-# Swagger Documentation
-docs:
-	swag init -g ./cmd/$(appname)/main.go -o docs --parseDependency --parseInternal

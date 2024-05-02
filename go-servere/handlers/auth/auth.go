@@ -118,9 +118,6 @@ func (u *AuthHandler) Login(c *gin.Context) {
 		return
 	}
 
-	// Установка токена в Cookie
-	// c.SetCookie("token", token, int((time.Hour * 24 * 30).Seconds()), "/", "", false, false)
-
 	c.JSON(http.StatusOK, gin.H{
 		"message": "Успешная авторизация",
 		"token":   token,

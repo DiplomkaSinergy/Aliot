@@ -6,11 +6,7 @@ import (
 	"aliot/middlewares"
 	_ "aliot/pkg/vars"
 
-	docs "aliot/docs"
-
 	"github.com/gin-gonic/gin"
-	swaggerfiles "github.com/swaggo/files"
-	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 // @ Функция для настройки роутинга
@@ -19,13 +15,11 @@ func SetupRouter(a *auth.AuthHandler, u *handlers.UserHandler) *gin.Engine {
 
 	middlewares.CorsMiddleware(r)
 
-	docs.SwaggerInfo.BasePath = "/"
-
 	user := r.Group("/api/user")
 	{
 		//? Auth
 		user.GET("/user/auth", handlers.CheckHandler)
-		user.POST("/signup", a.Register)
+		user.POST("/registration", a.Register)
 		user.POST("/login", a.Login)
 		user.GET("/logout", a.Logout)
 	}
@@ -50,9 +44,5 @@ func SetupRouter(a *auth.AuthHandler, u *handlers.UserHandler) *gin.Engine {
 		// authGroup.Use(isAdmin())
 		authGroup.GET("/dashboard", u.Dashboard)
 	}
-
-	// @Swagger Docs
-	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
-
 	return r
 }

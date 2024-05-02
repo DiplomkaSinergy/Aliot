@@ -1,13 +1,37 @@
 package models
 
 import (
+	"encoding/json"
+	"time"
+
 	"github.com/golang-jwt/jwt"
 	"gorm.io/gorm"
 )
 
+func (u *User) MarshalJSON() ([]byte, error) {
+	id := u.GormModel.ID
+
+	data := map[string]interface{}{
+		"id":        id,
+		"Email":     u.Email,
+		"FirstName": u.FirstName,
+		"LastName":  u.LastName,
+		"Role":      u.Role,
+	}
+
+	return json.Marshal(data)
+}
+
+type GormModel struct {
+	ID        uint `gorm:"primarykey" json:"id"`
+	CreatedAt time.Time
+	UpdatedAt time.Time
+	DeletedAt gorm.DeletedAt `gorm:"index"`
+}
+
 // @ JWT структура для управления Claims токенов
 type Claims struct {
-	gorm.Model
+	GormModel
 	Email     string `json:"email"`
 	FirstName string `json:"firstName"`
 	LastName  string `json:"lastName"`
@@ -17,7 +41,7 @@ type Claims struct {
 
 // Основная структура пользователя
 type User struct {
-	gorm.Model
+	GormModel
 	Email     string    `gorm:"unique;not null" json:"email"`
 	Password  string    `gorm:"not null" json:"password"`
 	FirstName string    `json:"first_name"`
@@ -31,7 +55,7 @@ type User struct {
 
 // Корзина покупателя
 type Basket struct {
-	gorm.Model
+	GormModel
 	UserID         uint             `json:"userID"`
 	User           *User            `gorm:"foreignKey:UserID"`
 	BasketProducts []*BasketProduct `gorm:"foreignKey:BasketID"`
@@ -39,7 +63,7 @@ type Basket struct {
 
 // Продукты в корзине
 type BasketProduct struct {
-	gorm.Model
+	GormModel
 	Quantity  int      `gorm:"not null" json:"quantity"`
 	BasketID  uint     `json:"basketID"`
 	Basket    *Basket  `gorm:"foreignKey:BasketID"`
@@ -49,7 +73,7 @@ type BasketProduct struct {
 
 // Информация о продуктах
 type Product struct {
-	gorm.Model
+	GormModel
 	Name                   string                `gorm:"not null" json:"name"`
 	Price                  int                   `gorm:"not null" json:"price"`
 	Rating                 int                   `gorm:"default:0" json:"rating"`
@@ -80,7 +104,7 @@ type Product struct {
 
 // Рейтинги продуктов
 type Rating struct {
-	gorm.Model
+	GormModel
 	Rate      string   `gorm:"not null" json:"rate"`
 	UserID    uint     `json:"userID"`
 	User      *User    `gorm:"foreignKey:UserID"`
@@ -90,7 +114,7 @@ type Rating struct {
 
 // Дополнительная информация о продуктах
 type ProductInfo struct {
-	gorm.Model
+	GormModel
 	Title       string   `gorm:"not null" json:"title"`
 	Description string   `gorm:"not null" json:"description"`
 	ProductID   uint     `json:"productID"`
@@ -99,7 +123,7 @@ type ProductInfo struct {
 
 // Заказы пользователей
 type Order struct {
-	gorm.Model
+	GormModel
 	Price         int             `gorm:"not null" json:"price"`
 	Status        string          `gorm:"not null;default:'Не оплачен'" json:"status"`
 	Address       string          `gorm:"not null" json:"address"`
@@ -111,7 +135,7 @@ type Order struct {
 
 // Продукты в заказах
 type OrderProduct struct {
-	gorm.Model
+	GormModel
 	Quantity  int      `gorm:"not null" json:"quantity"`
 	OrderID   uint     `json:"orderID"`
 	Order     *Order   `gorm:"foreignKey:OrderID"`
@@ -121,7 +145,7 @@ type OrderProduct struct {
 
 // Характеристическая модель с правильно определенными внешними ключами
 type CharacteristicName struct {
-	gorm.Model
+	GormModel
 	Name                  string                  `gorm:"not null" json:"name"`
 	BreakingCapacityChars []*BreakingCapacityChar `gorm:"foreignKey:CharacteristicNameID;references:ID"`
 	TypeOfMechanismChars  []*TypeOfMechanismChar  `gorm:"foreignKey:CharacteristicNameID;references:ID"`
@@ -135,7 +159,7 @@ type CharacteristicName struct {
 }
 
 type Characteristic struct {
-	gorm.Model
+	GormModel
 	Name                 string `gorm:"not null" json:"name"`
 	CharacteristicNameID uint   `json:"characteristicNameID"`
 }

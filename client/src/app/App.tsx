@@ -10,7 +10,7 @@ function App() {
   const chaekAuth = useAuth(state => state.chaekAuth)
   const isAuth = useAuth(state => state.isAuth)
   const getAllOrderCartItems = useCartOrderStore(state => state.getAllOrderCartItems)
-  const basketId = useAuth(state => state.basket.id)
+  const basketId = useAuth(state => state.basket?.id)
 
   useEffect(() => {
     chaekAuth()

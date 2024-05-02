@@ -270,14 +270,6 @@ func (u *UserHandler) DeleteUser(c *gin.Context) {
 // @Router /api/users [get]
 func (u *UserHandler) GetAllUsers(c *gin.Context) {
 	var users []models.User
-	if err := u.DB.Preload("Section").Find(&users).Error; err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to get users"})
-		return
-	}
-	if err := u.DB.Preload("StroopResult").Find(&users).Error; err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to get users"})
-		return
-	}
 
 	c.JSON(http.StatusOK, users)
 }
