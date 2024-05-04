@@ -12,8 +12,10 @@ export type PasswordState = {
 
 
 export type RegestrationFormValues = {
-    first_name: string
-    last_name: string
+    firstName: string
+    lastName: string
+    // first_name: string
+    // last_name: string
     email: string;
     phone: string
     password: string;

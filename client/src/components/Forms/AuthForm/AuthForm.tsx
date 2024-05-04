@@ -1,4 +1,4 @@
-import React, { ChangeEvent, memo, useState } from 'react';
+import { ChangeEvent, memo, useState } from 'react';
 import { Eye, EyeOff, X } from 'lucide-react';
 import './AuthForm.scss';
 import { Loading, Modal } from '@/components';
@@ -31,11 +31,11 @@ const AuthForm = memo(({ activeAuthForm, handleAuthForm }: IAuthFormProps) => {
   const [visionPasswordFirst, setVisionPasswordFirst] = useState<boolean>(false);
   const navigate = useNavigate();
 
-  const onSubmit = async ({ first_name,  last_name, email, phone, password}: RegestrationFormValues) => {
+  const onSubmit = async ({ firstName,  lastName, email, phone, password}: RegestrationFormValues) => {
     
     console.log(
-      'first_name: ' + first_name,
-      'last_name: ' + last_name,
+      'firstName: ' + firstName,
+      'lastName: ' + lastName,
       'email: ' + email,
       'phone: ' + phone,
       'password: ' + password,
@@ -44,7 +44,7 @@ const AuthForm = memo(({ activeAuthForm, handleAuthForm }: IAuthFormProps) => {
 
     if (activeTab === 'signup') {
       
-      const user = await setRegister({ first_name,last_name, email, password, phone });
+      const user = await setRegister({ firstName,lastName, email, password, phone });
       if (user && !error) {
         notification.success('Успешная регистрация')
         setActiveTab('signin')
@@ -138,11 +138,11 @@ const AuthForm = memo(({ activeAuthForm, handleAuthForm }: IAuthFormProps) => {
                   <input
                     type='text'
                     className={
-                      errors?.first_name
+                      errors?.firstName
                         ? 'AuthForm__input input-red'
                         : 'AuthForm__input '
                     }
-                    {...register('first_name', {
+                    {...register('firstName', {
                         required: 'Обязательно к заполнению',
                         minLength: {
                           value: 3,
@@ -151,7 +151,7 @@ const AuthForm = memo(({ activeAuthForm, handleAuthForm }: IAuthFormProps) => {
                     })}
                   />
                     <div className='Form-error'>
-                        {errors.first_name && <small>{errors?.first_name?.message || 'Ошибка!'}</small>}
+                        {errors.firstName && <small>{errors?.firstName?.message || 'Ошибка!'}</small>}
                     </div>
                 </div>
                 <div className='AuthForm__email'> 
@@ -159,7 +159,7 @@ const AuthForm = memo(({ activeAuthForm, handleAuthForm }: IAuthFormProps) => {
                   <input
                     type='text'
                     className='AuthForm__input'
-                    {...register('last_name', {
+                    {...register('lastName', {
                         minLength: {
                           value: 3,
                           message: 'Минимум 3 символа.'
@@ -167,7 +167,7 @@ const AuthForm = memo(({ activeAuthForm, handleAuthForm }: IAuthFormProps) => {
                     })}
                   />
                   <div className='Form-error'>
-                        {errors.last_name && <small>{errors?.last_name?.message || 'Ошибка!'}</small>}
+                        {errors.lastName && <small>{errors?.lastName?.message || 'Ошибка!'}</small>}
                     </div>
                 </div>
               </>
