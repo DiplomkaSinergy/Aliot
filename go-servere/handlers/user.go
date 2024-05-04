@@ -192,7 +192,7 @@ func CheckHandler(c *gin.Context) {
 	// Get the token from the authorization header
 	tokenString := c.GetHeader("Authorization")
 	if tokenString == "" {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "Token not found"})
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Токен не найден"})
 		return
 	}
 

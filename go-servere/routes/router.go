@@ -18,10 +18,9 @@ func SetupRouter(a *auth.AuthHandler, u *handlers.UserHandler) *gin.Engine {
 	user := r.Group("/api/user")
 	{
 		//? Auth
-		user.GET("/user/auth", handlers.CheckHandler)
+		user.GET("/check-auth", middlewares.AuthMiddleware(), a.Checkauth)
 		user.POST("/registration", a.Register)
 		user.POST("/login", a.Login)
-		user.GET("/logout", a.Logout)
 	}
 
 	api := r.Group("/api")
@@ -38,11 +37,11 @@ func SetupRouter(a *auth.AuthHandler, u *handlers.UserHandler) *gin.Engine {
 	}
 
 	//@ Группа маршрутов, требующих авторизации и определенной роли
-	authGroup := r.Group("/auth")
-	{
-		// authGroup.Use(middlewares.AuthMiddleware())
-		// authGroup.Use(isAdmin())
-		authGroup.GET("/dashboard", u.Dashboard)
-	}
+	// authGroup := r.Group("/auth")
+	// {
+	// 	// authGroup.Use(middlewares.AuthMiddleware())
+	// 	// authGroup.Use(isAdmin())
+	// 	authGroup.GET("/dashboard", u.Dashboard)
+	// }
 	return r
 }

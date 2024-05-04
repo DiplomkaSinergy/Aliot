@@ -32,11 +32,16 @@ type AuthHandler struct {
 // @Router /api/signup [POST]
 func (u *AuthHandler) Register(c *gin.Context) {
 	var user models.User
+	fmt.Printf("Received user data: %+v\n", user)
 	if err := c.ShouldBindJSON(&user); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Ошибка при регистрации пользователя"})
 		return
 	}
-	// fmt.Printf("Received user data: %+v\n", user)
+
+	if user.Email == "" || user.Password == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid email or password"})
+		return
+	}
 
 	var existingUser models.User
 	if err := u.DB.Where("email = ?", user.Email).First(&existingUser).Error; err == nil {
@@ -60,7 +65,7 @@ func (u *AuthHandler) Register(c *gin.Context) {
 
 	user.Password = hashedPassword
 	user.Role = string(models.SimpleUser)
-
+	// user.LastName =
 	// Присвоение роли по умолчанию, если не указана
 	if user.Role == "" {
 		user.Role = string(models.SimpleUser)
@@ -69,9 +74,25 @@ func (u *AuthHandler) Register(c *gin.Context) {
 	// Создание пользователя
 	u.DB.Create(&user)
 
+	basket := models.Basket{UserID: user.ID}
+	if err := u.DB.Create(&basket).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create basket"})
+		return
+	}
+
+	// Создание токена
+	token, err := jwt.CreateToken(user)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to generate token"})
+		return
+	}
+
 	// Log successful registration
 	fmt.Printf("User successfully registered: %+v\n", user)
-	c.JSON(http.StatusCreated, gin.H{"message": "Пользователь успешно зарегистрирован"})
+	c.JSON(http.StatusCreated, gin.H{
+		"message": "Пользователь успешно зарегистрирован",
+		"token":   token,
+	})
 }
 
 // @Summary Авторизация пользователя
@@ -130,9 +151,37 @@ func (u *AuthHandler) Login(c *gin.Context) {
 // @Produce json
 // @Success 200 {string} string "Успешный выход"
 // @Router /api/logout [GET]
-func (u *AuthHandler) Logout(c *gin.Context) {
-	c.SetCookie("token", "", -1, "/", "", false, false)
-	c.JSON(http.StatusOK, gin.H{"message": "Logout successful"})
+// func (u *AuthHandler) Logout(c *gin.Context) {
+// 	c.SetCookie("token", "", -1, "/", "", false, false)
+// 	c.JSON(http.StatusOK, gin.H{"message": "Logout successful"})
+// }
+
+func (u *AuthHandler) Checkauth(c *gin.Context) {
+	// user, exists := c.Get("user")
+	// fmt.Printf("Failed ---- : %v\n",)
+	fmt.Printf("Failed ---- :suka")
+
+	// if !exists {
+	// 	c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to retrieve user data"})
+	// 	return
+	// }
+
+	// Преобразуем данные пользователя в объект models.User
+	// userData, ok := user.(models.User)
+	// if !ok {
+	// 	c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to parse user data"})
+	// 	return
+	// }
+
+	// // Генерируем JWT токен на основе данных пользователя
+	// token, err := jwt.CreateToken(userData)
+	// if err != nil {
+	// 	c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to generate token"})
+	// 	return
+	// }
+
+	// // Возвращаем токен в формате JSON
+	// c.JSON(http.StatusOK, gin.H{"token": token})
 }
 
 func CreateAdmin(db *gorm.DB) {

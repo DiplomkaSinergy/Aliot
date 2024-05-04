@@ -2,17 +2,12 @@ import React, { ChangeEvent, memo, useState } from 'react';
 import { Eye, EyeOff, X } from 'lucide-react';
 import './AuthForm.scss';
 import { Loading, Modal } from '@/components';
-import {
-  Forms,
-  PasswordState,
-  RegestrationFormValues,
-} from '../types.interface';
+import {Forms,RegestrationFormValues} from '../types.interface';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { Paths } from '@/app/Routes/Types/paths';
 import { useAuth } from '@/stores/authStore';
 import InputMask from 'react-input-mask';
-import { ToastContainer } from 'react-toastify';
 import { notification } from '@/components/Blocks/Tostify/Tostify';
 
 interface IAuthFormProps {
@@ -36,11 +31,20 @@ const AuthForm = memo(({ activeAuthForm, handleAuthForm }: IAuthFormProps) => {
   const [visionPasswordFirst, setVisionPasswordFirst] = useState<boolean>(false);
   const navigate = useNavigate();
 
-  const onSubmit = async ({ firstName,  lastName, email, phone, password}: RegestrationFormValues) => {
+  const onSubmit = async ({ first_name,  last_name, email, phone, password}: RegestrationFormValues) => {
     
+    console.log(
+      'first_name: ' + first_name,
+      'last_name: ' + last_name,
+      'email: ' + email,
+      'phone: ' + phone,
+      'password: ' + password,
+    );
+    
+
     if (activeTab === 'signup') {
       
-      const user = await setRegister({ firstName,lastName, email, password, phone });
+      const user = await setRegister({ first_name,last_name, email, password, phone });
       if (user && !error) {
         notification.success('Успешная регистрация')
         setActiveTab('signin')
@@ -134,11 +138,11 @@ const AuthForm = memo(({ activeAuthForm, handleAuthForm }: IAuthFormProps) => {
                   <input
                     type='text'
                     className={
-                      errors?.firstName
+                      errors?.first_name
                         ? 'AuthForm__input input-red'
                         : 'AuthForm__input '
                     }
-                    {...register('firstName', {
+                    {...register('first_name', {
                         required: 'Обязательно к заполнению',
                         minLength: {
                           value: 3,
@@ -147,7 +151,7 @@ const AuthForm = memo(({ activeAuthForm, handleAuthForm }: IAuthFormProps) => {
                     })}
                   />
                     <div className='Form-error'>
-                        {errors.firstName && <small>{errors?.firstName?.message || 'Ошибка!'}</small>}
+                        {errors.first_name && <small>{errors?.first_name?.message || 'Ошибка!'}</small>}
                     </div>
                 </div>
                 <div className='AuthForm__email'> 
@@ -155,7 +159,7 @@ const AuthForm = memo(({ activeAuthForm, handleAuthForm }: IAuthFormProps) => {
                   <input
                     type='text'
                     className='AuthForm__input'
-                    {...register('lastName', {
+                    {...register('last_name', {
                         minLength: {
                           value: 3,
                           message: 'Минимум 3 символа.'
@@ -163,7 +167,7 @@ const AuthForm = memo(({ activeAuthForm, handleAuthForm }: IAuthFormProps) => {
                     })}
                   />
                   <div className='Form-error'>
-                        {errors.lastName && <small>{errors?.lastName?.message || 'Ошибка!'}</small>}
+                        {errors.last_name && <small>{errors?.last_name?.message || 'Ошибка!'}</small>}
                     </div>
                 </div>
               </>
@@ -205,7 +209,7 @@ const AuthForm = memo(({ activeAuthForm, handleAuthForm }: IAuthFormProps) => {
                   >
                 </InputMask>
                 <div className='Form-error'>
-                    {errors.password && <small>{errors?.password?.message || 'Ошибка!'}</small>}
+                    {errors.phone && <small>{errors?.phone?.message || 'Ошибка!'}</small>}
                 </div>
               </div>
               

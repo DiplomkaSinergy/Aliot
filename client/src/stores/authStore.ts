@@ -20,7 +20,7 @@ interface IAuthStore {
     user: User,
     error: string,
     loading: boolean,
-    register: ({ firstName, lastName, email, password, phone }: RegestrationFormValues) => Promise<User | undefined>,
+    register: ({ first_name, last_name, email, password, phone }: RegestrationFormValues) => Promise<User | undefined>,
     login: ({email, password}: LoginFormValues) => Promise<User | undefined>,
     loguot: () => void,
     chaekAuth: () =>  Promise<User | undefined>,
@@ -34,10 +34,11 @@ export const useAuth = create<IAuthStore>()(persist(immer(devtools((set) => ({
     error: '',
     loading: false,
 
-    register: async ({firstName,lastName , email, password, phone}) => {
+    register: async ({first_name,last_name , email, password, phone}) => {
             try {
                 set({loading: true})
-                const {data} = await $host.post('api/user/registration', {firstName, lastName, email, password, phone, role: "USER"})
+                const {data} = await $host.post('api/user/registration', {first_name, last_name, email, password, phone, role: "USER"})
+                console.log(data);
                 localStorage.setItem('token', data.token)
                 const user = jwtDecode<User>(data.token) 
                 set({user: user, basket: data.basket})
@@ -75,7 +76,8 @@ export const useAuth = create<IAuthStore>()(persist(immer(devtools((set) => ({
     chaekAuth: async () => {
         set({loading: true})
         try {
-            const {data} = await $authHost.get('api/user/auth')
+            const {data} = await $authHost.get('api/user/check-auth')
+            console.log('cheauth', data);
             localStorage.setItem('token', data.token)
             const user = jwtDecode<User>(data.token)
             set({user: user, isAuth: true})

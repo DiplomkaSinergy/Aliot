@@ -44,8 +44,8 @@ type User struct {
 	GormModel
 	Email     string    `gorm:"unique;not null" json:"email"`
 	Password  string    `gorm:"not null" json:"password"`
-	FirstName string    `json:"first_name"`
-	LastName  string    `json:"last_name"`
+	FirstName string    `json:"firstName"`
+	LastName  string    `json:"lastName"`
 	Phone     string    `gorm:"unique" json:"phone"`
 	Role      string    `gorm:"default:'USER'" json:"role"`
 	Basket    *Basket   `gorm:"foreignKey:UserID"`
