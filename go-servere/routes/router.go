@@ -18,7 +18,7 @@ func SetupRouter(a *auth.AuthHandler, u *handlers.UserHandler) *gin.Engine {
 	user := r.Group("/api/user")
 	{
 		//? Auth
-		user.GET("/check-auth", middlewares.AuthMiddleware(), a.Checkauth)
+		user.GET("/check-auth", a.Checkauth)
 		user.POST("/registration", a.Register)
 		user.POST("/login", a.Login)
 	}
@@ -34,6 +34,7 @@ func SetupRouter(a *auth.AuthHandler, u *handlers.UserHandler) *gin.Engine {
 		//? Password reset
 		api.POST("/forgot-password", u.ForgotPassword)
 		api.POST("/reset-password", u.ResetPassword)
+		api.GET("/filters", u.GetAllFilters)
 	}
 
 	//@ Группа маршрутов, требующих авторизации и определенной роли

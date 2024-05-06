@@ -33,18 +33,11 @@ const AuthForm = memo(({ activeAuthForm, handleAuthForm }: IAuthFormProps) => {
 
   const onSubmit = async ({ firstName,  lastName, email, phone, password}: RegestrationFormValues) => {
     
-    console.log(
-      'firstName: ' + firstName,
-      'lastName: ' + lastName,
-      'email: ' + email,
-      'phone: ' + phone,
-      'password: ' + password,
-    );
-    
 
     if (activeTab === 'signup') {
       
       const user = await setRegister({ firstName,lastName, email, password, phone });
+      
       if (user && !error) {
         notification.success('Успешная регистрация')
         setActiveTab('signin')

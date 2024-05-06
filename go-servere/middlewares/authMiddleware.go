@@ -1,9 +1,14 @@
 package middlewares
 
 import (
+	"aliot/models"
+	"aliot/pkg/vars"
 	"fmt"
+	"net/http"
+	"strings"
 
 	"github.com/gin-gonic/gin"
+	"github.com/golang-jwt/jwt"
 )
 
 // func AuthMiddleware() gin.HandlerFunc {
@@ -48,40 +53,54 @@ func AuthMiddleware() gin.HandlerFunc {
 			c.Next()
 			return
 		}
+
 		fmt.Printf("Failed auth middlware")
 
-		// tokenString := c.GetHeader("Authorization")
-		// if tokenString == "" {
-		// 	c.JSON(http.StatusUnauthorized, gin.H{"message": "Не авторизован"})
-		// 	c.Abort()
-		// 	return
-		// }
+		tokenString := c.GetHeader("Authorization")
+		if tokenString == "" {
+			c.JSON(http.StatusUnauthorized, gin.H{"message": "Не авторизован"})
+			c.Abort()
+			return
+		}
 
-		// tokenArr := strings.Split(tokenString, " ")
-		// if len(tokenArr) != 2 || tokenArr[0] != "Bearer" {
-		// 	c.JSON(http.StatusUnauthorized, gin.H{"message": "Не авторизован"})
-		// 	c.Abort()
-		// 	return
-		// }
+		tokenArr := strings.Split(tokenString, " ")
+		if len(tokenArr) != 2 || tokenArr[0] != "Bearer" {
+			c.JSON(http.StatusUnauthorized, gin.H{"message": "Не авторизован"})
+			c.Abort()
+			return
+		}
 
-		// token, err := jwt.Parse(tokenArr[1], func(token *jwt.Token) (interface{}, error) {
-		// 	// Проверка подписи токена с использованием секретного ключа
-		// 	return []byte("ваш_секретный_ключ"), nil
-		// })
-		// if err != nil || !token.Valid {
-		// 	c.JSON(http.StatusUnauthorized, gin.H{"message": "Не авторизован"})
-		// 	c.Abort()
-		// 	return
-		// }
+		token, err := jwt.Parse(tokenArr[1], func(token *jwt.Token) (interface{}, error) {
+			// Проверка подписи токена с использованием секретного ключа
+			return []byte(vars.JWT_SECRET), nil
+		})
+		if err != nil || !token.Valid {
+			c.JSON(http.StatusUnauthorized, gin.H{"message": "Не авторизован"})
+			c.Abort()
+			return
+		}
 
-		// claims, ok := token.Claims.(jwt.MapClaims)
-		// if !ok {
-		// 	c.JSON(http.StatusUnauthorized, gin.H{"message": "Не авторизован"})
-		// 	c.Abort()
-		// 	return
-		// }
+		claims, ok := token.Claims.(jwt.MapClaims)
+		if !ok {
+			c.JSON(http.StatusUnauthorized, gin.H{"message": "Не авторизован"})
+			c.Abort()
+			return
+		}
 
-		// c.Set("user", claims)
+		email := claims["email"].(string)
+		firstName := claims["firstName"].(string)
+		lastName := claims["lastName"].(string)
+		role := claims["role"].(string)
+
+		// Создание объекта models.User
+		user := models.User{
+			Email:     email,
+			FirstName: firstName,
+			LastName:  lastName,
+			Role:      role,
+		}
+
+		c.Set("user", user)
 		c.Next()
 	}
 }

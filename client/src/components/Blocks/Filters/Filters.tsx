@@ -9,6 +9,9 @@ const Filters = () => {
   const filters = useFilterStore((state) => state.filters);
   const loading = useFilterStore((state) => state.loading);
 
+  console.log(filters);
+  
+
   useEffect(() => {
     getFilters();
   }, [getFilters]);
@@ -22,50 +25,50 @@ const Filters = () => {
         <>
         <div className='Filters__title'>
           {filters?.brands && 
-            filters.brands[0]?.characteristic_name?.name}
+            filters.brands[0]?.CharacteristicName?.name}
         </div>
         <FiltersBlock filterName='brands' items={filters.brands} />
 
         <div className='Filters__title'>
           {filters?.breakingCapacity &&
-            filters.breakingCapacity[0]?.characteristic_name?.name}
+            filters.breakingCapacity[0]?.CharacteristicName?.name}
         </div>
         <FiltersBlock filterName='breakingCapacity' items={filters.breakingCapacity} />
 
         <div className='Filters__title'>
           {filters?.degreeProtection &&
-            filters.degreeProtection[0]?.characteristic_name?.name}
+            filters.degreeProtection[0]?.CharacteristicName?.name}
         </div>
         <FiltersBlock filterName='degreeProtection' items={filters.degreeProtection} />
 
         <div className='Filters__title'>
           {filters?.display &&
-            filters.display[0]?.characteristic_name?.name}
+            filters.display[0]?.CharacteristicName?.name}
         </div>
         <FiltersBlock filterName='display' items={filters.display} />
         <div className='Filters__title'>
           {filters?.numberPoles &&
-            filters.numberPoles[0]?.characteristic_name?.name}
+            filters.numberPoles[0]?.CharacteristicName?.name}
         </div>
         <FiltersBlock filterName='numberPoles' items={filters.numberPoles} />
         <div className='Filters__title'>
           {filters?.ratedCurrent &&
-            filters.ratedCurrent[0]?.characteristic_name?.name}
+            filters.ratedCurrent[0]?.CharacteristicName?.name}
         </div>
         <FiltersBlock filterName='ratedCurrent' items={filters.ratedCurrent} />
         <div className='Filters__title'>
           {filters?.ratedVoltage &&
-            filters.ratedVoltage[0]?.characteristic_name?.name}
+            filters.ratedVoltage[0]?.CharacteristicName?.name}
         </div>
         <FiltersBlock filterName='ratedVoltage' items={filters.ratedVoltage} />
         <div className='Filters__title'>
           {filters?.shutdownCruve &&
-            filters.shutdownCruve[0]?.characteristic_name?.name}
+            filters.shutdownCruve[0]?.CharacteristicName?.name}
         </div>
         <FiltersBlock filterName='shutdownCruve' items={filters.shutdownCruve} />
         <div className='Filters__title'>
           {filters?.typeOfMechanism &&
-            filters.typeOfMechanism[0]?.characteristic_name?.name}
+            filters.typeOfMechanism[0]?.CharacteristicName?.name}
         </div>
         <FiltersBlock filterName='typeOfMechanism' items={filters.typeOfMechanism} />
         </>

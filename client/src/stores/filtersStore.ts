@@ -24,7 +24,7 @@ export interface IFilter {
     id: number,
     name: string | number,
     characteristicNameId: number,
-    characteristic_name: {name: string}
+    CharacteristicName: {name: string}
 }
 
 interface TFilters<T> {
@@ -74,6 +74,7 @@ export const useFilterStore = create<IFilterStore>()(immer(devtools((set) => ({
       set({loading: true})
       try {
         const {data} = await $host.get<FiltersResponse>(`api/filters`)
+        console.log(data);
         set({filters: data})
         //   set({products: data.products, filters: data.filters})
       } catch (error) {

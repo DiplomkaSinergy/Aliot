@@ -32,8 +32,6 @@ func SyncDB() {
 		&models.Basket{},
 		&models.BasketProduct{},
 		&models.Product{},
-		&models.Rating{},
-		&models.ProductInfo{},
 		&models.Order{},
 		&models.OrderProduct{},
 		&models.CharacteristicName{},

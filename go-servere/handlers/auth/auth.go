@@ -3,13 +3,17 @@ package auth
 import (
 	"aliot/models"
 	password "aliot/pkg/Password"
-	"aliot/pkg/jwt"
+
+	cjwt "aliot/pkg/jwt"
 	"aliot/pkg/vars"
 	"errors"
 	"fmt"
 	"net/http"
+	"os"
+	"strings"
 
 	"github.com/Avdushin/gogger/logger"
+	"github.com/golang-jwt/jwt"
 
 	"github.com/gin-gonic/gin"
 	"golang.org/x/crypto/bcrypt"
@@ -81,7 +85,7 @@ func (u *AuthHandler) Register(c *gin.Context) {
 	}
 
 	// Создание токена
-	token, err := jwt.CreateToken(user)
+	token, err := cjwt.CreateToken(user)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to generate token"})
 		return
@@ -133,7 +137,7 @@ func (u *AuthHandler) Login(c *gin.Context) {
 	}
 
 	// Создание токена
-	token, err := jwt.CreateToken(dbUser)
+	token, err := cjwt.CreateToken(dbUser)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to generate token"})
 		return
@@ -157,26 +161,55 @@ func (u *AuthHandler) Login(c *gin.Context) {
 // }
 
 func (u *AuthHandler) Checkauth(c *gin.Context) {
-	// user, exists := c.Get("user")
-	// fmt.Printf("Failed ---- : %v\n",)
-	fmt.Printf("Failed ---- :suka")
 
+	tokenString := c.GetHeader("Authorization")
+	if tokenString == "" {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Token not found"})
+		return
+	}
+
+	// Remove the "Bearer " prefix if present
+	tokenString = strings.ReplaceAll(tokenString, "Bearer ", "")
+
+	// Parse the token
+	token, err := jwt.ParseWithClaims(tokenString, &models.Claims{}, func(token *jwt.Token) (interface{}, error) {
+		return []byte(os.Getenv("JWT_SECRET")), nil
+	})
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid token"})
+		return
+	}
+
+	claims, ok := token.Claims.(*models.Claims)
+	if !ok || !token.Valid {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid or expired token"})
+		return
+	}
+
+	// Set user claims in the context
+	c.Set("user", *claims)
+
+	// Respond with the token
+	c.JSON(http.StatusOK, gin.H{"token": tokenString})
+
+	// user, exists := c.Get("user")
 	// if !exists {
-	// 	c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to retrieve user data"})
+	// 	c.JSON(http.StatusInternalServerError, gin.H{"error": "Не удалось получить данные пользователя"})
 	// 	return
 	// }
 
-	// Преобразуем данные пользователя в объект models.User
+	// fmt.Printf("   USER:    ", user)
+	// // Преобразуем данные пользователя в объект models.User
 	// userData, ok := user.(models.User)
 	// if !ok {
-	// 	c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to parse user data"})
+	// 	c.JSON(http.StatusInternalServerError, gin.H{"error": "Не удалось проанализировать данные пользователя"})
 	// 	return
 	// }
 
 	// // Генерируем JWT токен на основе данных пользователя
 	// token, err := jwt.CreateToken(userData)
 	// if err != nil {
-	// 	c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to generate token"})
+	// 	c.JSON(http.StatusInternalServerError, gin.H{"error": "Не удалось сгенерировать токен"})
 	// 	return
 	// }
 
