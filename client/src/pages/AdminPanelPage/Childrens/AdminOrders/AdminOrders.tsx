@@ -125,10 +125,6 @@ const AdminOrders = () => {
               )}
             </div>
           }
-          {error && 
-          <small className="error">{error}</small>
-          }
-
     </section>
 
 
