@@ -92,15 +92,15 @@ type Product struct {
 	Name                   string  `json:"name"`
 	Img                    string  `json:"img"`
 	Price                  float64 `json:"price"`
-	BreakingCapacityCharID uint    `json:"breakingCapacityCharID"`
-	TypeOfMechanismCharID  uint    `json:"TypeOfMechanismCharID"`
-	RatedCurrentCharID     uint    `json:"RatedCurrentCharID"`
-	RatedVoltageCharID     uint    `json:"RatedVoltageCharID"`
-	DegreeProtectionCharID uint    `json:"DegreeProtectionCharID"`
-	NumberPolesCharID      uint    `json:"NumberPolesCharID"`
-	ShutdownCruveCharID    uint    `json:"ShutdownCruveCharID"`
-	DisplayCharID          uint    `json:"DisplayCharID"`
-	BrandsCharID           uint    `json:"BrandsCharID"`
+	BreakingCapacityCharID *uint   `json:"breakingCapacityCharID"`
+	TypeOfMechanismCharID  *uint   `json:"TypeOfMechanismCharID"`
+	RatedCurrentCharID     *uint   `json:"RatedCurrentCharID"`
+	RatedVoltageCharID     *uint   `json:"RatedVoltageCharID"`
+	DegreeProtectionCharID *uint   `json:"DegreeProtectionCharID"`
+	NumberPolesCharID      *uint   `json:"NumberPolesCharID"`
+	ShutdownCruveCharID    *uint   `json:"ShutdownCruveCharID"`
+	DisplayCharID          *uint   `json:"DisplayCharID"`
+	BrandsCharID           *uint   `json:"BrandsCharID"`
 
 	BreakingCapacityChar *BreakingCapacityChar `gorm:"foreignKey:BreakingCapacityCharID"`
 	TypeOfMechanismChar  *TypeOfMechanismChar  `gorm:"foreignKey:TypeOfMechanismCharID"`
@@ -114,6 +114,16 @@ type Product struct {
 
 	BasketProducts []*BasketProduct `gorm:"foreignKey:ProductID"`
 	OrderProducts  []*OrderProduct  `gorm:"foreignKey:ProductID"`
+	ProductInfo    []*ProductInfo   `gorm:"foreignKey:ProductID"`
+}
+
+type ProductInfo struct {
+	GormModel
+	Title       string `json:"title"`
+	Description string `json:"description"`
+	ProductID   uint   `gorm:"not null" json:"productID"`
+
+	Product *Product `gorm:"foreignKey:ProductID"`
 }
 
 type CharacteristicName struct {

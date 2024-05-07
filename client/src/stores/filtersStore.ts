@@ -48,7 +48,7 @@ interface IFilterStore {
     filters: FiltersResponse,
     error: string,
     loading: boolean,
-    getFilters: () => Promise<any>
+    getFilters: () => Promise<void>
     updateActiveFilters: (filterName: stringNameProp, filterId: number, checked: boolean) => void; // Добавляем функцию обновления фильтров
 }
 

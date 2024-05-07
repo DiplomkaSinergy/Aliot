@@ -198,14 +198,14 @@
                   <div className='grid-container'>
                     {/* {Object.entries(filters).map(([property, value]) => (
                       <GridCharItem
-                        name={value[0]?.characteristic_name?.name}
+                        name={value[0]?.CharacteristicName?.name}
                         filters={value}
                       />
                     ))} */}
 
                     <div className='grid-item'>
                       <div className='grid-item-title'>
-                        {filters?.brands && filters?.brands[0]?.characteristic_name?.name}
+                        {filters?.brands && filters?.brands[0]?.CharacteristicName?.name}
                       </div>
                       <GridCharItem
                         name='brandId'
@@ -215,7 +215,7 @@
                     </div>
                     <div className='grid-item'>
                       <div className='grid-item-title'>
-                        {filters?.breakingCapacity && filters?.breakingCapacity[0]?.characteristic_name.name}
+                        {filters?.breakingCapacity && filters?.breakingCapacity[0]?.CharacteristicName.name}
                       </div>
                       <GridCharItem
                         name='breakingCapacityId'
@@ -225,7 +225,7 @@
                     </div>
                     <div className='grid-item'>
                       <div className='grid-item-title'>
-                        {filters?.degreeProtection && filters?.degreeProtection[0]?.characteristic_name.name}
+                        {filters?.degreeProtection && filters?.degreeProtection[0]?.CharacteristicName.name}
                       </div>
                       <GridCharItem
                         name='degreeProectionId'
@@ -235,7 +235,7 @@
                     </div>
                     <div className='grid-item'>
                       <div className='grid-item-title'>
-                        {filters?.display && filters?.display[0]?.characteristic_name.name}
+                        {filters?.display && filters?.display[0]?.CharacteristicName.name}
                       </div>
                       <GridCharItem
                         name='displayId'
@@ -245,7 +245,7 @@
                     </div>
                     <div className='grid-item'>
                       <div className='grid-item-title'>
-                        {filters?.numberPoles && filters?.numberPoles[0]?.characteristic_name.name}
+                        {filters?.numberPoles && filters?.numberPoles[0]?.CharacteristicName.name}
                       </div>
                       <GridCharItem
                         name='numberPolesId'
@@ -255,7 +255,7 @@
                     </div>
                     <div className='grid-item'>
                       <div className='grid-item-title'>
-                        {filters?.ratedCurrent && filters?.ratedCurrent[0]?.characteristic_name.name}
+                        {filters?.ratedCurrent && filters?.ratedCurrent[0]?.CharacteristicName.name}
                       </div>
                       <GridCharItem
                         name='ratedCurrentId'
@@ -265,7 +265,7 @@
                     </div>
                     <div className='grid-item'>
                       <div className='grid-item-title'>
-                        {filters?.ratedVoltage && filters?.ratedVoltage[0]?.characteristic_name.name}
+                        {filters?.ratedVoltage && filters?.ratedVoltage[0]?.CharacteristicName.name}
                       </div>
                       <GridCharItem
                         name='ratedVoltageId'
@@ -275,7 +275,7 @@
                     </div>
                     <div className='grid-item'>
                       <div className='grid-item-title'>
-                        {filters?.shutdownCruve && filters?.shutdownCruve[0]?.characteristic_name.name}
+                        {filters?.shutdownCruve && filters?.shutdownCruve[0]?.CharacteristicName.name}
                       </div>
                       <GridCharItem
                         name='shutdownCruveId'
@@ -285,7 +285,7 @@
                     </div>
                     <div className='grid-item'>
                       <div className='grid-item-title'>
-                        {filters?.typeOfMechanism && filters?.typeOfMechanism[0]?.characteristic_name.name}
+                        {filters?.typeOfMechanism && filters?.typeOfMechanism[0]?.CharacteristicName.name}
                       </div>
                       <GridCharItem
                         name='typeOfMechanismId'

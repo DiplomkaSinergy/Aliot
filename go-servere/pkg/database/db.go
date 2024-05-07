@@ -44,6 +44,7 @@ func SyncDB() {
 		&models.ShutdownCruveChar{},
 		&models.DisplayChar{},
 		&models.BrandsChar{},
+		&models.ProductInfo{},
 	); err != nil {
 		logger.Error("Failed to auto-migrate tables:", err)
 		panic("Failed to auto-migrate tables")

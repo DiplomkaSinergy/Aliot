@@ -35,6 +35,10 @@ func SetupRouter(a *auth.AuthHandler, u *handlers.UserHandler) *gin.Engine {
 		api.POST("/forgot-password", u.ForgotPassword)
 		api.POST("/reset-password", u.ResetPassword)
 		api.GET("/filters", u.GetAllFilters)
+
+		//! ADMIN
+
+		api.POST("/admin/create-product", u.CreateProduct)
 	}
 
 	//@ Группа маршрутов, требующих авторизации и определенной роли

@@ -10,6 +10,7 @@ import { Paths, PathsAccount } from '@/app/Routes/Types/paths'
 import { useAuth } from '@/stores/authStore'
 import { useCartOrderStore } from '@/stores/cartOrderStore'
 import { useCartLikedStore } from '@/stores/cartLikedStore'
+import { Roles } from '@/utils/Types/User'
 
 interface IHeaderProps {
     activeMenu: boolean
@@ -52,7 +53,7 @@ const Header: FC<IHeaderProps> = ({handleAuthForm, activeMenu, handleMenu}) => {
                         <button className='header__search_btn'>Найти</button>
                     </div> */}
                     {isAuth ?  
-                    role === 'ADMIN' ? 
+                    role === Roles.ADMIN ? 
                         <Link to={Paths.AdminPanel} className=""><FolderLock /></Link> : 
                     <>
                     <div className="header__likes">

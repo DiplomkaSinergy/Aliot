@@ -9,6 +9,7 @@ const Profile = () => {
   const firstName = useAuth(state => state.user.firstName)
   const lastName = useAuth(state => state.user.lastName)
   const email = useAuth(state => state.user.email)
+  const phone = useAuth(state => state.user.phone)
   const loguot = useAuth(state => state.loguot)
 
   
@@ -30,7 +31,7 @@ const Profile = () => {
           <div className="Profile__item">
               <div className="Profile__item-title">Телефон</div>
               {/* <div className='hr'></div> */}
-              <div className="Profile__item-subtitle">+7 (916) 288 68 13</div>
+              <div className="Profile__item-subtitle">{phone}</div>
           </div>
           <div className="Profile__item">
               <div className="Profile__item-title">Почта</div>
