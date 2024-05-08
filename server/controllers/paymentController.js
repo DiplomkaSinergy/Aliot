@@ -103,17 +103,19 @@ const confirmPayment = async (payment_id) => {
 
     try {
         const order = await Order.findOne({where: {paymentId: payment_id}})
-        
+
+        console.log('\n\nCONFIRMPATMENT order ' + order + '\n\n');
+
         if (!order) {
           return next(ApiError.badRequest('Продукт не найден!'))
         }
 
-        order.status = 'Оплачен' 
+        order.status = 'Оплачен'
         await order.save()
-        
+
         console.log('confirmPayment', order);
     } catch (error) {
-        return next(ApiError.internal('Ошибка в подтверждении платежа!', error))
+        return ApiError.internal('Ошибка в подтверждении платежа!', error)
     }
 
 
